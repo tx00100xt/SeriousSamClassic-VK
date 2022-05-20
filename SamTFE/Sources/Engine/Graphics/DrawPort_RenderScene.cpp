@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -1551,7 +1552,9 @@ void RSRenderGroup( ScenePolygon *pspoGroup, ULONG ulGroupFlags, ULONG ulTestedF
   extern INDEX d3d_iMaxBurstSize;
   ogl_iMaxBurstSize = Clamp( ogl_iMaxBurstSize, 0, 9999);
   d3d_iMaxBurstSize = Clamp( d3d_iMaxBurstSize, 0, 9999);
-  const INDEX iMaxBurstSize = (eAPI==GAT_OGL) ? ogl_iMaxBurstSize : d3d_iMaxBurstSize;
+  const INDEX iMaxBurstSize = 
+    (eAPI==GAT_OGL) ? ogl_iMaxBurstSize :
+    (eAPI==GAT_VK) ? 0 : d3d_iMaxBurstSize;
 
   // if unlimited lock count
   if( iMaxBurstSize==0)
@@ -1845,7 +1848,11 @@ void RenderScene( CDrawPort *pDP, ScenePolygon *pspoFirst, CAnyProjection3D &prP
 #ifdef SE1_D3D
   if( eAPI!=GAT_OGL && eAPI!=GAT_D3D) return;
 #else
+#ifdef SE1_VULKAN
+  if( eAPI!=GAT_OGL && eAPI!=GAT_VK) return;
+#else // SE1_VULKAN
   if( eAPI!=GAT_OGL) return;
+#endif
 #endif
 
   // some cvars cannot be altered in multiplayer mode!

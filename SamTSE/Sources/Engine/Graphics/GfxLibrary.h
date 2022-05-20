@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -39,6 +40,10 @@ extern CStaticStackArray<INDEX_T>     _aiCommonQuads;
 #include <Engine/Graphics/OpenGL.h>
 #include <Engine/Graphics/Gfx_wrapper.h>
 #include <Engine/Base/DynamicLoader.h>
+#ifdef SE1_VULKAN
+class SvkMain;
+#endif // SE1_VULKAN
+
 
 // WARNING: Changing these constants breaks inline asm on GNU systems!
 #define SQRTTABLESIZE   8192
@@ -59,6 +64,8 @@ struct CTVERTEX {
 #define D3DFVF_CTVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 #endif
 
+#define GAT_VK_INDEX 1
+
 // Gfx API type 
 enum GfxAPIType
 {
@@ -67,6 +74,10 @@ enum GfxAPIType
 #ifdef SE1_D3D
   GAT_D3D  =  1,     // Direct3D
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  GAT_VK   =  GAT_VK_INDEX,   // Vulkan
+#endif // SE1_VULKAN
+
   GAT_CURRENT = 9,   // current API
 };
 
@@ -76,7 +87,11 @@ __forceinline bool GfxValidApi(GfxAPIType eAPI)
 #ifdef SE1_D3D
   return(eAPI==GAT_OGL || eAPI==GAT_D3D || eAPI==GAT_NONE);
 #else
+#ifdef SE1_VULKAN
+  return(eAPI==GAT_OGL || eAPI==GAT_VK || eAPI==GAT_NONE);
+#else
   return(eAPI==GAT_OGL || eAPI==GAT_NONE);
+#endif
 #endif
 }
 
@@ -132,12 +147,16 @@ public:
   CViewPort *gl_pvpActive;   // active viewport
   CDynamicLoader *gl_hiDriver;     // DLL handle
 
-  GfxAPIType   gl_eCurrentAPI;  // (0=none, 1=OpenGL, 2=DirectX8) 
+  GfxAPIType   gl_eCurrentAPI;  // (0=none, 1=OpenGL, 2=DirectX8, 2=Vulkan) 
   CDisplayMode gl_dmCurrentDisplayMode;
   INDEX gl_iCurrentAdapter;
   INDEX gl_iCurrentDepth; 
   INDEX gl_ctDriverChanges;        // count of driver changes
   ULONG gl_ulFlags;
+
+#ifdef SE1_VULKAN
+  SvkMain *gl_SvkMain;
+#endif
 
 #ifdef SE1_D3D
   // DirectX info
@@ -223,6 +242,16 @@ private:
   void SwapBuffers_D3D( CViewPort *pvpToSwap);
 #endif
 
+  // Vulkan specific
+  BOOL InitDriver_Vulkan();
+  void EndDriver_Vulkan();
+  void Reset_Vulkan();
+  //BOOL InitDisplay_Vulkan(INDEX iAdapter, PIX pixSizeI, PIX pixSizeJ, enum DisplayDepth eColorDepth);
+  void InitContext_Vulkan();
+  BOOL SetCurrentViewport_Vulkan(CViewPort *pvp);
+  void SwapBuffers_Vulkan();
+  void SetViewport_Vulkan(float leftUpperX, float leftUpperY, float width, float height, float minDepth, float maxDepth);
+
 public:
 
   // common
@@ -278,6 +307,9 @@ public:
 #ifdef SE1_D3D
     if( eAPI==GAT_D3D) return (gl_gaAPI[1].ga_ctAdapters>0);
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+    if (eAPI == GAT_VK) return (gl_gaAPI[GAT_VK_INDEX].ga_ctAdapters > 0);
+#endif // SE1_VULKAN
     return FALSE;
   };
 

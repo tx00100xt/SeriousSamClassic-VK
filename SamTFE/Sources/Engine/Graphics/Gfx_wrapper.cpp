@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -20,6 +21,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <Engine/Graphics/GfxProfile.h>
 #include <Engine/Base/Statistics_Internal.h>
+
+#ifdef SE1_VULKAN
+#include <Engine/Graphics/Vulkan/SvkMain.h>
+#endif
 
 //#include <d3dx8math.h>
 //#pragma comment(lib, "d3dx8.lib")
@@ -167,6 +172,24 @@ void D3D_CheckError(HRESULT hr)
 }
 #endif // SE1_D3D
 
+#ifdef SE1_VULKAN
+extern void Vk_CheckError(VkResult r) //, const char *msg)
+{
+#ifndef NDEBUG
+  const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
+  if (eAPI == GAT_VK)
+  {
+    ASSERT(r == VK_SUCCESS);
+  }
+  else
+  {
+    ASSERT(eAPI == GAT_NONE);
+  }
+#endif
+}
+#endif // SE1_VULKAN
+
+
 
 // TEXTURE MANAGEMENT
 #ifdef SE1_D3D
@@ -187,6 +210,14 @@ extern void  UploadTexture_D3D( LPDIRECT3DTEXTURE8 *ppd3dTexture, ULONG *pulText
                                 PIX pixSizeU, PIX pixSizeV, D3DFORMAT eInternalFormat, BOOL bDiscard);
 #endif // SE1_D3D
 
+#ifdef SE1_VULKAN
+static uint32_t *_vkCurrentTextureId = nullptr;
+extern SvkSamplerFlags UnpackFilter_Vulkan(INDEX iFilter);
+extern SvkSamplerFlags MimicTexParams_Vulkan(CTexParams &tpLocal);
+extern void UploadTexture_Vulkan(uint32_t *iTexture, ULONG *pulTexture,
+  PIX pixSizeU, PIX pixSizeV, VkFormat eInternalFormat, BOOL bUseSubImage);
+#endif
+
 // update texture LOD bias
 FLOAT _fCurrentLODBias = 0;  // LOD bias adjuster
 void UpdateLODBias( const FLOAT fLODBias)
@@ -194,6 +225,17 @@ void UpdateLODBias( const FLOAT fLODBias)
   // check API
   const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
   ASSERT( GfxValidApi(eAPI) );
+
+#ifdef SE1_VULKAN
+  if (eAPI == GAT_VK)
+  {
+    // TODO: Vulkan: texture lod
+    // force default lod bias
+    _fCurrentLODBias = SVK_SAMPLER_LOD_BIAS;
+    return;
+  }
+#endif // SE1_VULKAN
+
   // only if supported and needed
   if( _fCurrentLODBias==fLODBias && _pGfx->gl_fMaxTextureLODBias==0) return;
   _fCurrentLODBias = fLODBias;
@@ -259,6 +301,7 @@ void gfxSetTextureFiltering( INDEX &iFilterType, INDEX &iAnisotropyDegree)
   _tpGlobal[0].tp_iAnisotropy = iAnisotropyDegree;
 
   // for OpenGL, that's about it
+  // for Vulkan too, it will be processed in MimicTexParams_Vulkan(..)
 #ifdef SE1_D3D
   if( _pGfx->gl_eCurrentAPI!=GAT_D3D) return;
 
@@ -369,6 +412,17 @@ void gfxSetTexture( ULONG &ulTexObject, CTexParams &tpLocal)
     MimicTexParams_D3D(tpLocal);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // get sampler flags, so texture can choose its VkSampler
+    SvkSamplerFlags samplerFlags = MimicTexParams_Vulkan(tpLocal);
+    // save id to upload texture
+    _vkCurrentTextureId = (uint32_t*)&ulTexObject;
+    _pGfx->gl_SvkMain->SetTexture(GFX_iActiveTexUnit, ulTexObject, samplerFlags);
+  }
+#endif // SE1_VULKAN
+
   // done
   _pfGfxProfile.StopTimer(CGfxProfile::PTI_SETCURRENTTEXTURE);
   _sfStats.StopTimer(CStatForm::STI_BINDTEXTURE);
@@ -400,6 +454,23 @@ void gfxUploadTexture( ULONG *pulTexture, PIX pixWidth, PIX pixHeight, ULONG ulF
     }
   } 
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // check if no texture was bound
+    ASSERT(_vkCurrentTextureId != nullptr);
+
+    const uint32_t lastTextureId = *_vkCurrentTextureId;
+    UploadTexture_Vulkan(_vkCurrentTextureId, pulTexture, pixWidth, pixHeight, (VkFormat)ulFormat, bNoDiscard != 0);
+
+    /*// in case that texture has been changed, must re-set it as current
+    if (lastTextureId != *_vkCurrentTextureId)
+    {
+      ULONG cur = *_vkCurrentTextureId;
+      _vkCurrentTextureId = (uint32_t *)&ulTexObject;
+    }*/
+  }
+#endif // SE1_VULKAN
   _sfStats.StopTimer(CStatForm::STI_GFXAPI);
 }
 
@@ -454,6 +525,12 @@ SLONG gfxGetTextureSize( ULONG ulTexObject, BOOL bHasMipmaps/*=TRUE*/)
     slMipSize = d3dSurfDesc.Size;
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    slMipSize = _pGfx->gl_SvkMain->GetTexturePixCount(ulTexObject) * gfxGetTexturePixRatio(ulTexObject);
+  }
+#endif // SE1_VULKAN
 
   // eventually count in all the mipmaps (takes extra 33% of texture size)
   extern INDEX gap_bAllowSingleMipmap;
@@ -475,6 +552,13 @@ INDEX gfxGetTexturePixRatio( ULONG ulTextureObject)
 #ifdef SE1_D3D
   else if( eAPI==GAT_D3D) return GetTexturePixRatio_D3D( (LPDIRECT3DTEXTURE8)ulTextureObject);
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // TODO (statistics): Vulkan bytes/pixels ratio for uploaded texture 
+    return 4;
+  }
+#endif // SE1_VULKAN
   else return 0;
 }
 
@@ -489,6 +573,13 @@ INDEX gfxGetFormatPixRatio( ULONG ulTextureFormat)
 #ifdef SE1_D3D
   else if( eAPI==GAT_D3D) return GetFormatPixRatio_D3D( (D3DFORMAT)ulTextureFormat);
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // TODO (statistics): Vulkan format size for statistics
+    return 4;
+  }
+#endif // SE1_VULKAN
   else return 0;
 }
 
@@ -615,6 +706,11 @@ void gfxFlushElements(void)
 // set truform parameters
 void gfxSetTruform( INDEX iLevel, BOOL bLinearNormals)
 {
+#ifdef SE1_VULKAN
+  return;
+#endif // SE1_VULKAN
+
+
   // skip if Truform isn't supported
   if( _pGfx->gl_iMaxTessellationLevel<1) {
     truform_iLevel  = 0;
@@ -666,6 +762,7 @@ extern ULONG gfxGetColorMask(void)
 
 #include "Gfx_wrapper_OpenGL.cpp"
 #include "Gfx_wrapper_Direct3D.cpp"
+#include "Gfx_wrapper_Vulkan.cpp"
 
 
 
@@ -797,6 +894,58 @@ void GFX_SetFunctionPointers( INDEX iAPI)
     gfxSetColorMask         = &d3d_SetColorMask;
   }
 #endif // SE1_D3D
+  // Vulkan?
+#ifdef SE1_VULKAN
+  else if (iAPI == (INDEX)GAT_VK)
+  {
+    gfxEnableDepthWrite     = &svk_EnableDepthWrite;
+    gfxEnableDepthBias      = &svk_EnableDepthBias;
+    gfxEnableDepthTest      = &svk_EnableDepthTest;
+    gfxEnableAlphaTest      = &svk_EnableAlphaTest;
+    gfxEnableBlend          = &svk_EnableBlend;
+    gfxEnableDither         = &svk_EnableDither;
+    gfxEnableTexture        = &svk_EnableTexture;
+    gfxEnableClipping       = &svk_EnableClipping;
+    gfxEnableClipPlane      = &svk_EnableClipPlane;
+    gfxEnableTruform        = &svk_EnableTruform;
+    gfxDisableDepthWrite    = &svk_DisableDepthWrite;
+    gfxDisableDepthBias     = &svk_DisableDepthBias;
+    gfxDisableDepthTest     = &svk_DisableDepthTest;
+    gfxDisableAlphaTest     = &svk_DisableAlphaTest;
+    gfxDisableBlend         = &svk_DisableBlend;
+    gfxDisableDither        = &svk_DisableDither;
+    gfxDisableTexture       = &svk_DisableTexture;
+    gfxDisableClipping      = &svk_DisableClipping;
+    gfxDisableClipPlane     = &svk_DisableClipPlane;
+    gfxDisableTruform       = &svk_DisableTruform;
+    gfxBlendFunc            = &svk_BlendFunc;
+    gfxDepthFunc            = &svk_DepthFunc;
+    gfxDepthRange           = &svk_DepthRange;
+    gfxCullFace             = &svk_CullFace;
+    gfxFrontFace            = &svk_FrontFace;            
+    gfxClipPlane            = &svk_ClipPlane;
+    gfxSetOrtho             = &svk_SetOrtho;
+    gfxSetFrustum           = &svk_SetFrustum;
+    gfxSetTextureMatrix     = &svk_SetTextureMatrix;       
+    gfxSetViewMatrix        = &svk_SetViewMatrix;
+    gfxPolygonMode          = &svk_PolygonMode;
+    gfxSetTextureWrapping   = &svk_SetTextureWrapping;
+    gfxSetTextureModulation = &svk_SetTextureModulation;
+    gfxGenerateTexture      = &svk_GenerateTexture;
+    gfxDeleteTexture        = &svk_DeleteTexture;   
+    gfxSetVertexArray       = &svk_SetVertexArray;  
+    gfxSetNormalArray       = &svk_SetNormalArray;  
+    gfxSetTexCoordArray     = &svk_SetTexCoordArray;
+    gfxSetColorArray        = &svk_SetColorArray;   
+    gfxDrawElements         = &svk_DrawElements;    
+    gfxSetConstantColor     = &svk_SetConstantColor;
+    gfxEnableColorArray     = &svk_EnableColorArray;
+    gfxDisableColorArray    = &svk_DisableColorArray;
+    gfxFinish               = &svk_Finish;
+    gfxLockArrays           = &svk_LockArrays;
+    gfxSetColorMask         = &svk_SetColorMask;
+  }
+#endif // SE1_VULKAN
   // NONE!
   else
   {

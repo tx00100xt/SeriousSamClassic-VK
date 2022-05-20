@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -109,7 +110,7 @@ inline static void SetMatrixDiagonal(Matrix12 &mat,FLOAT fValue)
 // Set texture matrix
 static inline void gfxSetTextureMatrix2(Matrix12 *pMatrix)
 {
-  pglMatrixMode( GL_TEXTURE);
+  /*pglMatrixMode( GL_TEXTURE);
   if(pMatrix==NULL) {
     pglLoadIdentity();
   } else {
@@ -123,7 +124,7 @@ static inline void gfxSetTextureMatrix2(Matrix12 *pMatrix)
     pglLoadMatrixf(mtra16);
     pglMultMatrixf(mrot16);
   }
-  pglMatrixMode(GL_MODELVIEW);
+  pglMatrixMode(GL_MODELVIEW);*/
 }
 
 

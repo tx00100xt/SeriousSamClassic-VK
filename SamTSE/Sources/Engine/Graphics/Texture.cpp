@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -44,6 +45,10 @@ extern INDEX tex_iFiltering;
 extern INDEX gap_bAllowSingleMipmap;
 extern FLOAT gfx_tmProbeDecay;
 
+#ifdef SE1_VULKAN
+#include <Engine/Graphics/Vulkan/VulkanInclude.h>
+#endif
+
 
 // special mode flag when loading texture for exporting
 static BOOL _bExport = FALSE;
@@ -77,6 +82,19 @@ extern void DetermineSupportedTextureFormats( GfxAPIType eAPI)
     TS.ts_tfL8     = FindClosestFormat_D3D(D3DFMT_L8);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  if (eAPI == GAT_VK) {
+    TS.ts_tfRGBA8   = VK_FORMAT_R8G8B8A8_UNORM;
+    TS.ts_tfRGB8    = VK_FORMAT_R8G8B8A8_UNORM;
+    TS.ts_tfRGB5    = VK_FORMAT_R8G8B8A8_UNORM;
+    TS.ts_tfRGBA4   = VK_FORMAT_R8G8B8A8_UNORM;
+    TS.ts_tfRGB5A1  = VK_FORMAT_R8G8B8A8_UNORM;
+    // grayscale with alpha
+    TS.ts_tfLA8     = VK_FORMAT_R8G8B8A8_UNORM;
+    // grayscale
+    TS.ts_tfL8      = VK_FORMAT_R8G8B8A8_UNORM;
+  }
+#endif // SE1_VULKAN
 }
 
 

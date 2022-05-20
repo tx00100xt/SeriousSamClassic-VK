@@ -1,4 +1,24 @@
-## Serious Sam Classic
+# Serious Sam Classic: Vulkan
+
+Vulkan Serious Engine port based on [open source version](https://github.com/sultim-t/Serious-Engine-Vk).
+
+![Screenshot 00](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_1.png)
+![Screenshot 01](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_2.png)
+![Screenshot 02](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_3.png)
+
+Prerequisites:
+* [Vulkan Header files and API registry](https://github.com/KhronosGroup/Vulkan-Headers)
+* [Vulkan Validation Layers](https://github.com/KhronosGroup/Vulkan-ValidationLayers)
+* [Vulkan Installable Client Driver (ICD) Loader](https://github.com/KhronosGroup/Vulkan-Loader) 
+
+### Known issues:
+[issues](https://github.com/sultim-t/Serious-Engine-Vk/releases).
+* game crash on changing resolution / window minimazing
+* some lens flares still can be visible through walls
+#### Note:
+Initially, the Linux port and windows version with volcano do not have brightness, contrast and gamma adjustment functions. The [SetWindowBrightness](https://wiki.libsdl.org/SDL_SetWindowBrightness) function was used to normalize the brightness. I hope that there will be smart people who will be able to find a more correct solution.
+
+## Serious Engine:
 
 This is the source code for Serious Engine v.1.10, including the following projects:
 
@@ -34,21 +54,21 @@ There are still many asserts in the engine. Most of them are irrelevant and shou
 Type this in your terminal:
 
 ```
-git clone https://github.com/tx00100xt/SeriousSamClassic.git SeriousSamClassic
+git clone https://github.com/tx00100xt/SeriousSamClassic-VK.git SeriousSamClassic-VK
 ```
 
 #### Copy official game data (optional)
 
 If you have access to a copy of the game (either by CD or through Steam),
 you can copy the *.gro files from the game directory to the repository.
-(SeriousSamClassic/SamTFE is the directory of the game Serious Sam Classic The First Encounter, SeriousSamClassic/SamTSE is the directory of the game Serious Sam Classic The Second Encounter)
+(SeriousSamClassic-VK/SamTFE is the directory of the game Serious Sam Classic The First Encounter, SeriousSamClassic-VK/SamTSE is the directory of the game Serious Sam Classic The Second Encounter)
 
 #### Building (only for SS:TFE)
 
 Type this in your terminal:
 
 ```
-cd SeriousSamClassic/SamTFE/Sources
+cd SeriousSamClassic-VK/SamTFE/Sources
 ./build-linux64.sh -DTFE=TRUE	# use build-linux32.sh for 32-bits
 ```
 
@@ -57,7 +77,7 @@ cd SeriousSamClassic/SamTFE/Sources
 Type this in your terminal:
 
 ```
-cd SeriousSamClassic/SamTSE/Sources
+cd SeriousSamClassic-VK/SamTSE/Sources
 ./build-linux64.sh        	# use build-linux32.sh for 32-bits
 ```
 
@@ -73,7 +93,7 @@ This version of the engine comes with a set of resources (`\SE1_10b.GRO`) that a
 ### Running the game
 
 1. Locate the game directory for "Serious Sam Classic The First Encounter" ([steam](https://store.steampowered.com/app/41050/Serious_Sam_Classic_The_First_Encounter/))
-1. Build game from source code or [Download latest release](https://github.com/tx00100xt/SeriousSamClassic/releases) and copy the latest files from the game directory to SamTFE/Bin
+1. Build game from source code or [Download latest release](https://github.com/tx00100xt/SeriousSamClassic-VK/releases) and copy the latest files from the game directory to SamTFE/Bin
 1. Copy all *.gro files, Help folder and Levels folder from the game directory to SamTFE directory.
    At the current time the files are:
    * Help (folder)
@@ -92,7 +112,7 @@ This version of the engine comes with a set of resources (`\SE1_10b.GRO`) that a
 ### Running the game
 
 1. Locate the game directory for "Serious Sam Classic The Second Encounter" ([steam](https://store.steampowered.com/app/41060/Serious_Sam_Classic_The_Second_Encounter/))
-1. Build game from source code or [Download latest release](https://github.com/tx00100xt/SeriousSamClassic/releases) and copy the latest files from the game directory to SamTFE/Bin
+1. Build game from source code or [Download latest release](https://github.com/tx00100xt/SeriousSamClassic-VK/releases) and copy the latest files from the game directory to SamTFE/Bin
 1. Copy all *.gro files and Help folder from the game directory to SamTSE directory.
    At the current time the files are:
    * Help (folder)
@@ -113,21 +133,21 @@ What is XPLUS?
 XPLUS is a global modification that changes effects, models, weapons, textures to high definition. XPLUS was created by fans of the game Serious Sam and is distributed for free.
 Remark: -JD- and VITEK is author this mod for windows.
 
-![XPLUS Oasis](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic/main/Images/samxplus_1.png)
+![XPLUS Oasis](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samxplus_1.png)
 
-![XPLUS Dunes](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic/main/Images/samxplus_2.png)
+![XPLUS Dunes](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samxplus_2.png)
 
-![XPLUS Sacred Yards](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic/main/Images/samxplus_3.png)
+![XPLUS Sacred Yards](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samxplus_3.png)
 
 #### Building XPLUS (only for SS:TFE)
 
 Type this in your terminal:
 
 ```
-cd SeriousSamClassic/SamTFE/Sources
+cd SeriousSamClassic-VK/SamTFE/Sources
 ./build-linux64xplus.sh -DTFE=TRUE	# use build-linux32xplus.sh for 32-bits
 ```
-Download [XplusTFE] and unpack to  SeriousSamClassic/SamTFE/Mods directory.
+Download [XplusTFE] and unpack to  SeriousSamClassic-VK/SamTFE/Mods directory.
 To start the modification, use the game menu - item Modification.
 
 #### Building XPLUS (only for SS:TSE)
@@ -135,11 +155,11 @@ To start the modification, use the game menu - item Modification.
 Type this in your terminal:
 
 ```
-cd SeriousSamClassic/SamTSE/Sources
+cd SeriousSamClassic-VK/SamTSE/Sources
 ./build-linux64xplus.sh        	    # use build-linux32xplus.sh for 32-bits
 ```
 
-Download [XplusTSE] and unpack to  SeriousSamClassic/SamTSE/Mods directory.
+Download [XplusTSE] and unpack to  SeriousSamClassic-VK/SamTSE/Mods directory.
 To start the modification, use the game menu - item Modification.
 
 License

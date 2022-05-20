@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -19,6 +20,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <Engine/Base/Memory.h>
 #include <Engine/Base/CRC.h>
+#include <Engine/Base/Translation.h>
+#include <Engine/Base/Console.h>
 #include <Engine/Math/Functions.h>
 #include <Engine/Math/Projection.h>
 #include <Engine/Math/AABBox.h>
@@ -33,6 +36,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <Engine/Templates/StaticArray.cpp>
 #include <Engine/Templates/StaticStackArray.cpp>
+
+#ifdef SE1_VULKAN
+#include <Engine/Graphics/Vulkan/SvkMain.h>
+#endif
 
 extern INDEX gfx_bDecoratedText;
 extern INDEX ogl_iFinish;
@@ -316,6 +323,10 @@ void CDrawPort::SetOrtho(void) const
 #ifdef SE1_D3D
    || (d3d_iFinish==3 && _pGfx->gl_eCurrentAPI==GAT_D3D)
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+    // TODO: Vulkan: draw port set ortho: wait all cmds to finish?
+#endif // SE1_VULKAN
+
    ) gfxFinish();
 
   // prepare ortho dimensions
@@ -347,6 +358,9 @@ void CDrawPort::SetProjection(CAnyProjection3D &apr) const
 #ifdef SE1_D3D
    || (d3d_iFinish==3 && _pGfx->gl_eCurrentAPI==GAT_D3D)
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+    // TODO
+#endif // SE1_VULKAN
    ) gfxFinish();
 
   // if isometric projection
@@ -484,6 +498,12 @@ void CDrawPort::DrawPoint( PIX pixI, PIX pixJ, COLOR col, PIX pixRadius/*=1*/) c
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // TODO: Vulkan: draw point 2d
+  }
+#endif // SE1_VULKAN
 }
 
 
@@ -528,6 +548,12 @@ void CDrawPort::DrawPoint3D( FLOAT3D v, COLOR col, FLOAT fRadius/*=1.0f*/) const
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // TODO: Vulkan: draw point 3d
+  }
+#endif // SE1_VULKAN
 }
 
 
@@ -591,6 +617,12 @@ void CDrawPort::DrawLine( PIX pixI0, PIX pixJ0, PIX pixI1, PIX pixJ1, COLOR col,
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // TODO: Vulkan: draw line
+  }
+#endif // SE1_VULKAN
   // revert to old filtering
   if( typ!=_FULL_) gfxSetTextureFiltering( iTexFilter, iTexAnisotropy);
 }
@@ -635,6 +667,23 @@ void CDrawPort::DrawLine3D( FLOAT3D v0, FLOAT3D v1, COLOR col) const
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    /*gfxPolygonMode(GfxPolyMode::GFX_LINE);
+    GFXVertex4 verts[2];
+    verts[0].x = v0(1); verts[0].y = v0(2); verts[0].z = v0(3);
+    verts[1].x = v1(1); verts[1].y = v1(2); verts[1].z = v1(3);
+    GFXColor colors[] = { GFXColor(col), GFXColor(col) };
+    INDEX indices[] = { 0, 1 };
+
+    // TODO: Vulkan: set primitive topology to lines
+    gfxSetVertexArray(verts, 2);
+    gfxSetColorArray(colors);
+    gfxDrawElements(2, indices);
+    // TODO: Vulkan: set primitive topology back to triangles*/
+  }
+#endif // SE1_VULKAN
 }
 
 
@@ -705,6 +754,12 @@ void CDrawPort::DrawBorder( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COL
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // TODO: Vulkan: draw border
+  }
+#endif // SE1_VULKAN
   // revert to old filtering
   if( typ!=_FULL_) gfxSetTextureFiltering( iTexFilter, iTexAnisotropy);
 }
@@ -764,6 +819,19 @@ void CDrawPort::Fill( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COLOR col
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    UBYTE ubR, ubG, ubB;
+    ColorToRGB(col, ubR, ubG, ubB);
+    float rgba[] = { ubR / 255.0f, ubG / 255.0f, ubB / 255.0f, 1.0f };
+
+    pixI += dp_MinI;
+    pixJ += dp_MinJ;
+
+    _pGfx->gl_SvkMain->ClearColor(pixI, pixJ, pixWidth, pixHeight, rgba);
+  }
+#endif // SE1_VULKAN
 }
 
 
@@ -795,7 +863,11 @@ void CDrawPort::Fill( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight,
   const FLOAT fJ0 = pixJ;  const FLOAT fJ1 = pixJ +pixHeight;
 
   // render rectangle
-  if( eAPI==GAT_OGL) {
+  if( eAPI==GAT_OGL
+#ifdef SE1_VULKAN
+    || eAPI == GAT_VK
+#endif // SE1_VULKAN
+    ) {
     // thru OpenGL
     gfxResetArrays();
     GFXVertex   *pvtx = _avtxCommon.Push(4);
@@ -863,7 +935,16 @@ void CDrawPort::Fill( COLOR col) const
     D3D_CHECKERROR(hr);
   }
 #endif
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    UBYTE ubR, ubG, ubB;
+    ColorToRGB(col, ubR, ubG, ubB);
+    float rgba[] = { ubR / 255.0f, ubG / 255.0f, ubB / 255.0f, 1.0f };
 
+    _pGfx->gl_SvkMain->ClearColor(rgba);
+  }
+#endif // SE1_VULKAN
 }
 
 
@@ -901,6 +982,12 @@ void CDrawPort::FillZBuffer( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, FL
     D3D_CHECKERROR(hr);
   }
 #endif //SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    _pGfx->gl_SvkMain->ClearDepth(pixI, pixJ, pixWidth, pixHeight, zval);
+  }
+#endif // SE1_VULKAN
 }
 
 
@@ -928,6 +1015,12 @@ void CDrawPort::FillZBuffer( FLOAT zval) const
     D3D_CHECKERROR(hr);
   }
 #endif //SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    _pGfx->gl_SvkMain->ClearDepth(zval);
+  }
+#endif // SE1_VULKAN
 }
 
 
@@ -1021,6 +1114,13 @@ void CDrawPort::GrabScreen( class CImageInfo &iiGrabbedImage, INDEX iGrabZBuffer
     D3DRELEASE( pBackBuffer, TRUE);
   }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    // TODO: Vulkan: screen grabbing
+    CPrintF("Screen grabbing is not implemented for Vulkan.\n");
+  }
+#endif // SE1_VULKAN
 }
 
 

@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -51,6 +52,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 // !!! FIXME: rcg10112001  the need to continually assert that the current
 // !!! FIXME: rcg10112001  driver type is valid.
 
+#ifdef SE1_VULKAN
+#include <Engine/Graphics/Vulkan/SvkMain.h>
+#ifdef PLATFORM_UNIX
+#include <Engine/Graphics/SDL/SDL_vulkan.h>
+#endif
+#endif
 
 // !!! FIXME: rcg11052001  ... and I could get rid of this, too...
 #ifdef PLATFORM_UNIX
@@ -180,6 +187,10 @@ INDEX d3d_iVertexBuffersSize   = 1024;   // KBs reserved for vertex buffers
 INDEX d3d_iVertexRangeTreshold = 99;     // minimum vertices in buffer that triggers range optimization
 INDEX d3d_iMaxBurstSize = 0;             // 0=unlimited
 INDEX d3d_iFinish = 0;
+
+// Vulkan control
+extern INDEX gfx_vk_iPresentMode = 0;           // what present mode to use: 0=FIFO, 1=Mailbox, 2=Immediate
+extern INDEX gfx_vk_iMSAA = 0;                  // MSAA: 0=1x, 1=2x, 2=4x, 3=8x
 
 // API common controls
 INDEX gap_iUseTextureUnits = 4;
@@ -314,7 +325,8 @@ static INDEX sys_bHasHardwareTnL = 1;
 static INDEX sys_bHasTruform = 0;
 static INDEX sys_bHasCVAs = 0;
 static INDEX sys_bUsingOpenGL = 0;
-INDEX sys_bUsingDirect3D = 0;
+extern INDEX sys_bUsingDirect3D = 0;
+extern INDEX sys_bUsingVulkan = 0;
 
 /*
  * Low level hook flags
@@ -519,6 +531,10 @@ static void GAPInfo(void)
 #ifdef SE1_D3D
     && _pGfx->gl_pd3dDevice==NULL
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+    && _pGfx->gl_SvkMain->gl_VkInstance==VK_NULL_HANDLE
+#endif // SE1_VULKAN
+
     ) || eAPI==GAT_NONE) {
     // be brief, be quick
     CPrintF( TRANS("Display driver hasn't been initialized.\n\n"));
@@ -528,7 +544,13 @@ static void GAPInfo(void)
   // report API
   CPrintF( "- Graphics API: ");
   if( eAPI==GAT_OGL) CPrintF( "OpenGL\n");
-  else CPrintF( "Direct3D\n");
+#ifdef SE1_D3D
+  else if (eAPI==GAT_D3D) CPrintF("Direct3D\n");
+#endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK) CPrintF("Vulkan\n");
+#endif // SE1_VULKAN
+  
   // and number of adapters
   CPrintF( "- Adapters found: %d\n", _pGfx->gl_gaAPI[eAPI].ga_ctAdapters);
   CPrintF( "\n");
@@ -746,6 +768,14 @@ static void GAPInfo(void)
     }
   }
 #endif // SE1_D3D
+  
+  // Print info about Vulkan
+#ifdef SE1_VULKAN
+  if (eAPI == GAT_VK)
+  {
+    CPrintF("Using Vulkan API.\n");
+  }
+#endif // SE1_VULKAN
 }
 
 
@@ -763,6 +793,7 @@ extern void UpdateGfxSysCVars(void)
   sys_bHasTruform = 0;
   sys_bHasCVAs = 1;
   sys_bUsingOpenGL = 0;
+  sys_bUsingVulkan = 0;
   sys_bUsingDirect3D = 0;
   if( _pGfx->gl_iMaxTextureAnisotropy>1) sys_bHasTextureAnisotropy = 1;
   if( _pGfx->gl_fMaxTextureLODBias>0) sys_bHasTextureLODBias = 1;
@@ -773,13 +804,20 @@ extern void UpdateGfxSysCVars(void)
   if( _pGfx->gl_ulFlags & GLF_32BITTEXTURES) sys_bHas32bitTextures = 1;
   if( _pGfx->gl_ulFlags & GLF_VSYNC) sys_bHasSwapInterval = 1;
   if( _pGfx->gl_eCurrentAPI==GAT_OGL && !(_pGfx->gl_ulFlags&GLF_EXT_COMPILEDVERTEXARRAY)) sys_bHasCVAs = 0;
+
 #ifdef SE1_D3D
   if( _pGfx->gl_eCurrentAPI==GAT_D3D && !(_pGfx->gl_ulFlags&GLF_D3D_HASHWTNL)) sys_bHasHardwareTnL = 0;
 #endif // SE1_D3D
+
   if( _pGfx->gl_eCurrentAPI==GAT_OGL) sys_bUsingOpenGL = 1;
+
 #ifdef SE1_D3D
   if( _pGfx->gl_eCurrentAPI==GAT_D3D) sys_bUsingDirect3D = 1;
 #endif // SE1_D3D
+
+#ifdef SE1_VULKAN
+  if (_pGfx->gl_eCurrentAPI == GAT_VK) sys_bUsingVulkan = 1;
+#endif // SE1_VULKAN
 }
 
    
@@ -1056,6 +1094,10 @@ CGfxLibrary::CGfxLibrary(void)
   gl_ctVertices = 0;
   gl_ctIndices  = 0;
 
+#ifdef SE1_VULKAN
+  gl_SvkMain = nullptr;
+#endif // SE1_VULKAN
+
   // reset profiling counters
   gl_ctWorldTriangles    = 0;
   gl_ctModelTriangles    = 0;
@@ -1173,6 +1215,9 @@ void CGfxLibrary::Init(void)
   _pShell->DeclareSymbol("persistent user INDEX d3d_bAlternateDepthReads;", (void *) &d3d_bAlternateDepthReads);
   _pShell->DeclareSymbol("persistent user INDEX d3d_bOptimizeVertexBuffers;", (void *) &d3d_bOptimizeVertexBuffers);
   _pShell->DeclareSymbol("persistent user INDEX d3d_iFinish;", (void *) &d3d_iFinish);
+
+  _pShell->DeclareSymbol("persistent user INDEX gfx_vk_iPresentMode;", (void *) &gfx_vk_iPresentMode);
+  _pShell->DeclareSymbol("persistent user INDEX gfx_vk_iMSAA;", (void *) &gfx_vk_iMSAA);
 
   _pShell->DeclareSymbol("persistent user INDEX gap_iUseTextureUnits;", (void *) &gap_iUseTextureUnits);
   _pShell->DeclareSymbol("persistent user INDEX gap_iTextureFiltering;", (void *) &gap_iTextureFiltering);
@@ -1318,6 +1363,7 @@ void CGfxLibrary::Init(void)
   _pShell->DeclareSymbol( "INDEX sys_bHasCVAs;", (void *) &sys_bHasCVAs);
   _pShell->DeclareSymbol( "INDEX sys_bUsingOpenGL;",  (void *) &sys_bUsingOpenGL);
   _pShell->DeclareSymbol( "INDEX sys_bUsingDirect3D;", (void *) &sys_bUsingDirect3D);
+  _pShell->DeclareSymbol( "INDEX sys_bUsingVulkan;", (void *) &sys_bUsingVulkan);
 
   // initialize gfx APIs support
   InitAPIs();
@@ -1413,6 +1459,13 @@ BOOL CGfxLibrary::StartDisplayMode( enum GfxAPIType eAPI, INDEX iAdapter, PIX pi
   gl_ctRealTextureUnits = 0;
  _iLastVertexBufferSize = 0;
 
+  // prevent usage of Vulkan and DirectX at the same time
+#ifdef SE1_VULKAN
+#ifdef SE1_D3D
+  ASSERT(FALSE);
+#endif // SE1_D3D
+#endif // SE1_VULKAN
+
   // OpenGL driver ?
   if( eAPI==GAT_OGL)
   {
@@ -1452,6 +1505,21 @@ BOOL CGfxLibrary::StartDisplayMode( enum GfxAPIType eAPI, INDEX iAdapter, PIX pi
     gl_eCurrentAPI = GAT_D3D;
   }
 #endif // SE1_D3D
+
+#ifdef SE1_VULKAN
+  else if (eAPI == GAT_VK)
+  {
+    bSuccess = InitDriver_Vulkan();
+    if (!bSuccess) {
+      CPrintF("Vulkan error: Init Driver Vulkan Error!\n");
+      return FALSE;
+    } else {
+      CPrintF("Vulkan: Init Driver Vulkan Done...\n");
+    }
+
+    gl_eCurrentAPI = GAT_VK;
+  }
+#endif // SE1_VULKAN
 
   // no driver
   else
@@ -1501,6 +1569,13 @@ void CGfxLibrary::StopDisplayMode(void)
   }
 #endif
 
+#ifdef SE1_VULKAN
+  else if (gl_eCurrentAPI == GAT_VK)
+  { // Vulkan
+    EndDriver_Vulkan();
+    MonitorsOn();
+  }
+#endif // SE1_VULKAN
   else
   { // none
     ASSERT( gl_eCurrentAPI==GAT_NONE);
@@ -1531,6 +1606,12 @@ BOOL CGfxLibrary::SetCurrentViewport(CViewPort *pvp)
 #ifdef SE1_D3D
   if( gl_eCurrentAPI==GAT_D3D)  return SetCurrentViewport_D3D(pvp);
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  if (gl_eCurrentAPI == GAT_VK) {
+    //CPrintF("Vulkan: Set current viewport Vulkan.\n");  
+    return SetCurrentViewport_Vulkan(pvp);
+  }
+#endif // SE1_VULKAN
   if( gl_eCurrentAPI==GAT_NONE) return TRUE;
   ASSERTALWAYS( "SetCurrenViewport: Wrong API!");
   return FALSE;
@@ -1544,7 +1625,11 @@ BOOL CGfxLibrary::LockDrawPort( CDrawPort *pdpToLock)
 #ifdef SE1_D3D
   ASSERT( gl_eCurrentAPI==GAT_OGL || gl_eCurrentAPI==GAT_D3D || gl_eCurrentAPI==GAT_NONE);
 #else // SE1_D3D
-  ASSERT( gl_eCurrentAPI==GAT_OGL || gl_eCurrentAPI==GAT_NONE);
+#ifdef SE1_VULKAN
+  ASSERT(gl_eCurrentAPI == GAT_OGL || gl_eCurrentAPI == GAT_VK || gl_eCurrentAPI == GAT_NONE);
+#else
+  ASSERT(gl_eCurrentAPI == GAT_OGL || gl_eCurrentAPI == GAT_NONE);
+#endif // SE1_VULKAN
 #endif // SE1_D3D
 
   // don't allow locking if drawport is too small
@@ -1584,6 +1669,19 @@ BOOL CGfxLibrary::LockDrawPort( CDrawPort *pdpToLock)
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
+  // Vulkan ...
+#ifdef SE1_VULKAN
+  else if (gl_eCurrentAPI == GAT_VK)
+  {
+    const PIX pixMinSI = pdpToLock->dp_ScissorMinI;
+    const PIX pixMaxSI = pdpToLock->dp_ScissorMaxI;
+    const PIX pixMinSJ = pdpToLock->dp_ScissorMinJ;
+    const PIX pixMaxSJ = pdpToLock->dp_ScissorMaxJ;
+
+    //CPrintF("Vulkan: Lock DrawPort.\n"); // for test 
+    SetViewport_Vulkan(pixMinSI, pixMinSJ, pixMaxSI - pixMinSI + 1, pixMaxSJ - pixMinSJ + 1, 0, 1);
+  }
+#endif // SE1_VULKAN
 
   // mark and set default projection
   GFX_ulLastDrawPortID = ulThisDrawPortID;
@@ -1600,7 +1698,11 @@ void CGfxLibrary::UnlockDrawPort( CDrawPort *pdpToUnlock)
 #ifdef SE1_D3D
   ASSERT(gl_eCurrentAPI == GAT_OGL || gl_eCurrentAPI == GAT_D3D || gl_eCurrentAPI == GAT_NONE);
 #else // SE1_D3D
+#ifdef SE1_VULKAN
+  ASSERT(gl_eCurrentAPI == GAT_OGL || gl_eCurrentAPI == GAT_VK || gl_eCurrentAPI == GAT_NONE);
+#else
   ASSERT(gl_eCurrentAPI == GAT_OGL || gl_eCurrentAPI == GAT_NONE);
+#endif // SE1_VULKAN
 #endif // SE1_D3D
   // eventually signalize that scene rendering has ended
 }
@@ -1620,10 +1722,27 @@ void CGfxLibrary::CreateWindowCanvas(void *hWnd, CViewPort **ppvpNew, CDrawPort 
   const PIX pixWidth  = rectWindow.right  - rectWindow.left;
   const PIX pixHeight = rectWindow.bottom - rectWindow.top;
 #else
-  int w, h;
-  SDL_GL_GetDrawableSize((SDL_Window *) hWnd, &w, &h);
-  const PIX pixWidth  = (PIX) w;
-  const PIX pixHeight = (PIX) h;
+  int width;
+  int height;
+ #ifdef SE1_VULKAN
+ // may instead choose to use std::clamp() in C++17
+ #define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
+  if ( gl_eCurrentAPI == GAT_VK ) { // vulkan
+  VkSurfaceCapabilitiesKHR capabilities;
+  vkGetPhysicalDeviceSurfaceCapabilitiesKHR(gl_SvkMain->gl_VkPhysDevice, gl_SvkMain->gl_VkSurface, &capabilities);
+
+  SDL_Vulkan_GetDrawableSize((SDL_Window *)hWnd, &width, &height);
+
+  width = CLAMP(width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+  height = CLAMP(height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+  } else { // opengl
+ #endif // SE1_VULKAN
+    SDL_GL_GetDrawableSize((SDL_Window *) hWnd, &width, &height);
+ #ifdef SE1_VULKAN
+  }
+ #endif // SE1_VULKAN
+  const PIX pixWidth  = (PIX) width; 
+  const PIX pixHeight = (PIX) height;
 #endif
 
   *ppvpNew = NULL;
@@ -1819,7 +1938,11 @@ void CGfxLibrary::SwapBuffers(CViewPort *pvp)
 #ifdef SE1_D3D
   ASSERT(gl_eCurrentAPI == GAT_OGL || gl_eCurrentAPI == GAT_D3D || gl_eCurrentAPI == GAT_NONE);
 #else // SE1_D3D
+#ifdef SE1_VULKAN
+  ASSERT(gl_eCurrentAPI == GAT_OGL || gl_eCurrentAPI == GAT_VK || gl_eCurrentAPI == GAT_NONE);
+#else
   ASSERT(gl_eCurrentAPI == GAT_OGL || gl_eCurrentAPI == GAT_NONE);
+#endif // SE1_VULKAN
 #endif // SE1_D3D
 
   // safety check
@@ -1924,6 +2047,28 @@ void CGfxLibrary::SwapBuffers(CViewPort *pvp)
     } 
   }
 #endif // SE1_D3D
+  
+  // Vulkan
+#ifdef SE1_VULKAN
+  else if (gl_eCurrentAPI == GAT_VK)
+  {
+    // force finishing of all rendering operations (if required)
+    //if (vk_iFinish == 2) gfxFinish();
+
+    // end recording to cmd buffers
+    if (GFX_bRenderingScene) 
+    {
+      gl_SvkMain->EndFrame();
+    }
+
+    SwapBuffers_Vulkan();
+
+    // force finishing of all rendering operations (if required)
+    //if (vk_iFinish == 3) gfxFinish();
+  }
+#endif // SE1_VK
+
+
   // update tessellation level
   gl_iTessellationLevel = gap_iTruformLevel;
 
@@ -1993,6 +2138,12 @@ void CGfxLibrary::SwapBuffers(CViewPort *pvp)
         gl_pd3dDevice->SetGammaRamp( D3DSGR_NO_CALIBRATION, (D3DGAMMARAMP*)&_auwGammaTable[0]);
       }
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+      else if (gl_eCurrentAPI == GAT_VK)
+      {
+        CPrintF("Vulkan: Gamma adjustment is not available now.\n");
+      }
+#endif // SE1_VULKAN
     }
   }
   else
@@ -2011,6 +2162,9 @@ void CGfxLibrary::SwapBuffers(CViewPort *pvp)
 #endif
   // if not supported
   {
+#ifdef SE1_VULKAN
+    //CPrintF("Vulkan: Gamma adjustment is not available now.\n"); // for test
+#endif // SE1_VULKAN
     // just reset settings to default
     gfx_fBrightness = 0;
     gfx_fContrast   = 1;
@@ -2053,6 +2207,14 @@ BOOL CGfxLibrary::LockRaster( CRaster *praToLock)
       bRes = (hr==D3D_OK);
     } // mark it
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+    if (gl_eCurrentAPI == GAT_VK && !GFX_bRenderingScene)
+    {
+      gl_SvkMain->StartFrame();
+      //CPrintF("Vulkan: Lock Raster.\n"); // for test
+    }
+#endif // SE1_VULKAN
+
     GFX_bRenderingScene = TRUE;
   } // done
   return bRes;

@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -199,7 +200,7 @@ static void ogl_DisableDepthWrite(void)
 
 static void ogl_EnableDither(void)
 {
-  // check consistency
+  /*// check consistency
   ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
 #ifndef NDEBUG
   BOOL bRes;
@@ -217,14 +218,14 @@ static void ogl_EnableDither(void)
   pglEnable(GL_DITHER);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
 
 static void ogl_DisableDither(void)
 {
-  // check consistency
+  /*// check consistency
   ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
 #ifndef NDEBUG
   BOOL bRes; 
@@ -242,7 +243,7 @@ static void ogl_DisableDither(void)
   pglDisable(GL_DITHER);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
@@ -356,7 +357,7 @@ static void ogl_DisableBlend(void)
 
 static void ogl_EnableClipping(void)
 {
-  // only if supported
+  /*// only if supported
   if( !(_pGfx->gl_ulFlags&GLF_EXT_CLIPHINT)) return;
 
   // check consistency
@@ -378,14 +379,14 @@ static void ogl_EnableClipping(void)
   pglHint( GL_CLIP_VOLUME_CLIPPING_HINT_EXT, GL_DONT_CARE);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
 
 static void ogl_DisableClipping(void)
 {
-  // only if allowed and supported
+  /*// only if allowed and supported
   if( gap_iOptimizeClipping<2 || !(_pGfx->gl_ulFlags&GLF_EXT_CLIPHINT)) return;
 
   // check consistency
@@ -407,7 +408,7 @@ static void ogl_DisableClipping(void)
   pglHint( GL_CLIP_VOLUME_CLIPPING_HINT_EXT, GL_FASTEST);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
@@ -415,7 +416,7 @@ static void ogl_DisableClipping(void)
 
 static void ogl_EnableClipPlane(void)
 {
-  // check consistency
+  /*// check consistency
   ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
 #ifndef NDEBUG
   BOOL bRes; 
@@ -432,14 +433,14 @@ static void ogl_EnableClipPlane(void)
   pglEnable( GL_CLIP_PLANE0);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
 
 static void ogl_DisableClipPlane(void)
 {
-  // check consistency
+  /*// check consistency
   ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
 #ifndef NDEBUG
   BOOL bRes; 
@@ -456,7 +457,7 @@ static void ogl_DisableClipPlane(void)
   pglDisable(GL_CLIP_PLANE0);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
@@ -516,7 +517,7 @@ static void ogl_DisableColorArray(void)
 // enable truform rendering
 static void ogl_EnableTruform(void)
 {
-  // skip if Truform isn't set
+  /*// skip if Truform isn't set
   if( truform_iLevel<1) return;
 
   // check consistency
@@ -536,7 +537,7 @@ static void ogl_EnableTruform(void)
   pglEnable( GL_PN_TRIANGLES_ATI); 
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
@@ -544,7 +545,7 @@ static void ogl_EnableTruform(void)
 // disable truform rendering
 static void ogl_DisableTruform(void)
 {
-  // skip if Truform isn't set
+  /*// skip if Truform isn't set
   if( truform_iLevel<1) return;
 
   // check consistency
@@ -564,7 +565,7 @@ static void ogl_DisableTruform(void)
   pglDisable( GL_PN_TRIANGLES_ATI); 
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
@@ -635,7 +636,7 @@ static void ogl_BlendFunc( GfxBlend eSrc, GfxBlend eDst)
 // color buffer writing enable
 static void ogl_SetColorMask( ULONG ulColorMask)
 {
-  ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
+  /*ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
   _ulCurrentColorMask = ulColorMask; // keep for Get...()
   _sfStats.StartTimer(CStatForm::STI_GFXAPI);
 
@@ -646,7 +647,7 @@ static void ogl_SetColorMask( ULONG ulColorMask)
   pglColorMask( bR,bG,bB,bA);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
@@ -781,11 +782,11 @@ static void ogl_FrontFace( GfxFace eFace)
   ASSERT( eFace==GFX_CW || eFace==GFX_CCW);
   ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
 #ifndef NDEBUG
-  GLenum gleFace;
-  pglGetIntegerv( GL_FRONT_FACE, (GLint*)&gleFace);
-  OGL_CHECKERROR;
-  ASSERT( (gleFace==GL_CCW &&  GFX_bFrontFace)
-       || (gleFace==GL_CW  && !GFX_bFrontFace));
+  //GLenum gleFace;
+  //pglGetIntegerv( GL_FRONT_FACE, (GLint*)&gleFace);
+  //OGL_CHECKERROR;
+  //ASSERT( (gleFace==GL_CCW &&  GFX_bFrontFace)
+  //     || (gleFace==GL_CW  && !GFX_bFrontFace));
 #endif
   // cached?
   BOOL bFrontFace = (eFace==GFX_CCW);
@@ -793,11 +794,11 @@ static void ogl_FrontFace( GfxFace eFace)
 
   _sfStats.StartTimer(CStatForm::STI_GFXAPI);
 
-  if( eFace==GFX_CCW) {
-    pglFrontFace( GL_CCW);
-  } else {
-    pglFrontFace( GL_CW);
-  }
+  //if( eFace==GFX_CCW) {
+  //  pglFrontFace( GL_CCW);
+  //} else {
+  //  pglFrontFace( GL_CW);
+  //}
   OGL_CHECKERROR;
   GFX_bFrontFace = bFrontFace; 
 
@@ -825,7 +826,7 @@ static void ogl_ClipPlane( const DOUBLE *pdViewPlane)
 // set texture matrix
 static void ogl_SetTextureMatrix( const FLOAT *pfMatrix/*=NULL*/)
 {
-  // check API
+  /*// check API
   ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
 
   _sfStats.StartTimer(CStatForm::STI_GFXAPI);
@@ -836,7 +837,7 @@ static void ogl_SetTextureMatrix( const FLOAT *pfMatrix/*=NULL*/)
   else pglLoadIdentity();
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
@@ -883,8 +884,35 @@ static void ogl_SetOrtho( const FLOAT fLeft,   const FLOAT fRight, const FLOAT f
 
   // set matrix
   pglMatrixMode( GL_PROJECTION);
-  pglLoadIdentity();
-  pglOrtho( fLeft, fRight, fBottom, fTop, fNear, fFar);
+  //pglLoadIdentity();
+  //pglOrtho( fLeft, fRight, fBottom, fTop, fNear, fFar);
+
+  const float fRpL = fRight + fLeft;  const float fRmL = fRight - fLeft;  const float fFpN = fFar + fNear;
+  const float fTpB = fTop + fBottom;  const float fTmB = fTop - fBottom;  const float fFmN = fFar - fNear;
+  const float f2Fm2N = 2 * fFar - 2 * fNear;
+
+  float result[16];
+  result[0 * 4 + 0] = 2.0f / fRmL;
+  result[0 * 4 + 1] = 0.0f;
+  result[0 * 4 + 2] = 0.0f;
+  result[0 * 4 + 3] = 0.0f;
+
+  result[1 * 4 + 0] = 0.0f;
+  result[1 * 4 + 1] = 2.0f / fTmB; // -2.0f / fTmB;
+  result[1 * 4 + 2] = 0.0f;
+  result[1 * 4 + 3] = 0.0f;
+
+  result[2 * 4 + 0] = 0.0f;
+  result[2 * 4 + 1] = 0.0f;
+  result[2 * 4 + 2] = -1.0f / fFmN; // -1.0f / f2Fm2N;
+  result[2 * 4 + 3] = 0.0f;
+
+  result[3 * 4 + 0] = -fRpL / fRmL;
+  result[3 * 4 + 1] = -fTpB / fTmB;// fTpB / fTmB;
+  result[3 * 4 + 2] = -fNear / fFmN; // (fFar - 2.0f * fNear) / f2Fm2N;
+  result[3 * 4 + 3] = 1.0f;
+
+  pglLoadMatrixf(result);
   OGL_CHECKERROR;
 
   _sfStats.StopTimer(CStatForm::STI_GFXAPI);
@@ -910,8 +938,35 @@ static void ogl_SetFrustum( const FLOAT fLeft, const FLOAT fRight,
 
   // set matrix
   pglMatrixMode( GL_PROJECTION);
-  pglLoadIdentity();
-  pglFrustum( fLeft, fRight, fBottom, fTop, fNear, fFar);
+  //pglLoadIdentity();
+  //pglFrustum( fLeft, fRight, fBottom, fTop, fNear, fFar);
+  const float fRpL = fRight + fLeft;  const float fRmL = fRight - fLeft;  const float fFpN = fFar + fNear;
+  const float fTpB = fTop + fBottom;  const float fTmB = fTop - fBottom;  const float fFmN = fFar - fNear;
+
+  float result[16];
+  result[0 * 4 + 0] = 2.0f * fNear / fRmL;
+  result[0 * 4 + 1] = 0.0f;
+  result[0 * 4 + 2] = 0.0f;
+  result[0 * 4 + 3] = 0.0f;
+
+  result[1 * 4 + 0] = 0.0f;
+  result[1 * 4 + 1] = 2.0f * fNear / fTmB; // -2.0f * fNear / fTmB;
+  result[1 * 4 + 2] = 0.0f;
+  result[1 * 4 + 3] = 0.0f;
+
+  result[2 * 4 + 0] = fRpL / fRmL;
+  result[2 * 4 + 1] = fTpB / fTmB; // -fTpB / fTmB;
+  result[2 * 4 + 2] = -fFar / fFmN;// -(2 * fFar - fNear) / f2Fm2N;
+  result[2 * 4 + 3] = -1.0f;
+
+  result[3 * 4 + 0] = 0.0f;
+  result[3 * 4 + 1] = 0.0f;
+  result[3 * 4 + 2] = -fFar * fNear / fFmN; // -fFar * fNear / f2Fm2N;
+  result[3 * 4 + 3] = 0.0f;
+
+  pglLoadMatrixf(result);
+
+
   OGL_CHECKERROR;
 
   _sfStats.StopTimer(CStatForm::STI_GFXAPI);
@@ -1060,7 +1115,7 @@ static void ogl_SetVertexArray( GFXVertex4 *pvtx, INDEX ctVtx)
 // prepare normal array for API
 static void ogl_SetNormalArray( GFXNormal *pnor)
 {
-  ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
+ /* ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
   ASSERT( pnor!=NULL);
   _sfStats.StartTimer(CStatForm::STI_GFXAPI);
 
@@ -1069,7 +1124,7 @@ static void ogl_SetNormalArray( GFXNormal *pnor)
   pglNormalPointer( GL_FLOAT, sizeof (*pnor), pnor);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 
@@ -1110,14 +1165,14 @@ static void ogl_SetTexCoordArray( GFXTexCoord *ptex, BOOL b4/*=FALSE*/)
 // set constant color (and force rendering w/o color array!)
 static void ogl_SetConstantColor( COLOR col)
 {
-  ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
+  /*ASSERT( _pGfx->gl_eCurrentAPI==GAT_OGL);
   ogl_DisableColorArray();
   _sfStats.StartTimer(CStatForm::STI_GFXAPI);
 
   glCOLOR(col);
   OGL_CHECKERROR;
 
-  _sfStats.StopTimer(CStatForm::STI_GFXAPI);
+  _sfStats.StopTimer(CStatForm::STI_GFXAPI);*/
 }
 
 

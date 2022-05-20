@@ -78,3 +78,6 @@ All notable changes to this project will be documented in this file.
 - Added Window1251 to Utf8 conversion for SDL_CreateWindow title.
 - Added CTString strWindow1251ToUtf8 function.
 - Added suport Windows-1251 filenames for game resources.
+
+## 2022-05-20
+- Added support Vulkan.

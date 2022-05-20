@@ -23,12 +23,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #endif
 
 BOOL _bWindowChanging = FALSE;    // ignores window messages while this is set
+#ifdef SE1_VULKAN
+SDL_Window * _hwndMain = NULL;
+#else
 HWND _hwndMain = NULL;
+#endif
 
 static char achWindowTitle[256]; // current window title
 
 // for window reposition function
 static PIX _pixLastSizeI, _pixLastSizeJ;
+
 
 #ifdef PLATFORM_WIN32
 static HBITMAP _hbmSplash = NULL;
@@ -244,9 +249,19 @@ void OpenMainWindowNormal( PIX pixSizeI, PIX pixSizeJ)
 
 #else
   SDL_snprintf( achWindowTitle, sizeof (achWindowTitle), TRANSV("Serious Sam (Window %dx%d)"), pixSizeI, pixSizeJ);
-  //CPrintF((const char*)"--- %s ---\n",achWindowTitle);
+#ifdef SE1_VULKAN
+  if( sam_iGfxAPI == 1) {
+    _hwndMain = SDL_CreateWindow((const char*) strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_VULKAN);
+    if( _hwndMain!=NULL) {
+      CPrintF("SDL: CreateWindow with flag (SDL_WINDOW_VULKAN) Done.\n");
+    }
+  } else {
+    _hwndMain = SDL_CreateWindow((const char*) strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL);
+  }
+#else
   _hwndMain = SDL_CreateWindow((const char*) strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL);
-  if( _hwndMain==NULL) FatalError(TRANSV("Cannot open main window!"));
+#endif // SE1_VULKAN
+  if( _hwndMain==NULL) FatalError(TRANS("Cannot open main window!"));
   SE_UpdateWindowHandle( _hwndMain);
   _pixLastSizeI = pixSizeI;
   _pixLastSizeJ = pixSizeJ;
@@ -282,9 +297,19 @@ void OpenMainWindowFullScreen( PIX pixSizeI, PIX pixSizeJ)
 
 #else
   SDL_snprintf( achWindowTitle, sizeof (achWindowTitle), TRANSV("Serious Sam (FullScreen %dx%d)"), pixSizeI, pixSizeJ);
-  //CPrintF((const char*)"--- %s ---\n",achWindowTitle);
-  _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
-  if( _hwndMain==NULL) FatalError(TRANSV("Cannot open main window!"));
+#ifdef SE1_VULKAN
+  if( sam_iGfxAPI == 1) {
+    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_VULKAN | SDL_WINDOW_FULLSCREEN);
+    if( _hwndMain!=NULL) {
+      CPrintF("SDL: CreateWindow with flag (SDL_WINDOW_VULKAN) Done.\n");
+    }
+  } else {
+    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
+  }
+#else
+    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
+#endif // SE1_VULKAN
+  if( _hwndMain==NULL) FatalError(TRANS("Cannot open main window!"));
   SE_UpdateWindowHandle( _hwndMain);
   _pixLastSizeI = pixSizeI;
   _pixLastSizeJ = pixSizeJ;

@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -359,6 +360,10 @@ void CGfxLibrary::Benchmark(CViewPort *pvp, CDrawPort *pdp)
 #ifdef SE1_D3D
   else if( _pGfx->gl_eCurrentAPI==GAT_D3D) strAPI = "Direct3D";
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  else if (_pGfx->gl_eCurrentAPI == GAT_VK) strAPI = "Vulkan";
+#endif // SE1_VULKAN
+
   CPrintF("=====================================\n");
   CPrintF("%s performance testing ...\n", (const char *) strAPI);
 

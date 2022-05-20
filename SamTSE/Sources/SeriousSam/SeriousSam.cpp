@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -101,7 +102,11 @@ extern INDEX sam_iAspectSizeI = 16;  //
 extern INDEX sam_iAspectSizeJ = 9;  //
 extern INDEX sam_iDisplayDepth  = 0;  // 0==default, 1==16bit, 2==32bit
 extern INDEX sam_iDisplayAdapter = 0;
-extern INDEX sam_iGfxAPI = 0;         // 0==OpenGL
+#ifdef SE1_VULKAN
+extern INDEX sam_iGfxAPI = 1; // default opengl //1;         // 1==Vulkan
+#else
+extern INDEX sam_iGfxAPI = 0;                                // 0==OpenGL
+#endif // SE1_VULKAN
 extern INDEX sam_bFirstStarted = FALSE;
 extern FLOAT sam_tmDisplayModeReport = 5.0f;
 extern INDEX sam_bShowAllLevels = FALSE;
@@ -863,6 +868,10 @@ void PrintDisplayModeInfo(void)
 #ifdef PLATFORM_WIN32
   else if( _pGfx->gl_eCurrentAPI==GAT_D3D) strRes += " (Direct3D)";
 #endif
+#ifdef SE1_VULKAN
+  else if (_pGfx->gl_eCurrentAPI == GAT_VK) strRes += " (Vulkan)";
+#endif // SE1_VULKAN
+
 
   CTString strDescr;
   strDescr.PrintF("\n%s (%s)\n", (const char *) _strPreferencesDescription, (const char *) RenderingPreferencesDescription(sam_iVideoSetup));
@@ -1683,16 +1692,29 @@ BOOL TryToSetDisplayMode( enum GfxAPIType eGfxAPI, INDEX iAdapter, PIX pixSizeI,
 
   // try to set new display mode
   BOOL bSuccess;
+   
+  // TODO: enable full screen for vulkan
   if( bFullScreenMode) {
 #ifdef SE1_D3D
     if( eGfxAPI==GAT_D3D) OpenMainWindowFullScreen( pixSizeI, pixSizeJ);
 #endif // SE1_D3D
+
+  #ifdef SE1_VULKAN
+    if (eGfxAPI == GAT_VK)
+    {
+      OpenMainWindowFullScreen(pixSizeI, pixSizeJ);
+    }
+  #endif // SE1_VULKAN
+
     bSuccess = _pGfx->SetDisplayMode( eGfxAPI, iAdapter, pixSizeI, pixSizeJ, eColorDepth);
     if( bSuccess && eGfxAPI==GAT_OGL) OpenMainWindowFullScreen( pixSizeI, pixSizeJ);
   } else {
 #ifdef SE1_D3D
     if( eGfxAPI==GAT_D3D) OpenMainWindowNormal( pixSizeI, pixSizeJ);
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+    if (eGfxAPI == GAT_VK) OpenMainWindowNormal(pixSizeI, pixSizeJ);
+#endif // SE1_VULKAN
     bSuccess = _pGfx->ResetDisplayMode( eGfxAPI);
     if( bSuccess && eGfxAPI==GAT_OGL) OpenMainWindowNormal( pixSizeI, pixSizeJ);
 #ifdef SE1_D3D

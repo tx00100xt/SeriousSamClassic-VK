@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -21,8 +22,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <Engine/Graphics/GfxLibrary.h>
 #include <Engine/Base/Statistics_Internal.h>
 
-extern INDEX ogl_bExclusive;
+#ifdef SE1_VULKAN
+#include <Engine/Graphics/Vulkan/SvkMain.h>
+#include <Engine/Base/Translation.h>
+#include <Engine/Base/Console.h>
+// may instead choose to use std::clamp() in C++17
+#define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
+#endif
 
+extern INDEX ogl_bExclusive;
 
 // helper for D3D surface
 #ifdef SE1_D3D
@@ -76,6 +84,10 @@ CViewPort::CViewPort( PIX pixWidth, PIX pixHeight, HWND hWnd) :
   vp_pSwapChain = NULL;
   vp_pSurfDepth = NULL;
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  // nothing 
+#endif // SE1_VULKAN
+
   vp_ctDisplayChanges = 0;
   OpenCanvas();
   vp_Raster.ra_pvpViewPort = this;
@@ -192,6 +204,16 @@ void CViewPort::OpenCanvas(void)
   if( _pGfx->gl_eCurrentAPI==GAT_D3D && !bFullScreen) CreateSwapChain_D3D( this, pixWinSizeI, pixWinSizeJ);
 #endif // SE1_D3D
 
+#ifdef SE1_VULKAN
+  if (_pGfx->gl_eCurrentAPI == GAT_VK)
+  {
+    CPrintF("Vulkan: Try Create Swapchain...\n");
+    _pGfx->gl_SvkMain->CreateSwapchain(pixWinSizeI, pixWinSizeJ);
+    CPrintF("Vulkan: Create Swapchain Done.\n")
+  }
+#endif // SE1_VULKAN
+
+
   // resize raster
   Resize();
   ShowWindow( vp_hWnd, SW_SHOW);
@@ -201,7 +223,19 @@ void CViewPort::OpenCanvas(void)
 #endif // SE1_D3D
 
 #else  // !PLATFORM_WIN32
-   vp_hWnd = vp_hWndParent;
+  vp_hWnd = vp_hWndParent;
+#ifdef SE1_VULKAN
+  if (_pGfx->gl_eCurrentAPI == GAT_VK)
+  {
+    CPrintF("Vulkan: Try Create Swapchain...\n");
+    _pGfx->gl_SvkMain->CreateSwapchain(0, 0); //  SDL_Vulkan_GetDrawableSize in SvkSwapchain.cpp 
+    CPrintF("Vulkan: Create Swapchain Done.\nVulkan: === Ready to Render ===\n");
+    extern  __attribute__ ((visibility("default"))) SDL_Window * _hwndMain;
+    int r = SDL_SetWindowBrightness(_hwndMain, 0.5f); // Brightness 0.0f - 1.0f // hack for normal Brightness
+  }
+  // is it required?
+  // if (_pGfx->gl_eCurrentAPI == GAT_VK ) SetAsRenderTarget_Vulkan(this);
+#endif // SE1_VULKAN
 #endif
 }
 
@@ -216,6 +250,14 @@ void CViewPort::CloseCanvas( BOOL bRelease/*=FALSE*/)
     if( vp_pSurfDepth!=NULL) D3DRELEASE( vp_pSurfDepth, TRUE);
   }
 #endif // SE1_D3D
+
+#ifdef SE1_VULKAN
+  if (_pGfx->gl_eCurrentAPI == GAT_VK && bRelease) 
+  {
+    _pGfx->gl_SvkMain->DestroySwapchain();
+  }
+#endif // SE1_VULKAN
+
   // destroy window
 
 #ifdef PLATFORM_WINDOWS
@@ -231,6 +273,10 @@ void CViewPort::CloseCanvas( BOOL bRelease/*=FALSE*/)
   vp_pSwapChain = NULL;
   vp_pSurfDepth = NULL;
 #endif // SE1_D3D
+
+#ifdef SE1_VULKAN
+  // nothing 
+#endif // SE1_VULKAN
 }
 
 
@@ -266,6 +312,16 @@ void CViewPort::Resize(void)
   }
 #endif
 #endif
+#ifdef SE1_VULKAN
+  if (_pGfx->gl_eCurrentAPI == GAT_VK)
+  {
+    CPrintF("Vulkan: Try ReCreate Swapchain...\n");
+    _pGfx->gl_SvkMain->RecreateSwapchain(0, 0); //  SDL_Vulkan_GetDrawableSize in SvkSwapchain.cpp 
+    CPrintF("Vulkan: ReCreate Swapchain Done.\nVulkan: === Ready to Render ===\n");
+    extern  __attribute__ ((visibility("default"))) SDL_Window * _hwndMain;
+    int r = SDL_SetWindowBrightness(_hwndMain, 0.5f); // Brightness 0.0f - 1.0f // hack for normal Brightness
+  }
+#endif // SE1_VULKAN
 }
 
 

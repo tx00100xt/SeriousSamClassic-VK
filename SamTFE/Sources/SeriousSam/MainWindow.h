@@ -14,13 +14,18 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. */
 
 extern BOOL _bWindowChanging;    // ignores window messages while this is set
-extern HWND _hwndMain;
 
 #ifdef PLATFORM_UNIX
 extern __attribute__ ((visibility("default"))) CTString strWindow1251ToUtf8(CTString from);
+#ifdef SE1_VULKAN
+extern SDL_Window * _hwndMain;
 #else
+extern HWND _hwndMain;
+#endif // SE1_VULKAN
+#else  // !PLATFORM_UNIX
 DECL_DLL extern CTString strWindow1251ToUtf8(CTString from);
-#endif
+extern HWND _hwndMain;
+#endif 
 
 // init/end main window management
 void MainWindow_Init(void);

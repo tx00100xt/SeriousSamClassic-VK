@@ -485,9 +485,13 @@ CMGTitle mgVideoOptionsTitle;
 CMGTrigger mgDisplayAPITrigger;
 CTString astrDisplayAPIRadioTexts[] = {
   RADIOTRANS( "OpenGL"),
+#ifdef SE1_VULKAN // SE1_VULKAN
+  RADIOTRANS("Vulkan"),
+#endif // SE1_VULKAN
 #ifdef SE1_D3D
   RADIOTRANS( "Direct3D"),
-#endif
+#endif 
+
 };
 CMGTrigger mgDisplayAdaptersTrigger;
 CMGTrigger mgFullScreenTrigger;
@@ -2026,6 +2030,9 @@ static INDEX APIToSwitch(enum GfxAPIType gat)
 #ifdef SE1_D3D
   case GAT_D3D: return 1;
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  case GAT_VK: return GAT_VK_INDEX;
+#endif // SE1_VULKAN
   default: ASSERT(FALSE); return 0;
   }
 }
@@ -2036,6 +2043,9 @@ static enum GfxAPIType SwitchToAPI(INDEX i)
 #ifdef SE1_D3D
   case 1: return GAT_D3D;
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  case GAT_VK_INDEX: return GAT_VK;
+#endif // SE1_VULKAN
   default: ASSERT(FALSE); return GAT_OGL;
   }
 }
@@ -5126,8 +5136,13 @@ static void UpdateVideoOptionsButtons(INDEX iSelected)
 #ifdef SE1_D3D
   const BOOL bD3DEnabled = _pGfx->HasAPI(GAT_D3D);
   ASSERT( bOGLEnabled || bD3DEnabled); 
-#else // 
-  ASSERT( bOGLEnabled ); 
+#else //
+#ifdef SE1_VULKAN
+  const BOOL bVKEnabled = _pGfx->HasAPI(GAT_VK);
+  ASSERT(bOGLEnabled || bVKEnabled);
+#else // SE1_VULKAN 
+  ASSERT( bOGLEnabled );
+#endif // SE1_VULKAN
 #endif // SE1_D3D
   CDisplayAdapter &da = _pGfx->gl_gaAPI[SwitchToAPI(mgDisplayAPITrigger.mg_iSelected)]
                                 .ga_adaAdapter[mgDisplayAdaptersTrigger.mg_iSelected];
@@ -5143,7 +5158,11 @@ static void UpdateVideoOptionsButtons(INDEX iSelected)
 #ifdef SE1_D3D
   mgDisplayAPITrigger.mg_bEnabled = bOGLEnabled && bD3DEnabled;
 #else
+#ifdef SE1_VULKAN
+  mgDisplayAPITrigger.mg_bEnabled = bOGLEnabled && bVKEnabled;
+#else
   mgDisplayAPITrigger.mg_bEnabled = bOGLEnabled;
+#endif // SE1_VULKAN
 #endif
   mgDisplayAdaptersTrigger.mg_bEnabled = _ctAdapters>1;
   mgVideoOptionsApply.mg_bEnabled = _bVideoOptionsChanged;

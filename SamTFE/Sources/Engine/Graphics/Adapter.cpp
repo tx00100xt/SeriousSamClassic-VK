@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -19,6 +20,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <Engine/Graphics/GfxLibrary.h>
 #include <Engine/Base/Translation.h>
 #include <Engine/Base/Console.h>
+#include <Engine/Base/Shell.h>
+
+#ifdef SE1_VULKAN
+#include <Engine/Graphics/Vulkan/VulkanInclude.h>
+#endif
 
 
 // !!! FIXME : rcg11052001 move this somewhere.
@@ -43,33 +49,45 @@ public:
 
 static CResolution _areResolutions[] =
 {
-  {  320,  240 },
-  {  400,  300 },
-  {  480,  360 },
-  {  512,  384 },
   {  640,  480 },
-  {  720,  540 },
-  {  720,  576 },
-  {  800,  600 },
   {  960,  720 },
   { 1024,  768 },
-  { 1152,  864 },
   { 1280,  960 },
-  { 1280, 1024 },
-  { 1600, 1200 },
-  { 1792, 1344 },
-  { 1856, 1392 },
-  { 1920, 1440 },
-  { 2048, 1536 },
+  { 1280,  720 },
+  { 1600,  900 },
+  { 1920, 1080 },
+  { 2048, 1152 },
+  { 2560, 1440 },
+  { 3200, 1800 },
+  { 3840, 2160 },
 
-  // matrox dualhead modes
-  { 1280,  480 },
-  { 1600,  600 },
-  { 2048,  768 },
+  //{  320,  240 },
+  //{  400,  300 },
+  //{  480,  360 },
+  //{  512,  384 },
+  //{  640,  480 },
+  //{  720,  540 },
+  //{  720,  576 },
+  //{  800,  600 },
+  //{  960,  720 },
+  //{ 1024,  768 },
+  //{ 1152,  864 },
+  //{ 1280,  960 },
+  //{ 1280, 1024 },
+  //{ 1600, 1200 },
+  //{ 1792, 1344 },
+  //{ 1856, 1392 },
+  //{ 1920, 1440 },
+  //{ 2048, 1536 },
 
-  // NTSC HDTV widescreen
-  {  848,  480 },
-  {  856,  480 },
+  //// matrox dualhead modes
+  //{ 1280,  480 },
+  //{ 1600,  600 },
+  //{ 2048,  768 },
+
+  //// NTSC HDTV widescreen
+  //{  848,  480 },
+  //{  856,  480 },
 };
 // THIS NUMBER MUST NOT BE OVER 25! (otherwise change it in adapter.h)
 static const INDEX MAX_RESOLUTIONS = sizeof(_areResolutions)/sizeof(_areResolutions[0]);
@@ -81,6 +99,7 @@ void CGfxLibrary::InitAPIs(void)
   // no need for gfx when dedicated server is on
   if( _bDedicatedServer) return;
 
+  CPrintF("Initialize CDS support (enumerate modes at startup).\n");
   CDisplayAdapter *pda;
   INDEX iResolution;
 
@@ -151,6 +170,93 @@ void CGfxLibrary::InitAPIs(void)
     adm[2].dm_pixSizeI =  800;  adm[2].dm_pixSizeJ = 600;  adm[2].dm_ddDepth = DD_16BIT;
     adm[3].dm_pixSizeI = 1024;  adm[3].dm_pixSizeJ = 768;  adm[3].dm_ddDepth = DD_16BIT;
   }
+
+
+#ifdef SE1_VULKAN
+  VkInstance tempVkInstance;  
+  VkInstanceCreateInfo instanceInfo = {};
+  instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+  VkResult r = vkCreateInstance(&instanceInfo, nullptr, &tempVkInstance);
+  if (r != VK_SUCCESS)
+  {
+    ASSERT(FALSE);
+  }
+  
+  // get all physical devices
+  uint32_t ctMaxPhysDevices = 0;
+  vkEnumeratePhysicalDevices(tempVkInstance, &ctMaxPhysDevices, nullptr);
+
+  ASSERT(ctMaxPhysDevices < 8);
+  VkPhysicalDevice physDevices[8];
+  vkEnumeratePhysicalDevices(tempVkInstance, &ctMaxPhysDevices, physDevices);
+
+  // TODO: Vulkan: add only suitable devices, i.e. with:
+  // * required formats
+  // * queue family indices
+  // * present modes
+  // * required extensions (VK_KHR_SWAPCHAIN_EXTENSION_NAME)
+
+  for (INDEX iAdapter = 0; iAdapter < ctMaxPhysDevices; iAdapter++)
+  {
+    pda = &gl_gaAPI[GAT_VK_INDEX].ga_adaAdapter[iAdapter];
+    pda->da_ulFlags = NONE;
+    pda->da_ctDisplayModes = 0;
+    // pda->da_iCurrentDisplayMode = -1;
+
+    // Are they realy needed?
+    // * 32-bits rendering modes support
+    // * windowed rendering modes support
+
+    // enumerate modes thru resolution list
+    for (iResolution = 0; iResolution < MAX_RESOLUTIONS; iResolution++)
+    {
+      DEVMODE devmode;
+      memset(&devmode, 0, sizeof(devmode));
+      CResolution& re = _areResolutions[iResolution];
+
+      // ask windows if they could set the mode
+      devmode.dmSize = sizeof(devmode);
+      devmode.dmPelsWidth = re.re_pixSizeI;
+      devmode.dmPelsHeight = re.re_pixSizeJ;
+      devmode.dmDisplayFlags = CDS_FULLSCREEN;
+      devmode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFLAGS;
+      LONG lRes = ChangeDisplaySettings(&devmode, CDS_TEST | CDS_FULLSCREEN);
+      // skip if not successfull
+      if (lRes != DISP_CHANGE_SUCCESSFUL) continue;
+
+      // make a new display mode
+      CDisplayMode& dm = pda->da_admDisplayModes[pda->da_ctDisplayModes];
+      dm.dm_pixSizeI = re.re_pixSizeI;
+      dm.dm_pixSizeJ = re.re_pixSizeJ;
+      dm.dm_ddDepth = DD_DEFAULT;
+      pda->da_ctDisplayModes++;
+    }
+
+    VkPhysicalDeviceProperties properties;
+    vkGetPhysicalDeviceProperties(physDevices[iAdapter], &properties);
+
+    switch (properties.vendorID)
+    {
+    case 0x1002: pda->da_strVendor = "Advanced Micro Devices, Inc."; break;
+    case 0x10DE: pda->da_strVendor = "Imagination Technologies"; break;
+    case 0x13B5: pda->da_strVendor = "NVIDIA Corporation"; break;
+    case 0x5143: pda->da_strVendor = "Qualcomm Technologies, Inc."; break;
+    case 0x8086: pda->da_strVendor = "Intel Corporation"; break;
+    default: pda->da_strVendor = TRANS("unknown");; break;
+    }
+    pda->da_strRenderer = properties.deviceName;
+    pda->da_strVersion.PrintF("%d.%d",
+      VK_VERSION_MAJOR(properties.apiVersion),
+      VK_VERSION_MINOR(properties.apiVersion));
+  }
+
+  gl_gaAPI[GAT_VK].ga_ctAdapters = ctMaxPhysDevices;
+  gl_gaAPI[GAT_VK].ga_iCurrentAdapter = 0;
+
+  // destroy temporary instance
+  vkDestroyInstance(tempVkInstance, nullptr);
+#endif // SE1_VULKAN
+
 
   // try to init Direct3D 8
 #ifdef SE1_D3D
@@ -241,6 +347,9 @@ void CGfxLibrary::InitAPIs(void)
   CDisplayAdapter *pda;
   //INDEX iResolution;
 
+  CPrintF("GfxLibrary: InitAPI\n");
+
+  CPrintF("GfxLibrary: OpenGL InitAPIs.\n");
   gl_gaAPI[GAT_OGL].ga_ctAdapters = 1;
   gl_gaAPI[GAT_OGL].ga_iCurrentAdapter = 0;
   pda = &gl_gaAPI[GAT_OGL].ga_adaAdapter[0];
@@ -281,8 +390,98 @@ void CGfxLibrary::InitAPIs(void)
       pda->da_ctDisplayModes++;
     }
   }
-}
 
+#ifdef SE1_VULKAN
+
+  CPrintF("GfxLibrary: Vulkan InitAPIs.\n");
+  VkInstance tempVkInstance;  
+  VkInstanceCreateInfo instanceInfo = {};
+  instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+  VkResult r = vkCreateInstance(&instanceInfo, nullptr, &tempVkInstance);
+  if (r != VK_SUCCESS)
+  {
+    ASSERT(FALSE);
+  }
+  
+  // get all physical devices
+  uint32_t ctMaxPhysDevices = 0;
+  vkEnumeratePhysicalDevices(tempVkInstance, &ctMaxPhysDevices, nullptr);
+
+  ASSERT(ctMaxPhysDevices < 8);
+  VkPhysicalDevice physDevices[8];
+  vkEnumeratePhysicalDevices(tempVkInstance, &ctMaxPhysDevices, physDevices);
+
+  // TODO: Vulkan: add only suitable devices, i.e. with:
+  // * required formats
+  // * queue family indices
+  // * present modes
+  // * required extensions (VK_KHR_SWAPCHAIN_EXTENSION_NAME)
+
+  for (INDEX iAdapter = 0; iAdapter < ctMaxPhysDevices; iAdapter++)
+  {
+    pda = &gl_gaAPI[GAT_VK_INDEX].ga_adaAdapter[iAdapter];
+    pda->da_ulFlags = NONE;
+    pda->da_ctDisplayModes = 0;
+    // pda->da_iCurrentDisplayMode = -1;
+
+    const int dpy = 0;  // !!! FIXME: hook up a cvar?
+    const int total = SDL_GetNumDisplayModes(dpy);
+    for (int i = 0; i < total; i++)
+    {
+      if (pda->da_ctDisplayModes >= ARRAYCOUNT(pda->da_admDisplayModes))
+        break;
+
+      SDL_DisplayMode mode;
+      if (SDL_GetDisplayMode(dpy, i, &mode) == 0)
+      {
+        const int bpp = (int) SDL_BITSPERPIXEL(mode.format);
+        if (bpp < 16) continue;
+        DisplayDepth bits = DD_DEFAULT;
+        switch (bpp)
+        {
+          case 16: bits = DD_16BIT; break;
+          case 32: bits = DD_32BIT; break;
+          case 24: bits = DD_24BIT; break;
+          default: break;
+        }
+
+        CDisplayMode &dm = pda->da_admDisplayModes[pda->da_ctDisplayModes];
+        dm.dm_pixSizeI = mode.w;
+        dm.dm_pixSizeJ = mode.h;
+        dm.dm_ddDepth  = bits;
+        pda->da_ctDisplayModes++;
+      }
+    }
+
+    VkPhysicalDeviceProperties properties;
+    vkGetPhysicalDeviceProperties(physDevices[iAdapter], &properties);
+
+    switch (properties.vendorID)
+    {
+    case 0x1002: pda->da_strVendor = "Advanced Micro Devices, Inc."; break;
+    case 0x10DE: pda->da_strVendor = "Imagination Technologies"; break;
+    case 0x13B5: pda->da_strVendor = "NVIDIA Corporation"; break;
+    case 0x5143: pda->da_strVendor = "Qualcomm Technologies, Inc."; break;
+    case 0x8086: pda->da_strVendor = "Intel Corporation"; break;
+    default: pda->da_strVendor = TRANS("unknown");; break;
+    }
+    CPrintF("Vendor: %s\n", (const char*)pda->da_strVendor);
+    pda->da_strRenderer = properties.deviceName;
+    pda->da_strVersion.PrintF("%d.%d",
+      VK_VERSION_MAJOR(properties.apiVersion),
+      VK_VERSION_MINOR(properties.apiVersion));
+  }
+
+  gl_gaAPI[GAT_VK].ga_ctAdapters = ctMaxPhysDevices;
+  gl_gaAPI[GAT_VK].ga_iCurrentAdapter = 0;
+
+  // destroy temporary instance
+  vkDestroyInstance(tempVkInstance, nullptr);
+
+
+#endif // SE1_VULKAN
+
+}
 #endif
 
 

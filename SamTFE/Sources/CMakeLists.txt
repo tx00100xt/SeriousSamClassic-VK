@@ -101,6 +101,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 	add_compile_options(-Wall)
 	add_compile_options(-pipe)
 	add_compile_options(-fPIC)
+	add_compile_options(-fms-extensions)
 	if(NOT PANDORA AND NOT PYRA AND NOT (MACOSX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64"))
 		add_compile_options(-mtune=generic)
 	endif()
@@ -285,8 +286,10 @@ endif()
 option(TFE "Compile a The First Encounter version" FALSE)
 if (TFE)
  add_definitions(-DFIRST_ENCOUNTER=1)
+ add_definitions(-DSE1_VULKAN=1)
  set(MP "")
 else()
+ add_definitions(-DSE1_VULKAN=1)
  set(MP "MP")
 endif()
 
@@ -878,6 +881,8 @@ set(ENGINE_SRCS
     Engine/Graphics/DisplayMode.cpp
     Engine/Graphics/Gfx_OpenGL.cpp
     Engine/Graphics/Gfx_OpenGL_Textures.cpp
+    Engine/Graphics/Gfx_Vulkan.cpp
+    Engine/Graphics/Gfx_Vulkan_Textures.cpp
     Engine/Graphics/TextureEffects.cpp
     Engine/Graphics/DrawPort.cpp
     Engine/Graphics/Gfx_wrapper.cpp
@@ -893,6 +898,18 @@ set(ENGINE_SRCS
     Engine/Graphics/Stereo.cpp
     Engine/Graphics/SDL/SDLOpenGL.cpp
     Engine/Graphics/SDL/SDLAdapter.cpp
+    Engine/Graphics/Vulkan/SvkDescriptors.cpp
+    Engine/Graphics/Vulkan/SvkDynamicBuffers.cpp
+    Engine/Graphics/Vulkan/SvkMatrix.cpp
+    Engine/Graphics/Vulkan/SvkMemoryPool.cpp
+    Engine/Graphics/Vulkan/SvkPipelines.cpp
+    Engine/Graphics/Vulkan/SvkQueries.cpp
+    Engine/Graphics/Vulkan/SvkSamplers.cpp
+    Engine/Graphics/Vulkan/SvkShaders.cpp
+    Engine/Graphics/Vulkan/SvkSwapchain.cpp
+    Engine/Graphics/Vulkan/SvkTextures.cpp
+    Engine/Graphics/Vulkan/SvkUtils.cpp
+    Engine/Graphics/Vulkan/vk_mem_alloc.cpp
     Engine/Network/ActionBuffer.cpp
     Engine/Network/NetworkMessage.cpp
     Engine/Network/Server.cpp
@@ -962,7 +979,7 @@ add_library(${ENGINELIB} SHARED
 )
 add_dependencies(${ENGINELIB} ParseEntities)
 target_link_libraries(${ENGINELIB} engine_safemath)
-set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON)
+set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
 
 add_executable(SeriousSam
     #${ENGINE_SRCS}
