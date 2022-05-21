@@ -81,3 +81,6 @@ All notable changes to this project will be documented in this file.
 
 ## 2022-05-20
 - Added support Vulkan.
+
+## 2022-05-21
+- Fixed crash game after changed Graphical Api in menu.

@@ -2116,6 +2116,14 @@ void ApplyVideoOptions(void)
   enum DisplayDepth dd = SwitchToDepth(mgBitsPerPixelTrigger.mg_iSelected);
   const INDEX iAdapter = mgDisplayAdaptersTrigger.mg_iSelected;
 
+#ifdef SE1_VULKAN
+  if( gat == GAT_VK_INDEX ) { // sam_iGfxAPI need for SDL_CreateWindow
+    sam_iGfxAPI = 1;
+  } else {
+    sam_iGfxAPI = 0;
+  }
+#endif
+
   // setup preferences
   extern INDEX _iLastPreferences;
   if( sam_iVideoSetup==3) _iLastPreferences = 3;
