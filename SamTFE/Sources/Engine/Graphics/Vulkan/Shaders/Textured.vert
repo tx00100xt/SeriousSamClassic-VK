@@ -12,10 +12,10 @@ layout (location = 0) out vec4 outColor;
 layout (location = 1) out vec4 outTexCoord01;
 layout (location = 2) out vec4 outTexCoord23;
 
-layout(push_constant) uniform Tranform
+layout (std140, set = 0, binding = 0) uniform MainBuffer
 {
-   layout(offset = 0) mat4 mvp;
-} tranform;
+    mat4 MVP;
+} unBuffer;
 
 void main() 
 {
@@ -23,5 +23,5 @@ void main()
     outTexCoord01 = inTexCoord01;
     outTexCoord23 = inTexCoord23;
 
-    gl_Position = tranform.mvp * inPosition;
+    gl_Position = unBuffer.MVP * inPosition;
 }
