@@ -89,3 +89,4 @@ All notable changes to this project will be documented in this file.
 - Fixed brightness issues. Thanks to **trs** for the patch.
   https://forum.altlinux.org/index.php?topic=46076.msg369648#msg369648
 - Fixed initialization of integer types.
+- Update vulkan files from https://github.com/sultim-t/Serious-Engine-Vk
