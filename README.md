@@ -15,7 +15,7 @@ Prerequisites:
 [issues](https://github.com/sultim-t/Serious-Engine-Vk/releases).
 * game crash on changing resolution / window minimazing
 * some lens flares still can be visible through walls
-* xplus unstable worked
+* xplus unstable worked with Vulkan
 
 ## Serious Engine:
 
