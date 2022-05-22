@@ -88,3 +88,4 @@ All notable changes to this project will be documented in this file.
 ## 2022-05-21
 - Fixed brightness issues. Thanks to **trs** for the patch.
   https://forum.altlinux.org/index.php?topic=46076.msg369648#msg369648
+- Fixed initialization of integer types.
