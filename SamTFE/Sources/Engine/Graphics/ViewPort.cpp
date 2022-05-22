@@ -231,7 +231,6 @@ void CViewPort::OpenCanvas(void)
     _pGfx->gl_SvkMain->CreateSwapchain(0, 0); //  SDL_Vulkan_GetDrawableSize in SvkSwapchain.cpp 
     CPrintF("Vulkan: Create Swapchain Done.\nVulkan: === Ready to Render ===\n");
     extern  __attribute__ ((visibility("default"))) SDL_Window * _hwndMain;
-    int r = SDL_SetWindowBrightness(_hwndMain, 0.5f); // Brightness 0.0f - 1.0f // hack for normal Brightness
   }
   // is it required?
   // if (_pGfx->gl_eCurrentAPI == GAT_VK ) SetAsRenderTarget_Vulkan(this);
@@ -319,7 +318,6 @@ void CViewPort::Resize(void)
     _pGfx->gl_SvkMain->RecreateSwapchain(0, 0); //  SDL_Vulkan_GetDrawableSize in SvkSwapchain.cpp 
     CPrintF("Vulkan: ReCreate Swapchain Done.\nVulkan: === Ready to Render ===\n");
     extern  __attribute__ ((visibility("default"))) SDL_Window * _hwndMain;
-    int r = SDL_SetWindowBrightness(_hwndMain, 0.5f); // Brightness 0.0f - 1.0f // hack for normal Brightness
   }
 #endif // SE1_VULKAN
 }

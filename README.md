@@ -15,8 +15,7 @@ Prerequisites:
 [issues](https://github.com/sultim-t/Serious-Engine-Vk/releases).
 * game crash on changing resolution / window minimazing
 * some lens flares still can be visible through walls
-#### Note:
-Initially, the Linux port and windows version with volcano do not have brightness, contrast and gamma adjustment functions. The [SetWindowBrightness](https://wiki.libsdl.org/SDL_SetWindowBrightness) function was used to normalize the brightness. I hope that there will be smart people who will be able to find a more correct solution.
+* xplus unstable worked
 
 ## Serious Engine:
 

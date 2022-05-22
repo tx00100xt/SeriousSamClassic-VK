@@ -83,4 +83,8 @@ All notable changes to this project will be documented in this file.
 - Added support Vulkan.
 
 ## 2022-05-21
-- Fixed crash game after changed Graphical Api in menu.
+- Added the definition of the Graphical API for SDL_CreateWindow when changing the API via the menu.
+
+## 2022-05-21
+- Fixed brightness issues. Thanks to **trs** for the patch.
+  https://forum.altlinux.org/index.php?topic=46076.msg369648#msg369648

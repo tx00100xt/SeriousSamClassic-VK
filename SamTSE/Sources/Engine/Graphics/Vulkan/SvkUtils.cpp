@@ -347,6 +347,8 @@ BOOL SvkMain::PickPhysicalDevice()
   VK_CHECKERROR(r)
     ASSERT(physDeviceCount > 0);
 
+  CPrintF("Vulkan: Physical Devices Count: %d\n", physDeviceCount);
+
   for (uint32_t i = 0; i < physDeviceCount; i++)
   {
     VkPhysicalDevice physDevice = physDevices[i];
@@ -385,15 +387,23 @@ BOOL SvkMain::PickPhysicalDevice()
       // now select preferred settings
       gl_VkSurfColorFormat = VK_FORMAT_UNDEFINED;
 
+      CPrintF("Vulkan: formatsCount: %d\n", formatsCount);
+
       for (uint32_t j = 0; j < formatsCount; j++)
       {
-        if (gl_VkPhSurfFormats[j].format == VK_FORMAT_R8G8B8A8_UNORM)
+        CPrintF("Vulkan: gl_VkPhSurfFormats.format: %d\n", gl_VkPhSurfFormats[j].format);
+        CPrintF("Vulkan: gl_VkPhSurfFormats.colorSpace: %d\n", gl_VkPhSurfFormats[j].colorSpace);
+
+        if (gl_VkPhSurfFormats[j].format == VK_FORMAT_R8G8B8A8_UNORM ||
+            gl_VkPhSurfFormats[j].format == VK_FORMAT_B8G8R8A8_UNORM)
         {
           gl_VkSurfColorFormat = gl_VkPhSurfFormats[j].format;
           gl_VkSurfColorSpace = gl_VkPhSurfFormats[j].colorSpace;
           break;
         }
       }
+
+      CPrintF("Vulkan: gl_VkSurfColorFormat: %d\n", gl_VkSurfColorFormat);
 
       extern INDEX gfx_vk_iPresentMode;
       VkPresentModeKHR preferredPresentMode;
