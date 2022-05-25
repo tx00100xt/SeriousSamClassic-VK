@@ -161,6 +161,12 @@ cd SeriousSamClassic-VK/SamTSE/Sources
 Download [XplusTSE] and unpack to  SeriousSamClassic-VK/SamTSE/Mods directory.
 To start the modification, use the game menu - item Modification.
 
+### Suported OS
+linux
+
+### Other OS
+Not supported
+
 License
 -------
 
