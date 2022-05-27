@@ -1016,7 +1016,7 @@ add_executable(SeriousSam
 target_link_libraries(SeriousSam ${ENGINELIB})
 add_dependencies(SeriousSam ParseEntities)
 # Make symbols in the main executable available to dynamic objects
-set_target_properties(SeriousSam PROPERTIES ENABLE_EXPORTS ON)
+set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
 
 
 # !!! FIXME: this is an option because you have to recompile the entire engine twice.
