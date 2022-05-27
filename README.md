@@ -11,12 +11,6 @@ Prerequisites:
 * [Vulkan Validation Layers](https://github.com/KhronosGroup/Vulkan-ValidationLayers)
 * [Vulkan Installable Client Driver (ICD) Loader](https://github.com/KhronosGroup/Vulkan-Loader) 
 
-### Known issues:
-[issues](https://github.com/sultim-t/Serious-Engine-Vk/releases).
-* game crash on changing resolution / window minimazing
-* some lens flares still can be visible through walls
-* xplus unstable worked with Vulkan
-
 ## Serious Engine:
 
 This is the source code for Serious Engine v.1.10, including the following projects:
