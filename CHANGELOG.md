@@ -90,3 +90,10 @@ All notable changes to this project will be documented in this file.
   https://forum.altlinux.org/index.php?topic=46076.msg369648#msg369648
 - Fixed initialization of integer types.
 - Update vulkan files from https://github.com/sultim-t/Serious-Engine-Vk
+
+
+## 2022-05-27
+- Update vulkan files from https://github.com/sultim-t/Serious-Engine-RT
+- Increased SvkMemoryPool preferredSize for large XPLUS textures.
+- some fixes.
+- Update files from https://github.com/tx00100xt/SeriousSamClassic

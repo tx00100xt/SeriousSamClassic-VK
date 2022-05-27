@@ -21,6 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <Engine/Base/Translation.h>
 #include <Engine/Base/Console.h>
 #include <Engine/Base/Shell.h>
+#include <Engine/Base/ErrorReporting.h>
 
 #ifdef SE1_VULKAN
 #include <Engine/Graphics/Vulkan/VulkanInclude.h>
@@ -173,9 +174,18 @@ void CGfxLibrary::InitAPIs(void)
 
 
 #ifdef SE1_VULKAN
+  VkApplicationInfo tempAppInfo = {};
+  tempAppInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+  tempAppInfo.pApplicationName = "Temp VK to get GPU list";
+  tempAppInfo.applicationVersion = 0;
+  tempAppInfo.pEngineName = "Serious Engine 1";
+  tempAppInfo.engineVersion = 0;
+  tempAppInfo.apiVersion = VK_API_VERSION_1_2;
+
   VkInstance tempVkInstance;  
   VkInstanceCreateInfo instanceInfo = {};
   instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+  instanceInfo.pApplicationInfo = &tempAppInfo;
   VkResult r = vkCreateInstance(&instanceInfo, nullptr, &tempVkInstance);
   if (r != VK_SUCCESS)
   {
@@ -186,8 +196,12 @@ void CGfxLibrary::InitAPIs(void)
   uint32_t ctMaxPhysDevices = 0;
   vkEnumeratePhysicalDevices(tempVkInstance, &ctMaxPhysDevices, nullptr);
 
-  ASSERT(ctMaxPhysDevices < 8);
-  VkPhysicalDevice physDevices[8];
+  if (ctMaxPhysDevices == 0)
+  {
+    FatalError("GPU wasn't found");
+  }
+
+  VkPhysicalDevice physDevices[64];
   vkEnumeratePhysicalDevices(tempVkInstance, &ctMaxPhysDevices, physDevices);
 
   // TODO: Vulkan: add only suitable devices, i.e. with:
@@ -198,7 +212,7 @@ void CGfxLibrary::InitAPIs(void)
 
   for (INDEX iAdapter = 0; iAdapter < ctMaxPhysDevices; iAdapter++)
   {
-    pda = &gl_gaAPI[GAT_VK_INDEX].ga_adaAdapter[iAdapter];
+    pda = &gl_gaAPI[GAT_VK].ga_adaAdapter[iAdapter];
     pda->da_ulFlags = NONE;
     pda->da_ctDisplayModes = 0;
     // pda->da_iCurrentDisplayMode = -1;
@@ -237,12 +251,12 @@ void CGfxLibrary::InitAPIs(void)
 
     switch (properties.vendorID)
     {
-    case 0x1002: pda->da_strVendor = "Advanced Micro Devices, Inc."; break;
-    case 0x10DE: pda->da_strVendor = "Imagination Technologies"; break;
-    case 0x13B5: pda->da_strVendor = "NVIDIA Corporation"; break;
-    case 0x5143: pda->da_strVendor = "Qualcomm Technologies, Inc."; break;
-    case 0x8086: pda->da_strVendor = "Intel Corporation"; break;
-    default: pda->da_strVendor = TRANS("unknown");; break;
+    case 0x1002: pda->da_strVendor = "Advanced Micro Devices"; break;
+    case 0x1010: pda->da_strVendor = "Imagination Technologies"; break;
+    case 0x10DE: pda->da_strVendor = "NVIDIA"; break;
+    case 0x5143: pda->da_strVendor = "Qualcomm"; break;
+    case 0x8086: pda->da_strVendor = "Intel"; break;
+    default: pda->da_strVendor = TRANS("unknown"); break;
     }
     pda->da_strRenderer = properties.deviceName;
     pda->da_strVersion.PrintF("%d.%d",
@@ -419,7 +433,7 @@ void CGfxLibrary::InitAPIs(void)
 
   for (INDEX iAdapter = 0; iAdapter < ctMaxPhysDevices; iAdapter++)
   {
-    pda = &gl_gaAPI[GAT_VK_INDEX].ga_adaAdapter[iAdapter];
+    pda = &gl_gaAPI[GAT_VK].ga_adaAdapter[iAdapter];
     pda->da_ulFlags = NONE;
     pda->da_ctDisplayModes = 0;
     // pda->da_iCurrentDisplayMode = -1;

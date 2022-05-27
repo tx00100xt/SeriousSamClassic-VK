@@ -25,11 +25,12 @@ void SvkMain::CreateTexturesDataStructure()
 
   // make hash table tall to reduce linear searches
   gl_VkTextures.New(512, 8);
-  gl_VkLastTextureId = 0;
+  gl_VkLastTextureId = 1;
 
-  // average texture size with mipmaps in bytes
+  // average RGBA texture size with mipmaps in bytes
   const uint32_t AvgTextureSize = 256 * 256 * 4 * 4 / 3;
-  gl_VkImageMemPool = new SvkMemoryPool(gl_VkDevice, AvgTextureSize * 512);
+  const uint32_t AvgTextureCount = 512;
+  gl_VkImageMemPool = new SvkMemoryPool(gl_VkDevice, AvgTextureSize * AvgTextureCount);
 
   for (uint32_t i = 0; i < gl_VkMaxCmdBufferCount; i++)
   {
@@ -52,7 +53,7 @@ void SvkMain::DestroyTexturesDataStructure()
   }
 
   gl_VkTextures.Clear();
-  gl_VkLastTextureId = 0;
+  gl_VkLastTextureId = 1;
 }
 
 void SvkMain::SetTexture(uint32_t textureUnit, uint32_t textureId, SvkSamplerFlags samplerFlags)
@@ -120,6 +121,11 @@ VkDescriptorSet SvkMain::GetTextureDescriptor(uint32_t textureId)
 
 void SvkMain::AddTextureToDeletion(uint32_t textureId)
 {
+  if (textureId == gl_VkEmptyTextureId)
+  {
+    return;
+  }
+
   SvkTextureObject *sto = gl_VkTextures.TryGet(textureId);
   if (sto != nullptr)
   {
@@ -198,7 +204,11 @@ void SvkMain::InitTexture32Bit(
   VkResult r;
 
   SvkTextureObject *psto = gl_VkTextures.TryGet(textureId);
-  ASSERT(psto != nullptr);
+  if (psto == nullptr)
+  {
+    ASSERT(0);
+    return;
+  }
 
   SvkTextureObject &sto = *psto;
 
@@ -308,7 +318,17 @@ void SvkMain::InitTexture32Bit(
 
     uint32_t imageMemoryOffset;
     sto.sto_MemoryHandle = gl_VkImageMemPool->Allocate(imageAllocInfo, imageMemoryReq, sto.sto_Memory, imageMemoryOffset);
-    VK_CHECKERROR(r);
+    
+    if (sto.sto_MemoryHandle == 0)
+    {
+      vkFreeMemory(gl_VkDevice, stagingMemory, nullptr);
+      vkDestroyBuffer(gl_VkDevice, stagingBuffer, nullptr);
+      vkDestroyImage(gl_VkDevice, sto.sto_Image, nullptr);
+      gl_VkTextures.Delete(textureId);
+
+      return;
+    }
+
     r = vkBindImageMemory(gl_VkDevice, sto.sto_Image, sto.sto_Memory, imageMemoryOffset);
     VK_CHECKERROR(r);
   }

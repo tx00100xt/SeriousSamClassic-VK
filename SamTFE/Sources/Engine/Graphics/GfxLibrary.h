@@ -64,8 +64,6 @@ struct CTVERTEX {
 #define D3DFVF_CTVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 #endif
 
-#define GAT_VK_INDEX 1
-
 // Gfx API type 
 enum GfxAPIType
 {
@@ -75,7 +73,8 @@ enum GfxAPIType
   GAT_D3D  =  1,     // Direct3D
 #endif // SE1_D3D
 #ifdef SE1_VULKAN
-  GAT_VK   =  GAT_VK_INDEX,   // Vulkan
+  GAT_VK   =  1,     // Vulkan
+  //GAT_RT   =  2,     // Vulkan ray tracing
 #endif // SE1_VULKAN
 
   GAT_CURRENT = 9,   // current API
@@ -308,7 +307,8 @@ public:
     if( eAPI==GAT_D3D) return (gl_gaAPI[1].ga_ctAdapters>0);
 #endif // SE1_D3D
 #ifdef SE1_VULKAN
-    if (eAPI == GAT_VK) return (gl_gaAPI[GAT_VK_INDEX].ga_ctAdapters > 0);
+    if (eAPI == GAT_VK) return (gl_gaAPI[1].ga_ctAdapters > 0);
+    //if (eAPI == GAT_RT) return (gl_gaAPI[2].ga_ctAdapters > 0);
 #endif // SE1_VULKAN
     return FALSE;
   };

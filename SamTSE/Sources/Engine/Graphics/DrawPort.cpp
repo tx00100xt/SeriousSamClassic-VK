@@ -128,6 +128,7 @@ void CDrawPort::InitCloned( CDrawPort *pdpBase, DOUBLE rMinI,DOUBLE rMinJ, DOUBL
   dp_fTextAspect  = pdpBase->dp_fTextAspect;
   dp_iTextMode    = pdpBase->dp_iTextMode;
   dp_fWideAdjustment   = pdpBase->dp_fWideAdjustment;
+  //dp_fWideAdjustment = Lerp(1.0f, 0.83f, ((FLOAT)GetWidth() / (FLOAT)GetHeight() - (4.0f / 3.0f)) / ((16.0f / 9.0f) - (4.0f / 3.0f)) ); // pdpBase->dp_fWideAdjustment;
   dp_bRenderingOverlay = pdpBase->dp_bRenderingOverlay;
   // reset rest of vars
   dp_ulBlendingRA = 0;
@@ -563,6 +564,29 @@ void CDrawPort::DrawLine( PIX pixI0, PIX pixJ0, PIX pixI1, PIX pixJ1, COLOR col,
 {
   // check API
   const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
+
+  // only lines that are aligned with axes
+  if (eAPI == GAT_VK)
+  {
+    // vertical line
+    if (pixI0 == pixI1)
+    {
+      Fill(pixI0, pixJ0, 
+           1, pixJ1 - pixJ0 + 1,
+           col);
+    }
+
+    // horizontal line
+    if (pixJ0 == pixJ1)
+    {
+      Fill(pixI0, pixJ0, 
+           pixI1 - pixI0 + 1, 1,
+           col);
+    }
+
+    return;
+  }
+
   ASSERT( GfxValidApi(eAPI) );
 
   // setup rendering mode
@@ -617,12 +641,6 @@ void CDrawPort::DrawLine( PIX pixI0, PIX pixJ0, PIX pixI1, PIX pixJ1, COLOR col,
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
-#ifdef SE1_VULKAN
-  else if (eAPI == GAT_VK)
-  {
-    // TODO: Vulkan: draw line
-  }
-#endif // SE1_VULKAN
   // revert to old filtering
   if( typ!=_FULL_) gfxSetTextureFiltering( iTexFilter, iTexAnisotropy);
 }
@@ -693,6 +711,32 @@ void CDrawPort::DrawBorder( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COL
 {
   // check API
   const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
+
+  if ( eAPI == GAT_VK )
+  {
+    // top
+    Fill(pixI, pixJ, 
+         pixWidth, 1,
+         col);
+
+    // bottom
+    Fill(pixI, pixJ + pixHeight - 1, 
+         pixWidth, 1, 
+         col);
+
+    // left
+    Fill(pixI, pixJ + 1, 
+         1, pixHeight - 2, 
+         col);
+
+    // right
+    Fill(pixI + pixWidth - 1, pixJ + 1, 
+         1, pixHeight - 2,
+         col); 
+
+    return;
+  }
+
   ASSERT( GfxValidApi(eAPI) );
 
   // setup rendering mode
@@ -754,12 +798,6 @@ void CDrawPort::DrawBorder( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COL
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
-#ifdef SE1_VULKAN
-  else if (eAPI == GAT_VK)
-  {
-    // TODO: Vulkan: draw border
-  }
-#endif // SE1_VULKAN
   // revert to old filtering
   if( typ!=_FULL_) gfxSetTextureFiltering( iTexFilter, iTexAnisotropy);
 }
@@ -769,6 +807,15 @@ void CDrawPort::DrawBorder( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COL
 // fill part of a drawport with a given color
 void CDrawPort::Fill( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COLOR col) const
 {
+  const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
+
+  // draw only using polygons
+  if ( eAPI == GAT_VK )
+  {
+    Fill(pixI, pixJ, pixWidth, pixHeight, col, col, col, col);
+    return;
+  }
+
   // if color is tranlucent
   if( ((col&CT_AMASK)>>CT_ASHIFT) != CT_OPAQUE)
   { // draw thru polygon
@@ -784,7 +831,6 @@ void CDrawPort::Fill( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COLOR col
   col = AdjustColor( col, _slTexHueShift, _slTexSaturation);
 
   // check API
-  const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
   ASSERT( GfxValidApi(eAPI) );
 
   // OpenGL
@@ -819,24 +865,11 @@ void CDrawPort::Fill( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COLOR col
     D3D_CHECKERROR(hr);
   }
 #endif // SE1_D3D
-#ifdef SE1_VULKAN
-  else if (eAPI == GAT_VK)
-  {
-    UBYTE ubR, ubG, ubB;
-    ColorToRGB(col, ubR, ubG, ubB);
-    float rgba[] = { ubR / 255.0f, ubG / 255.0f, ubB / 255.0f, 1.0f };
-
-    pixI += dp_MinI;
-    pixJ += dp_MinJ;
-
-    _pGfx->gl_SvkMain->ClearColor(pixI, pixJ, pixWidth, pixHeight, rgba);
-  }
-#endif // SE1_VULKAN
 }
 
 
 // fill part of a drawport with a four corner colors
-void CDrawPort::Fill( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, 
+void CDrawPort::Fill( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight,
                       COLOR colUL, COLOR colUR, COLOR colDL, COLOR colDR) const
 {
   // clip and eventually reject
@@ -1117,8 +1150,9 @@ void CDrawPort::GrabScreen( class CImageInfo &iiGrabbedImage, INDEX iGrabZBuffer
 #ifdef SE1_VULKAN
   else if (eAPI == GAT_VK)
   {
-    // TODO: Vulkan: screen grabbing
+  #ifndef NDEBUG
     CPrintF("Screen grabbing is not implemented for Vulkan.\n");
+  #endif // !NDEBUG
   }
 #endif // SE1_VULKAN
 }

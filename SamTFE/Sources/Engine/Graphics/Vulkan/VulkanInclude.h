@@ -42,11 +42,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define SVK_VERT_START_COUNT                    4096
 #define SVK_VERT_ALLOC_STEP                     4096
 
-#define SVK_DYNAMIC_VERTEX_BUFFER_START_SIZE	  (8 * 1024 * 1024)
-#define SVK_DYNAMIC_INDEX_BUFFER_START_SIZE	    (2 * 1024 * 1024)
-#define SVK_DYNAMIC_UNIFORM_BUFFER_START_SIZE   (256 * 1024)
-#define SVK_DYNAMIC_UNIFORM_MAX_ALLOC_SIZE      1024
-
 #define SVK_RENDERPASS_COLOR_ATTACHMENT_INDEX   0
 #define SVK_RENDERPASS_DEPTH_ATTACHMENT_INDEX   1
 
@@ -107,7 +102,7 @@ struct SvkDynamicUniform : public SvkDynamicBuffer
 // Dynamic buffer to delete
 struct SvkDBufferToDelete
 {
-  VkBuffer        sdd_Memory;
+  VkDeviceMemory  sdd_Memory;
   VkBuffer        sdd_Buffers[gl_VkMaxCmdBufferCount];
   // optional
   VkDescriptorSet sdd_DescriptorSets[gl_VkMaxCmdBufferCount];
@@ -143,6 +138,7 @@ void Svk_MatSetIdentity(float *result);
 void Svk_MatMultiply(float *result, const float *a, const float *b);
 void Svk_MatFrustum(float *result, float fLeft, float fRight, float fBottom, float fTop, float fNear, float fFar);
 void Svk_MatOrtho(float *result, float fLeft, float fRight, float fBottom, float fTop, float fNear, float fFar);
+void Svk_MatInverse(float *result, const float *m);
 
 #endif
 #endif

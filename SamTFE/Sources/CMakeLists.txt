@@ -977,9 +977,26 @@ set(ENGINELIB "Engine${DEBUGSUFFIX}")
 add_library(${ENGINELIB} SHARED
      ${ENGINE_SRCS}
 )
+if(MACOSX)
+    target_link_libraries(${ENGINELIB} "-undefined dynamic_lookup")
+endif()
 add_dependencies(${ENGINELIB} ParseEntities)
 target_link_libraries(${ENGINELIB} engine_safemath)
-set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
+if(FREEBSD)
+target_link_libraries(${ENGINELIB} ${SDL2_LIBRARY})
+target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
+endif()
+if(MACOSX)
+    if(USE_SYSTEM_SDL2) # use sdl2 framework on system
+      target_link_libraries(${ENGINELIB} ${SDL2_LIBRARY})
+    else() # use local libsdl2
+	  find_library(COCOA_FRAMEWORK Cocoa)
+      target_link_libraries(${ENGINELIB} "${COCOA_FRAMEWORK}")
+      target_link_libraries(${ENGINELIB} "${CMAKE_CURRENT_SOURCE_DIR}/lib/macosx/libSDL2-2.0.0.dylib")
+    endif()
+target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
+endif()
+set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON)
 
 add_executable(SeriousSam
     #${ENGINE_SRCS}

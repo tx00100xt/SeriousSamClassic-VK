@@ -2031,7 +2031,7 @@ static INDEX APIToSwitch(enum GfxAPIType gat)
   case GAT_D3D: return 1;
 #endif // SE1_D3D
 #ifdef SE1_VULKAN
-  case GAT_VK: return GAT_VK_INDEX;
+  case GAT_VK: return GAT_VK;
 #endif // SE1_VULKAN
   default: ASSERT(FALSE); return 0;
   }
@@ -2044,7 +2044,7 @@ static enum GfxAPIType SwitchToAPI(INDEX i)
   case 1: return GAT_D3D;
 #endif // SE1_D3D
 #ifdef SE1_VULKAN
-  case GAT_VK_INDEX: return GAT_VK;
+  case GAT_VK: return GAT_VK;
 #endif // SE1_VULKAN
   default: ASSERT(FALSE); return GAT_OGL;
   }
@@ -2117,7 +2117,7 @@ void ApplyVideoOptions(void)
   const INDEX iAdapter = mgDisplayAdaptersTrigger.mg_iSelected;
 
 #ifdef SE1_VULKAN
-  if( gat == GAT_VK_INDEX ) { // sam_iGfxAPI need for SDL_CreateWindow
+  if( gat == GAT_VK ) { // sam_iGfxAPI need for SDL_CreateWindow
     sam_iGfxAPI = 1;
   } else {
     sam_iGfxAPI = 0;
