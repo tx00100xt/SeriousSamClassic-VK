@@ -35,6 +35,19 @@ This is the source code for Serious Engine v.1.10, including the following proje
 * `GameAgent` The serverlist masterserver written in Python
 * `libogg`, `libvorbis` Third party libraries used for playing OGG-encoded ingame music (see http://www.vorbis.com/ for more information)
 
+Prepare building for Debian/Ubuntu based OS
+-------------------------------------------
+
+Type this in your terminal:
+
+```
+sudo apt-get install build-essential libsdl2-dev cmake libvorbis-dev flex bison git libxxhash-dev
+sudo apt-get install libvulkan1 libvulkan-dev vulkan-validationlayers vulkan-validationlayers-dev
+
+```
+Note: libsdl2-dev version >= 2.0.6, vulkan packages version >= 1.2.xxx
+* For Debian 10, you can install vulkan packages from backports.
+
 Building
 --------
 
