@@ -996,6 +996,7 @@ if(MACOSX)
     endif()
 target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
 endif()
+target_link_libraries(${ENGINELIB} vulkan)
 set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
 
 add_executable(SeriousSam

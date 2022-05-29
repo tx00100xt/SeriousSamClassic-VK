@@ -996,7 +996,8 @@ if(MACOSX)
     endif()
 target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
 endif()
-set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON)
+target_link_libraries(${ENGINELIB} vulkan)
+set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
 
 add_executable(SeriousSam
     #${ENGINE_SRCS}
@@ -1016,7 +1017,7 @@ add_executable(SeriousSam
 target_link_libraries(SeriousSam ${ENGINELIB})
 add_dependencies(SeriousSam ParseEntities)
 # Make symbols in the main executable available to dynamic objects
-set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
+set_target_properties(SeriousSam PROPERTIES ENABLE_EXPORTS ON)
 
 
 # !!! FIXME: this is an option because you have to recompile the entire engine twice.
