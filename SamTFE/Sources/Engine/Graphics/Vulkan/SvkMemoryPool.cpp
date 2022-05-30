@@ -6,7 +6,7 @@
 SvkMemoryPool::SvkMemoryPool(VkDevice device, uint32_t preferredSize)
 {
   smp_VkDevice = device;
-  smp_PreferredSize = preferredSize * 2; // note: xplus having biggest textures, therefore, multiply by 2
+  smp_PreferredSize = preferredSize * 3; // note: xplus having biggest textures, therefore, multiply by 3
 
   smp_BlockCount = 0;
   smp_BlockSize = 0;
