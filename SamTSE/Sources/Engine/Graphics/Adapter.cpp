@@ -473,8 +473,8 @@ void CGfxLibrary::InitAPIs(void)
     switch (properties.vendorID)
     {
     case 0x1002: pda->da_strVendor = "Advanced Micro Devices, Inc."; break;
-    case 0x10DE: pda->da_strVendor = "Imagination Technologies"; break;
-    case 0x13B5: pda->da_strVendor = "NVIDIA Corporation"; break;
+    case 0x10DE: pda->da_strVendor = "NVIDIA Corporation"; break;
+    case 0x13B5: pda->da_strVendor = "ARM Ltd"; break;
     case 0x5143: pda->da_strVendor = "Qualcomm Technologies, Inc."; break;
     case 0x8086: pda->da_strVendor = "Intel Corporation"; break;
     default: pda->da_strVendor = TRANS("unknown");; break;
