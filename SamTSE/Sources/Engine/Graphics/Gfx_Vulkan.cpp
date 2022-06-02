@@ -830,6 +830,9 @@ BOOL SvkMain::CreateDevice()
   } else if (result == VK_ERROR_DEVICE_LOST) {
     CPrintF("Vulkan error: VK_ERROR_DEVICE_LOST!\n");  
     return FALSE; 
+  } else if (result != VK_SUCCESS) {
+    CPrintF("Vulkan error: VK_UNKNOWN_ERROR!\n");
+    return FALSE;  
   } else if (result == VK_SUCCESS) {
     CPrintF("Vulkan: vkCreateDevice Success\n");  
   }
