@@ -808,9 +808,30 @@ BOOL SvkMain::CreateDevice()
   createInfo.ppEnabledLayerNames = &gl_VkLayers[0];
 #endif
 
-  if (vkCreateDevice(gl_VkPhysDevice, &createInfo, nullptr, &gl_VkDevice) != VK_SUCCESS)
-  {
-    return FALSE;
+  VkResult result = vkCreateDevice(gl_VkPhysDevice, &createInfo, nullptr, &gl_VkDevice);
+  if (result == VK_ERROR_OUT_OF_HOST_MEMORY) { 
+    CPrintF("Vulkan error: VK_ERROR_OUT_OF_HOST_MEMORY!\n");   
+    return FALSE; 
+  } else if (result == VK_ERROR_OUT_OF_DEVICE_MEMORY) {
+    CPrintF("Vulkan error: VK_ERROR_OUT_OF_DEVICE_MEMORY!\n");  
+    return FALSE; 
+  } else if (result == VK_ERROR_INITIALIZATION_FAILED) {
+    CPrintF("Vulkan error: VK_ERROR_INITIALIZATION_FAILED!\n");  
+    return FALSE; 
+  } else if (result == VK_ERROR_EXTENSION_NOT_PRESENT) {
+    CPrintF("Vulkan error: VK_ERROR_EXTENSION_NOT_PRESENT!\n");  
+    return FALSE; 
+  } else if (result == VK_ERROR_FEATURE_NOT_PRESENT) {
+    CPrintF("Vulkan error: VK_ERROR_FEATURE_NOT_PRESENT!\n");  
+    return FALSE; 
+  } else if (result == VK_ERROR_TOO_MANY_OBJECTS) {
+    CPrintF("Vulkan error: VK_ERROR_TOO_MANY_OBJECTS!\n");  
+    return FALSE; 
+  } else if (result == VK_ERROR_DEVICE_LOST) {
+    CPrintF("Vulkan error: VK_ERROR_DEVICE_LOST!\n");  
+    return FALSE; 
+  } else if (result == VK_SUCCESS) {
+    CPrintF("Vulkan: vkCreateDevice Success\n");  
   }
 
   vkGetDeviceQueue(gl_VkDevice, gl_VkQueueFamGraphics, 0, &gl_VkQueueGraphics);
