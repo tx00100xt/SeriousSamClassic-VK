@@ -214,11 +214,10 @@ BOOL SvkMain::InitDriver_Vulkan()
   if (gl_VkLayers.Count() == 0)
   {
 #ifdef PLATFORM_UNIX
-    gl_VkLayers.New(3);
+    gl_VkLayers.New(2);
     gl_VkLayers[0] = "VK_LAYER_KHRONOS_validation";
     gl_VkLayers[1] = "VK_LAYER_MESA_overlay";
-    gl_VkLayers[2] = "VK_LAYER_MANGOHUD_overlay";
-    //gl_VkLayers[3] = "VK_LAYER_MESA_device_select";
+    //gl_VkLayers[2] = "VK_LAYER_MANGOHUD_overlay";
 #else
     gl_VkLayers.New(2);
     gl_VkLayers[0] = "VK_LAYER_KHRONOS_validation";
