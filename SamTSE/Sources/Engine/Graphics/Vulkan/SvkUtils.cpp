@@ -347,6 +347,11 @@ BOOL SvkMain::PickPhysicalDevice()
   VK_CHECKERROR(r)
     ASSERT(physDeviceCount > 0);
 
+  // vulkan devices count
+  if (physDeviceCount > 2) {
+    physDeviceCount = 2;
+  }
+
   CPrintF("Vulkan: Physical Devices Count: %d\n", physDeviceCount);
 
   for (uint32_t i = 0; i < physDeviceCount; i++)
@@ -361,7 +366,7 @@ BOOL SvkMain::PickPhysicalDevice()
       uint32_t formatsCount = 0, presentModesCount = 0;
 
       gl_VkPhysDevice = physDevice;
-      vkGetPhysicalDeviceFeatures(physDevice, &gl_VkPhFeatures);
+      vkGetPhysicalDeviceFeatures(physDevice, &gl_VkPhFeatures[i]);
       vkGetPhysicalDeviceMemoryProperties(physDevice, &gl_VkPhMemoryProperties);
       vkGetPhysicalDeviceProperties(physDevice, &gl_VkPhProperties);
       vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physDevice, gl_VkSurface, &gl_VkPhSurfCapabilities);
@@ -461,7 +466,9 @@ BOOL SvkMain::PickPhysicalDevice()
         gl_VkMaxSampleCount = VK_SAMPLE_COUNT_1_BIT;
         CPrintF("Vulkan: VK_SAMPLE_COUNT_2_BIT\n");
       }
-      
+ 
+      gl_vkNumDev = i;     
+      CPrintF("Vulkan: Physical Device Number: %d\n", i);
       return TRUE;
     }
   }

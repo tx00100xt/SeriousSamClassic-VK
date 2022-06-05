@@ -439,7 +439,8 @@ void SvkMain::Reset_Vulkan()
   gl_VkPhysDevice = VK_NULL_HANDLE;
   gl_VkPhMemoryProperties = {};
   gl_VkPhProperties = {};
-  gl_VkPhFeatures = {};
+  gl_VkPhFeatures[0] = {};
+  gl_VkPhFeatures[1] = {};
   gl_VkPhSurfCapabilities = {};
 
   gl_VkQueueFamGraphics = 0;
@@ -798,8 +799,9 @@ BOOL SvkMain::CreateDevice()
   VkDeviceCreateInfo createInfo = {};
   createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
   createInfo.queueCreateInfoCount = (uint32_t)queueInfos.Count();
-  createInfo.pQueueCreateInfos = &queueInfos[0];
-  createInfo.pEnabledFeatures = &features;
+  createInfo.pQueueCreateInfos = &queueInfos[0];  
+  //createInfo.pEnabledFeatures = &features;
+  createInfo.pEnabledFeatures = &gl_VkPhFeatures[gl_vkNumDev];
   createInfo.enabledExtensionCount = (uint32_t)gl_VkPhysDeviceExtensions.Count();
   createInfo.ppEnabledExtensionNames = &gl_VkPhysDeviceExtensions[0];
 #if SVK_ENABLE_VALIDATION

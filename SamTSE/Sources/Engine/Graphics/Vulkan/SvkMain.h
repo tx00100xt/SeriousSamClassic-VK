@@ -125,7 +125,8 @@ public:
   VkPhysicalDevice                        gl_VkPhysDevice;
   VkPhysicalDeviceMemoryProperties        gl_VkPhMemoryProperties;
   VkPhysicalDeviceProperties              gl_VkPhProperties;
-  VkPhysicalDeviceFeatures                gl_VkPhFeatures;
+  VkPhysicalDeviceFeatures                gl_VkPhFeatures[2];
+  INDEX                                   gl_vkNumDev;
   VkSurfaceCapabilitiesKHR                gl_VkPhSurfCapabilities;
   CStaticArray<VkSurfaceFormatKHR>        gl_VkPhSurfFormats;
   CStaticArray<VkPresentModeKHR>          gl_VkPhSurfPresentModes;
