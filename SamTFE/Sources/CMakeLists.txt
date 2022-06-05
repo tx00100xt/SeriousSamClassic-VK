@@ -90,6 +90,18 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     SET(DEBUG TRUE)
 endif()
 
+## Find Vulkan for MACOSX
+if(MACOSX)
+     if(NOT USE_SYSTEM_Vulkan)
+          find_package(Vulkan REQUIRED)
+          if(Vulkan_FOUND)
+               include_directories(${Vulkan_INCLUDE_DIR})
+          else()
+               message(FATAL_ERROR "Error USE_SYSTEM_Vulkan is set but neccessary developer files are missing")
+          endif()
+     endif()
+endif()
+
 ## ** RAKE! start compiler specific flags section **
 ## ** RAKE! Borrowed from dhewm3 project, need to **
 ## ** RAKE! clean up for SeriousEngine use. Also  **
