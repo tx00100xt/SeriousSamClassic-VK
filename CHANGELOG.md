@@ -91,9 +91,17 @@ All notable changes to this project will be documented in this file.
 - Fixed initialization of integer types.
 - Update vulkan files from https://github.com/sultim-t/Serious-Engine-Vk
 
-
 ## 2022-05-27
 - Update vulkan files from https://github.com/sultim-t/Serious-Engine-RT
 - Increased SvkMemoryPool preferredSize for large XPLUS textures.
 - some fixes.
 - Update files from https://github.com/tx00100xt/SeriousSamClassic
+
+## 2022-05-30 - 2022-06-11
+- Fixed insufficient memory for large XPUS textures.
+- Fixed wrong Vendor Id.
+- Fixed crash game, when trying recovery mode.
+- Fixed build for raspberry pi.
+- Removing a fixed structure VkPhysicalDeviceFeatures, getting this structure using vkGetPhysicalDeviceFeatures.
+- Fixed broken menu and display of models in NETRICSA for platforms not using RDTSC.
+- Reverts Critical Section from win32 original code, set multithreading by default.

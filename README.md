@@ -153,7 +153,11 @@ Type this in your terminal:
 cd SeriousSamClassic-VK/SamTFE/Sources
 ./build-linux64xplus.sh -DTFE=TRUE	# use build-linux32xplus.sh for 32-bits
 ```
-Download [XplusTFE] and unpack to  SeriousSamClassic-VK/SamTFE/Mods directory.
+Download:
+```
+curl https://edef2.pcloud.com/cBZEh8IFHZBWy1PQZQMEzZZkLmnr7Z2ZZPs0ZkZt4cMQZp7ZuVZN7ZAkZFXZ0VZqkZ7XZeXZj7Z4XZ2XZ1kZPXZ02gRZABH07IYis6Xtk3lJMNQ84FXOBzA7/SamTFE-XPLUS.tar.xz -o SamTFE-XPLUS.tar.xz
+```
+or take an archive from google drive [XplusTSE], and unpack to  SeriousSamClassic/SamTSE/Mods directory.
 To start the modification, use the game menu - item Modification.
 
 #### Building XPLUS (only for SS:TSE)
@@ -164,8 +168,11 @@ Type this in your terminal:
 cd SeriousSamClassic-VK/SamTSE/Sources
 ./build-linux64xplus.sh        	    # use build-linux32xplus.sh for 32-bits
 ```
-
-Download [XplusTSE] and unpack to  SeriousSamClassic-VK/SamTSE/Mods directory.
+Download:
+```
+curl https://edef4.pcloud.com/cBZ038IFHZzR71PQZQMEzZZQzmnr7Z2ZZPs0ZkZlW2SQZWXZokZHVZ6XZYVZSkZcXZQVZakZ7VZ5VZ2kZLXZwXZy2gRZdet7CRqrNVBWPTlYtFYm15SMkVuy/SamTSE-XPLUS.tar.xz -o SamTSE-XPLUS.tar.xz
+```
+or take an archive from google drive [XplusTSE], and unpack to  SeriousSamClassic/SamTSE/Mods directory.
 To start the modification, use the game menu - item Modification.
 
 ### Suported OS
