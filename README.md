@@ -157,7 +157,7 @@ Download:
 ```
 curl https://edef2.pcloud.com/cBZEh8IFHZBWy1PQZQMEzZZkLmnr7Z2ZZPs0ZkZt4cMQZp7ZuVZN7ZAkZFXZ0VZqkZ7XZeXZj7Z4XZ2XZ1kZPXZ02gRZABH07IYis6Xtk3lJMNQ84FXOBzA7/SamTFE-XPLUS.tar.xz -o SamTFE-XPLUS.tar.xz
 ```
-or take an archive from google drive [XplusTSE], and unpack to  SeriousSamClassic/SamTSE/Mods directory.
+or take an archive from google drive [XplusTFE], and unpack to  SeriousSamClassic/SamTSE/Mods directory.
 To start the modification, use the game menu - item Modification.
 
 #### Building XPLUS (only for SS:TSE)
