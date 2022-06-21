@@ -87,6 +87,24 @@ cd SeriousSamClassic-VK/SamTSE/Sources
 ./build-linux64.sh        	# use build-linux32.sh for 32-bits
 ```
 
+### Gentoo
+
+To build a game for gentoo, use a https://github.com/tx00100xt/serioussam-overlay containing ready-made ebuilds for building the game and add-ons.
+
+### Raspberry Pi
+
+The build for raspberry pi is similar to the build for Linux, you just need to add an additional build key.
+
+```
+cd SeriousSamClassic/SamTFE/Sources
+./build-linux64.sh -DTFE=TRUE -DRPI4=TRUE	# use build-linux32.sh for 32-bits
+```
+for Serious Sam Classic The First Encounter, or for Serious Sam Classic The Second Encounter:
+```
+cd SeriousSamClassic/SamTSE/Sources
+./build-linux64.sh -DRPI4=TRUE           	# use build-linux32.sh for 32-bits
+```
+
 Note that the CD version of SS:TSE used MP3 for music. You will need to build / get `libamp11lib.so` and copy it inside `Bin` with the other libs to have music. Steam version uses ogg and doesn't need this library.
 
 Running
