@@ -97,7 +97,7 @@ All notable changes to this project will be documented in this file.
 - some fixes.
 - Update files from https://github.com/tx00100xt/SeriousSamClassic
 
-## 2022-05-30 - 2022-06-11
+## 2022-05-30 - 2022-06-21
 - Fixed insufficient memory for large XPUS textures.
 - Fixed wrong Vendor Id.
 - Fixed crash game, when trying recovery mode.

@@ -91,6 +91,10 @@ cd SeriousSamClassic-VK/SamTSE/Sources
 
 To build a game for gentoo, use a https://github.com/tx00100xt/serioussam-overlay containing ready-made ebuilds for building the game and add-ons.
 
+### Arch Linux
+
+To build a game under Arch Linux you can use the package from AUR: https://aur.archlinux.org/packages/serioussam-vk
+
 ### Raspberry Pi
 
 The build for raspberry pi is similar to the build for Linux, you just need to add an additional build key.
