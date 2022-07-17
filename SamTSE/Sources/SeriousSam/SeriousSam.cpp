@@ -143,7 +143,8 @@ extern INDEX sam_iStartCredits = FALSE;
 extern CTFileName _fnmModToLoad = CTString("");
 extern CTString _strModServerJoin = CTString("");
 extern CTString _strURLToVisit = CTString("");
-
+static char _strExePath[MAX_PATH] = "";
+ENGINE_API extern INDEX sys_iSysPath;
 
 // state variables fo addon execution
 // 0 - nothing
@@ -494,6 +495,9 @@ void InitializeGame(void)
   }
   // init game - this will load persistent symbols
   _pGame->Initialize(CTString("Data\\SeriousSam.gms"));
+  // save executable path and sys var.
+  _pFileSystem->GetExecutablePath(_strExePath, sizeof (_strExePath)-1);
+  _pFileSystem->GetExecutablePath(_strExePath, sizeof (_strExePath)-1);
 }
 
 #ifdef PLATFORM_UNIX
@@ -1484,8 +1488,13 @@ void CheckModReload(void)
     CTString strCommand = "SeriousSam.exe"
     CTString strPatch = _fnmApplicationPath+"Bin\\"+strDebug+strCommand;
 #else
-    CTString strCommand = "SeriousSam";
-    CTString strPatch = _fnmApplicationPath+"Bin/"+strDebug+strCommand;
+    CTString strCommand;
+    if (sys_iSysPath == 1) {
+      strCommand = sam_strGameName;
+    } else {
+      strCommand = "SeriousSam";
+    }
+    CTString strPatch = CTString(_strExePath) + strDebug + strCommand;
 #endif
     //+mod "+_fnmModToLoad.FileName()+"\"";
     CTString strMod = _fnmModToLoad.FileName();
