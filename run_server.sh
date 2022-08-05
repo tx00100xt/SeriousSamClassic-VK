@@ -33,7 +33,7 @@ run_option4() {
   "nano" "${CURRENT_DIR}/SamTSE/Scripts/Dedicated/DefaultCoop/init.ini"
 }
 
-Launcher
+# Launcher
 echo "Running ${GAME_NAME} launcher"
  
 option1="Serious Sam TFE Classic (Start Dedicated Server)"
