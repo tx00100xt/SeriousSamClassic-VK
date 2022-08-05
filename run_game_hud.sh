@@ -38,7 +38,7 @@ run_option4() {
   vblank_mode=0 MANGOHUD_CONFIG="offset_y=75,offset_x=20,cpu_temp,gpu_temp,ram,vram,engine_version" mangohud --dlsym "./SeriousSam"
 }
 
-Launcher
+# Launcher
 echo "Running ${GAME_NAME} launcher"
  
 option1="Run Serious Sam TFE Classic (Lock 60fps)"

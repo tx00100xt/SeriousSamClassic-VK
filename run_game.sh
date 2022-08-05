@@ -38,7 +38,7 @@ run_option4() {
   vblank_mode=0 "./SeriousSam"
 }
 
-Launcher
+# Launcher
 echo "Running ${GAME_NAME} launcher"
  
 option1="Run Serious Sam TFE Classic (Lock 60fps)"
