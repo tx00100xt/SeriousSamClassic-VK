@@ -140,8 +140,8 @@ This version of the engine comes with a set of resources (`\SE1_10b.GRO`) that a
 ### Running the game
 
 1. Locate the game directory for "Serious Sam Classic The Second Encounter" ([steam](https://store.steampowered.com/app/41060/Serious_Sam_Classic_The_Second_Encounter/))
-1. Build game from source code or [Download latest release](https://github.com/tx00100xt/SeriousSamClassic-VK/releases) and copy the latest files from the game directory to SamTSE/Bin
-1. Copy all *.gro files and Help folder from the game directory to SamTSE directory.
+2. Build game from source code or [Download latest release](https://github.com/tx00100xt/SeriousSamClassic-VK/releases) and copy the latest files from the game directory to SamTSE/Bin
+3. Copy all *.gro files and Help folder from the game directory to SamTSE directory.
    At the current time the files are:
    * Help (folder)
    * SE1_00.gro
@@ -152,8 +152,36 @@ This version of the engine comes with a set of resources (`\SE1_10b.GRO`) that a
    * SE1_00_Music.gro
    * 1_04_patch.gro
    * 1_07_tools.gro
-1. Start the game
+4. Start the game
    * ./run_game.sh or ./run_game_hud.sh (for start game with MangoHUD)
+
+### Install the game in system (/usr/bin;/usr/lib/;/usr/share)
+
+1. Edit the build script by adding a parameter to the cmake command:
+```
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr 
+```
+2. Build game from source code with script.
+3. Install the game: 
+```
+cd cmake-build
+sudo make install
+```
+4.   Put game data in (Recommended):
+```
+/usr/share/serioussam/ - for TFE
+/usr/share/serioussamse/ - for TSE
+```
+
+4. Type in console:
+```
+serioussam       	# for run Serious Sam Classic The First Encounter
+```
+  or
+```
+serioussamse       	# for run Serious Sam Classic The Second Encounter
+```
+Note: If the game does not find the data on the recommended paths, then it will independently perform a search.
 
 ## Serious Sam Classic XPLUS
 
