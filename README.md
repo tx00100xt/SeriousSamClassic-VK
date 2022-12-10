@@ -155,7 +155,7 @@ This version of the engine comes with a set of resources (`\SE1_10b.GRO`) that a
 4. Start the game
    * ./run_game.sh or ./run_game_hud.sh (for start game with MangoHUD)
 
-### Install the game in system (/usr/bin;/usr/lib/;/usr/share)
+## Install the game in system (/usr/bin;/usr/lib/;/usr/share)
 
 1. Edit the build script by adding a parameter to the cmake command:
 ```
@@ -172,7 +172,11 @@ sudo make install
 /usr/share/serioussam/ - for TFE
 /usr/share/serioussamse/ - for TSE
 ```
-
+or
+```
+~/.local/share/Serious-Engine/serioussam/ - for TFE
+~/.local/share/Serious-Engine/serioussamse/ - for TSE
+```
 4. Type in console:
 ```
 serioussam       	# for run Serious Sam Classic The First Encounter
