@@ -1408,7 +1408,7 @@ functions:
   CTString GetStatsRealWorldStarted(void)
   {
     struct tm *newtime;
-    STUBBED("this isn't 64-bit clean");
+    //STUBBED("this isn't 64-bit clean");
     time_t t = (time_t) m_iStartTime;
     newtime = localtime(&t);
 

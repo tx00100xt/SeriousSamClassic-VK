@@ -26,7 +26,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -61,7 +61,7 @@
     <IntDir>Release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <ExecutablePath>$(SolutionDir)..\Bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)EntitiesMP;$(SolutionDir)..\Tools.Win32\Libraries\DX8SDK\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)Entities;$(SolutionDir)..\Tools.Win32\Libraries\DX8SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\Bin;$(SolutionDir)..\Tools.Win32\Libraries\DX8SDK\Lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
@@ -86,20 +86,20 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <StringPooling>true</StringPooling>
-      <PreprocessorDefinitions>SE1_VULKAN;WIN32;NDEBUG;_WINDOWS;_WINDLL;_USRDLL;_USE_32BIT_TIME_T;DIRECT3D_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SE1_VULKAN;FIRST_ENCOUNTER;WIN32;NDEBUG;_WINDOWS;_WINDLL;_USRDLL;_USE_32BIT_TIME_T;DIRECT3D_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Release\EntitiesMP.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>EntitiesMP/StdH/StdH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\Release\Entities.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Entities/StdH/StdH.h</PrecompiledHeaderFile>
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
       <DisableSpecificWarnings>4996;4333</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>EntitiesMP\StdH;$(VULKAN_SDK)\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)\Include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Release\EntitiesMP.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Release\Entities.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -109,15 +109,15 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Release\EntitiesMP.bsc</OutputFile>
+      <OutputFile>.\Release\Entities.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>Release\EntitiesMP.dll</OutputFile>
-      <ImportLibrary>.\Release\EntitiesMP.lib</ImportLibrary>
+      <OutputFile>Release\Entities.dll</OutputFile>
+      <ImportLibrary>.\Release\Entities.lib</ImportLibrary>
     </Link>
     <CustomBuildStep>
       <Command>copy Release\$(TargetName).dll $(SolutionDir)..\Bin\ &gt;nul
@@ -136,11 +136,11 @@ copy Release\$(TargetName).lib $(SolutionDir)..\Bin\ &gt;nul</Command>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <MinimalRebuild>true</MinimalRebuild>
-      <PreprocessorDefinitions>SE1_VULKAN;WIN32;_DEBUG;_WINDOWS;_WINDLL;_USE_32BIT_TIME_T;DIRECT3D_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SE1_VULKAN;FIRST_ENCOUNTER;WIN32;_DEBUG;_WINDOWS;_WINDLL;_USE_32BIT_TIME_T;DIRECT3D_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>Debug\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Debug\EntitiesMP.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>EntitiesMP/StdH/StdH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\Debug\Entities.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Entities/StdH/StdH.h</PrecompiledHeaderFile>
       <ObjectFileName>Debug\</ObjectFileName>
       <ProgramDataBaseFileName>Debug\</ProgramDataBaseFileName>
       <DisableSpecificWarnings>4996;4333</DisableSpecificWarnings>
@@ -149,7 +149,7 @@ copy Release\$(TargetName).lib $(SolutionDir)..\Bin\ &gt;nul</Command>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Debug\EntitiesMP.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Debug\Entities.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -159,15 +159,15 @@ copy Release\$(TargetName).lib $(SolutionDir)..\Bin\ &gt;nul</Command>
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Debug\EntitiesMP.bsc</OutputFile>
+      <OutputFile>.\Debug\Entities.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>Debug/EntitiesMPD.dll</OutputFile>
-      <ImportLibrary>.\Debug\EntitiesMPD.lib</ImportLibrary>
+      <OutputFile>Debug/EntitiesD.dll</OutputFile>
+      <ImportLibrary>.\Debug\EntitiesD.lib</ImportLibrary>
       <AdditionalDependencies>EngineD.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
@@ -180,33 +180,20 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Common\Common.cpp" />
-    <ClCompile Include="Common\EmanatingParticles.cpp" />
-    <ClCompile Include="Common\HUD.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/StdH/StdH.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="Common\Particles.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/StdH/StdH.h</PrecompiledHeaderFile>
-    </ClCompile>
+    <ClCompile Include="Common\HUD.cpp" />
+    <ClCompile Include="Common\Particles.cpp" />
     <ClCompile Include="Common\PathFinding.cpp" />
     <ClCompile Include="StdH\StdH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/StdH/StdH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/StdH/StdH.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/StdH/StdH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/StdH/StdH.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="AirElemental.cpp" />
-    <ClCompile Include="AirShockwave.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="AirWave.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="AirWave.cpp" />
     <ClCompile Include="AmmoItem.cpp" />
     <ClCompile Include="AmmoPack.cpp" />
     <ClCompile Include="AnimationChanger.cpp" />
     <ClCompile Include="AnimationHub.cpp" />
-    <ClCompile Include="AreaMarker.cpp" />
     <ClCompile Include="ArmorItem.cpp" />
     <ClCompile Include="BackgroundViewer.cpp" />
     <ClCompile Include="BasicEffects.cpp" />
@@ -220,30 +207,14 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMarker.cpp" />
     <ClCompile Include="CannonBall.cpp" />
-    <ClCompile Include="CannonRotating.cpp" />
-    <ClCompile Include="CannonStatic.cpp" />
-    <ClCompile Include="Catman.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="ChainsawFreak.cpp" />
+    <ClCompile Include="Catman.cpp" />
     <ClCompile Include="Copier.cpp" />
     <ClCompile Include="Counter.cpp" />
-    <ClCompile Include="CrateBus.cpp" />
     <ClCompile Include="CrateRider.cpp" />
-    <ClCompile Include="CreditsHolder.cpp" />
-    <ClCompile Include="Cyborg.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="CyborgBike.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Cyborg.cpp" />
+    <ClCompile Include="CyborgBike.cpp" />
     <ClCompile Include="Damager.cpp" />
     <ClCompile Include="Debris.cpp" />
-    <ClCompile Include="DebugEntityStatesDisplay.cpp" />
-    <ClCompile Include="Demon.cpp" />
     <ClCompile Include="DestroyableArchitecture.cpp" />
     <ClCompile Include="Devil.cpp" />
     <ClCompile Include="DevilMarker.cpp" />
@@ -265,18 +236,10 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="EnvironmentBase.cpp" />
     <ClCompile Include="EnvironmentMarker.cpp" />
-    <ClCompile Include="EnvironmentParticlesHolder.cpp" />
     <ClCompile Include="Eruptor.cpp" />
-    <ClCompile Include="ExotechLarva.cpp" />
-    <ClCompile Include="ExotechLarvaBattery.cpp" />
-    <ClCompile Include="ExotechLarvaCharger.cpp" />
     <ClCompile Include="Eyeman.cpp" />
-    <ClCompile Include="Fireworks.cpp" />
     <ClCompile Include="Fish.cpp" />
-    <ClCompile Include="Fishman.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Fishman.cpp" />
     <ClCompile Include="Flame.cpp" />
     <ClCompile Include="FogMarker.cpp" />
     <ClCompile Include="GhostBusterRay.cpp">
@@ -288,43 +251,24 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClCompile Include="GradientMarker.cpp" />
     <ClCompile Include="GravityMarker.cpp" />
     <ClCompile Include="GravityRouter.cpp" />
-    <ClCompile Include="Grunt.cpp" />
-    <ClCompile Include="GruntSka.cpp" />
-    <ClCompile Include="Guffy.cpp" />
     <ClCompile Include="HazeMarker.cpp" />
     <ClCompile Include="Headman.cpp" />
     <ClCompile Include="HealthItem.cpp" />
-    <ClCompile Include="Huanman.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="HudPicHolder.cpp" />
+    <ClCompile Include="Huanman.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="KeyItem.cpp" />
-    <ClCompile Include="LarvaOffspring.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Lightning.cpp" />
-    <ClCompile Include="Mamut.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Mamutman.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Mantaman.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Mamut.cpp" />
+    <ClCompile Include="Mamutman.cpp" />
+    <ClCompile Include="Mantaman.cpp" />
     <ClCompile Include="Marker.cpp" />
     <ClCompile Include="MessageHolder.cpp" />
     <ClCompile Include="MessageItem.cpp" />
-    <ClCompile Include="MeteorShower.cpp" />
     <ClCompile Include="MirrorMarker.cpp" />
     <ClCompile Include="ModelDestruction.cpp" />
     <ClCompile Include="ModelHolder.cpp" />
     <ClCompile Include="ModelHolder2.cpp" />
-    <ClCompile Include="ModelHolder3.cpp" />
     <ClCompile Include="MovingBrush.cpp" />
     <ClCompile Include="MovingBrushMarker.cpp" />
     <ClCompile Include="MusicChanger.cpp" />
@@ -332,7 +276,6 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClCompile Include="NavigationMarker.cpp" />
     <ClCompile Include="ParticlesHolder.cpp" />
     <ClCompile Include="Pendulum.cpp" />
-    <ClCompile Include="PhotoAlbum.cpp" />
     <ClCompile Include="Pipebomb.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -344,40 +287,20 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="PlayerWeapons.cpp" />
     <ClCompile Include="PlayerWeaponsEffects.cpp" />
-    <ClCompile Include="PowerUpItem.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="PyramidSpaceShip.cpp" />
     <ClCompile Include="PyramidSpaceShipMarker.cpp" />
     <ClCompile Include="Reminder.cpp" />
-    <ClCompile Include="RobotDriving.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="RobotFlying.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="RobotDriving.cpp" />
+    <ClCompile Include="RobotFlying.cpp" />
     <ClCompile Include="RollingStone.cpp" />
-    <ClCompile Include="Santa.cpp" />
     <ClCompile Include="Scorpman.cpp" />
-    <ClCompile Include="ScrollHolder.cpp" />
-    <ClCompile Include="SeriousBomb.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="ShipMarker.cpp" />
-    <ClCompile Include="Shooter.cpp" />
     <ClCompile Include="SoundHolder.cpp" />
-    <ClCompile Include="SpawnerProjectile.cpp" />
-    <ClCompile Include="Spinner.cpp" />
     <ClCompile Include="StormController.cpp" />
-    <ClCompile Include="Summoner.cpp" />
-    <ClCompile Include="SummonerMarker.cpp" />
     <ClCompile Include="Switch.cpp" />
-    <ClCompile Include="TacticsChanger.cpp" />
-    <ClCompile Include="TacticsHolder.cpp" />
     <ClCompile Include="Teleport.cpp" />
-    <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="TextFXHolder.cpp" />
-    <ClCompile Include="TimeController.cpp" />
     <ClCompile Include="TouchField.cpp" />
     <ClCompile Include="Trigger.cpp" />
     <ClCompile Include="Twister.cpp" />
@@ -390,10 +313,10 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClCompile Include="Werebull.cpp" />
     <ClCompile Include="Woman.cpp" />
     <ClCompile Include="WorldBase.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/StdH/StdH.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/StdH/StdH.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/StdH/StdH.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/StdH/StdH.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="WorldLink.cpp" />
     <ClCompile Include="WorldSettingsController.cpp" />
@@ -406,14 +329,6 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="Common\PathFinding.h" />
     <ClInclude Include="StdH\StdH.h" />
     <ClInclude Include="Common\WeaponPositions.h" />
-    <ClInclude Include="AirElemental.h" />
-    <ClInclude Include="AirElemental_tables.h" />
-    <ClInclude Include="AirShockwave.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="AirShockwave_tables.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="AirWave.h" />
     <ClInclude Include="AirWave_tables.h" />
     <ClInclude Include="AmmoItem.h" />
@@ -424,8 +339,6 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="AnimationChanger_tables.h" />
     <ClInclude Include="AnimationHub.h" />
     <ClInclude Include="AnimationHub_tables.h" />
-    <ClInclude Include="AreaMarker.h" />
-    <ClInclude Include="AreaMarker_tables.h" />
     <ClInclude Include="ArmorItem.h" />
     <ClInclude Include="ArmorItem_tables.h" />
     <ClInclude Include="BackgroundViewer.h" />
@@ -450,24 +363,14 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="CameraMarker_tables.h" />
     <ClInclude Include="CannonBall.h" />
     <ClInclude Include="CannonBall_tables.h" />
-    <ClInclude Include="CannonRotating.h" />
-    <ClInclude Include="CannonRotating_tables.h" />
-    <ClInclude Include="CannonStatic.h" />
-    <ClInclude Include="CannonStatic_tables.h" />
     <ClInclude Include="Catman.h" />
     <ClInclude Include="Catman_tables.h" />
-    <ClInclude Include="ChainsawFreak.h" />
-    <ClInclude Include="ChainsawFreak_tables.h" />
     <ClInclude Include="Copier.h" />
     <ClInclude Include="Copier_tables.h" />
     <ClInclude Include="Counter.h" />
     <ClInclude Include="Counter_tables.h" />
-    <ClInclude Include="CrateBus.h" />
-    <ClInclude Include="CrateBus_tables.h" />
     <ClInclude Include="CrateRider.h" />
     <ClInclude Include="CrateRider_tables.h" />
-    <ClInclude Include="CreditsHolder.h" />
-    <ClInclude Include="CreditsHolder_tables.h" />
     <ClInclude Include="Cyborg.h" />
     <ClInclude Include="Cyborg_tables.h" />
     <ClInclude Include="CyborgBike.h" />
@@ -476,10 +379,6 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="Damager_tables.h" />
     <ClInclude Include="Debris.h" />
     <ClInclude Include="Debris_tables.h" />
-    <ClInclude Include="DebugEntityStatesDisplay.h" />
-    <ClInclude Include="DebugEntityStatesDisplay_tables.h" />
-    <ClInclude Include="Demon.h" />
-    <ClInclude Include="Demon_tables.h" />
     <ClInclude Include="DestroyableArchitecture.h" />
     <ClInclude Include="DestroyableArchitecture_tables.h" />
     <ClInclude Include="Devil.h" />
@@ -517,20 +416,10 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="EnvironmentBase_tables.h" />
     <ClInclude Include="EnvironmentMarker.h" />
     <ClInclude Include="EnvironmentMarker_tables.h" />
-    <ClInclude Include="EnvironmentParticlesHolder.h" />
-    <ClInclude Include="EnvironmentParticlesHolder_tables.h" />
     <ClInclude Include="Eruptor.h" />
     <ClInclude Include="Eruptor_tables.h" />
-    <ClInclude Include="ExotechLarva.h" />
-    <ClInclude Include="ExotechLarva_tables.h" />
-    <ClInclude Include="ExotechLarvaBattery.h" />
-    <ClInclude Include="ExotechLarvaBattery_tables.h" />
-    <ClInclude Include="ExotechLarvaCharger.h" />
-    <ClInclude Include="ExotechLarvaCharger_tables.h" />
     <ClInclude Include="Eyeman.h" />
     <ClInclude Include="Eyeman_tables.h" />
-    <ClInclude Include="Fireworks.h" />
-    <ClInclude Include="Fireworks_tables.h" />
     <ClInclude Include="Fish.h" />
     <ClInclude Include="Fisherman.h" />
     <ClInclude Include="Fisherman_tables.h" />
@@ -551,12 +440,6 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="GravityMarker_tables.h" />
     <ClInclude Include="GravityRouter.h" />
     <ClInclude Include="GravityRouter_tables.h" />
-    <ClInclude Include="Grunt.h" />
-    <ClInclude Include="Grunt_tables.h" />
-    <ClInclude Include="GruntSka.h" />
-    <ClInclude Include="GruntSka_tables.h" />
-    <ClInclude Include="Guffy.h" />
-    <ClInclude Include="Guffy_tables.h" />
     <ClInclude Include="HazeMarker.h" />
     <ClInclude Include="HazeMarker_tables.h" />
     <ClInclude Include="Headman.h" />
@@ -565,14 +448,10 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="HealthItem_tables.h" />
     <ClInclude Include="Huanman.h" />
     <ClInclude Include="Huanman_tables.h" />
-    <ClInclude Include="HudPicHolder.h" />
-    <ClInclude Include="HudPicHolder_tables.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Item_tables.h" />
     <ClInclude Include="KeyItem.h" />
     <ClInclude Include="KeyItem_tables.h" />
-    <ClInclude Include="LarvaOffspring.h" />
-    <ClInclude Include="LarvaOffspring_tables.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Light_tables.h" />
     <ClInclude Include="Lightning.h" />
@@ -589,18 +468,14 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="MessageHolder_tables.h" />
     <ClInclude Include="MessageItem.h" />
     <ClInclude Include="MessageItem_tables.h" />
-    <ClInclude Include="MeteorShower.h" />
-    <ClInclude Include="MeteorShower_tables.h" />
     <ClInclude Include="MirrorMarker.h" />
     <ClInclude Include="MirrorMarker_tables.h" />
     <ClInclude Include="ModelDestruction.h" />
     <ClInclude Include="ModelDestruction_tables.h" />
     <ClInclude Include="ModelHolder.h" />
+    <ClInclude Include="ModelHolder_tables.h" />
     <ClInclude Include="ModelHolder2.h" />
     <ClInclude Include="ModelHolder2_tables.h" />
-    <ClInclude Include="ModelHolder3.h" />
-    <ClInclude Include="ModelHolder3_tables.h" />
-    <ClInclude Include="ModelHolder_tables.h" />
     <ClInclude Include="MovingBrush.h" />
     <ClInclude Include="MovingBrush_tables.h" />
     <ClInclude Include="MovingBrushMarker.h" />
@@ -615,8 +490,6 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="ParticlesHolder_tables.h" />
     <ClInclude Include="Pendulum.h" />
     <ClInclude Include="Pendulum_tables.h" />
-    <ClInclude Include="PhotoAlbum.h" />
-    <ClInclude Include="PhotoAlbum_tables.h" />
     <ClInclude Include="Pipebomb.h" />
     <ClInclude Include="Pipebomb_tables.h" />
     <ClInclude Include="Player.h" />
@@ -633,8 +506,6 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="PlayerWeapons_tables.h" />
     <ClInclude Include="PlayerWeaponsEffects.h" />
     <ClInclude Include="PlayerWeaponsEffects_tables.h" />
-    <ClInclude Include="PowerUpItem.h" />
-    <ClInclude Include="PowerUpItem_tables.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Projectile_tables.h" />
     <ClInclude Include="PyramidSpaceShip.h" />
@@ -649,46 +520,20 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <ClInclude Include="RobotFlying_tables.h" />
     <ClInclude Include="RollingStone.h" />
     <ClInclude Include="RollingStone_tables.h" />
-    <ClInclude Include="Santa.h" />
-    <ClInclude Include="Santa_tables.h" />
     <ClInclude Include="Scorpman.h" />
     <ClInclude Include="Scorpman_tables.h" />
-    <ClInclude Include="ScrollHolder.h" />
-    <ClInclude Include="ScrollHolder_tables.h" />
-    <ClInclude Include="SeriousBomb.h" />
-    <ClInclude Include="SeriousBomb_tables.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Ship_tables.h" />
     <ClInclude Include="ShipMarker.h" />
     <ClInclude Include="ShipMarker_tables.h" />
-    <ClInclude Include="Shooter.h" />
-    <ClInclude Include="Shooter_tables.h" />
     <ClInclude Include="SoundHolder.h" />
     <ClInclude Include="SoundHolder_tables.h" />
-    <ClInclude Include="SpawnerProjectile.h" />
-    <ClInclude Include="SpawnerProjectile_tables.h" />
-    <ClInclude Include="Spinner.h" />
-    <ClInclude Include="Spinner_tables.h" />
     <ClInclude Include="StormController.h" />
     <ClInclude Include="StormController_tables.h" />
-    <ClInclude Include="Summoner.h" />
-    <ClInclude Include="Summoner_tables.h" />
-    <ClInclude Include="SummonerMarker.h" />
-    <ClInclude Include="SummonerMarker_tables.h" />
     <ClInclude Include="Switch.h" />
     <ClInclude Include="Switch_tables.h" />
-    <ClInclude Include="TacticsChanger.h" />
-    <ClInclude Include="TacticsChanger_tables.h" />
-    <ClInclude Include="TacticsHolder.h" />
-    <ClInclude Include="TacticsHolder_tables.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="Teleport_tables.h" />
-    <ClInclude Include="Terrain.h" />
-    <ClInclude Include="Terrain_tables.h" />
-    <ClInclude Include="TextFXHolder.h" />
-    <ClInclude Include="TextFXHolder_tables.h" />
-    <ClInclude Include="TimeController.h" />
-    <ClInclude Include="TimeController_tables.h" />
     <ClInclude Include="TouchField.h" />
     <ClInclude Include="TouchField_tables.h" />
     <ClInclude Include="Trigger.h" />
@@ -722,1542 +567,1134 @@ copy Debug\$(TargetName).lib $(SolutionDir)..\Bin\Debug\ &gt;nul</Command>
     <CustomBuild Include="NavigationMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Reminder.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Spinner.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="TacticsChanger.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="TacticsHolder.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Watcher.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="WatchPlayers.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Bouncer.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="DestroyableArchitecture.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="MovingBrush.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="MovingBrushMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Pendulum.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Ship.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="ShipMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Terrain.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="WorldBase.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="BasicEffects.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="BlendController.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="BloodSpray.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Debris.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EffectMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Effector.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Fireworks.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Lightning.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="MeteorShower.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="PhotoAlbum.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="PyramidSpaceShip.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="PyramidSpaceShipMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="RollingStone.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="StormController.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="TimeController.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="WorldSettingsController.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="AirElemental.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Beast.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="BigHead.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Boneman.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="CannonRotating.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="CannonStatic.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ChainsawFreak.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="CrateBus.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="CrateRider.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Demon.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Devil.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="DevilMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Elemental.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnemyBase.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnemyCounter.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnemyDive.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnemyFly.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnemyMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnemyRunInto.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnemySpawner.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ExotechLarva.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ExotechLarvaBattery.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ExotechLarvaCharger.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Eyeman.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Fish.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Gizmo.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Grunt.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="GruntSka.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Guffy.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Headman.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Santa.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Scorpman.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Shooter.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="Summoner.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="SummonerMarker.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Walker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Werebull.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Woman.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnvironmentBase.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="EnvironmentMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="EnvironmentParticlesHolder.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="AmmoItem.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="AmmoPack.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="ArmorItem.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="HealthItem.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Item.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="KeyItem.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="MessageItem.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="PowerUpItem.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="WeaponItem.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Player.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="PlayerActionMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="PlayerAnimator.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="PlayerMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="PlayerView.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="PlayerWeapons.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="PlayerWeaponsEffects.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="AnimationChanger.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="AnimationHub.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="AreaMarker.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="BackgroundViewer.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Camera.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="CameraMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Copier.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Counter.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="CreditsHolder.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Damager.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="DebugEntityStatesDisplay.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="DoorController.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Eruptor.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="FogMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="GradientMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="GravityMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="GravityRouter.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="HazeMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="HudPicHolder.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Light.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Marker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="MessageHolder.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="MirrorMarker.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="ModelDestruction.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="ModelHolder.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="ModelHolder2.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ModelHolder3.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="MusicChanger.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="MusicHolder.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="ParticlesHolder.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ScrollHolder.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="SoundHolder.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Switch.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Teleport.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="TextFXHolder.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="TouchField.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Trigger.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="VoiceHolder.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="WorldLink.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="AirShockwave.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Bullet.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="CannonBall.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="DevilProjectile.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Flame.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="LarvaOffspring.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Projectile.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="SeriousBomb.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="SpawnerProjectile.es">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Twister.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Water.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="Global.es">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
-ecc EntitiesMP/%(Filename).es </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EntitiesMP/%(Filename).es</Message>
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="LastFileID.txt" />
@@ -2318,13 +1755,7 @@ ecc EntitiesMP/%(Filename).es </Command>
     <CustomBuild Include="..\..\Flesh\Classes\CannonBall.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="..\..\flesh\Classes\CannonStatic.ecl">
-      <FileType>Document</FileType>
-    </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\Catman.ecl">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <CustomBuild Include="..\..\flesh\Classes\ChainSawFreak.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\Copier.ecl">
@@ -2346,9 +1777,6 @@ ecc EntitiesMP/%(Filename).es </Command>
       <FileType>Document</FileType>
     </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\Debris.ecl">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <CustomBuild Include="..\..\flesh\Classes\Demon.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\DestroyableArchitecture.ecl">
@@ -2439,12 +1867,6 @@ ecc EntitiesMP/%(Filename).es </Command>
       <FileType>Document</FileType>
     </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\GravityRouter.ecl">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <CustomBuild Include="..\..\flesh\Classes\Grunt.ecl">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <CustomBuild Include="..\..\flesh\Classes\Guffy.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\HazeMarker.ecl">
@@ -2546,9 +1968,6 @@ ecc EntitiesMP/%(Filename).es </Command>
     <CustomBuild Include="..\..\Flesh\Classes\PlayerWeaponsEffects.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="..\..\FLESH\Classes\PowerUpItem.ecl">
-      <FileType>Document</FileType>
-    </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\Projectile.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
@@ -2573,9 +1992,6 @@ ecc EntitiesMP/%(Filename).es </Command>
     <CustomBuild Include="..\..\Flesh\Classes\RollingStone.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="..\..\Flesh\Classes\Santa.ecl">
-      <FileType>Document</FileType>
-    </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\Scorpman.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
@@ -2583,9 +1999,6 @@ ecc EntitiesMP/%(Filename).es </Command>
       <FileType>Document</FileType>
     </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\ShipMarker.ecl">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <CustomBuild Include="..\..\flesh\Classes\Shooter.ecl">
       <FileType>Document</FileType>
     </CustomBuild>
     <CustomBuild Include="..\..\Flesh\Classes\SoundHolder.ecl">
@@ -2644,7 +2057,6 @@ ecc EntitiesMP/%(Filename).es </Command>
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Bomberman.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Boneman.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Bull.txt" />
-    <CustomBuild Include="..\..\flesh\DataMP\Messages\Enemies\ChainsawFreak.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Devil.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\ElementalLava.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\EyemanGreen.txt" />
@@ -2652,9 +2064,6 @@ ecc EntitiesMP/%(Filename).es </Command>
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Firecracker.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Fish.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Gizmo.txt" />
-    <CustomBuild Include="..\..\flesh\DataMP\Messages\Enemies\GruntCommander.txt" />
-    <CustomBuild Include="..\..\flesh\DataMP\Messages\Enemies\GruntSoldier.txt" />
-    <CustomBuild Include="..\..\flesh\DataMP\Messages\Enemies\Guffy.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Kamikaze.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Rocketman.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\ScorpmanGeneral.txt" />
@@ -2662,6 +2071,173 @@ ecc EntitiesMP/%(Filename).es </Command>
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\WalkerBig.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\WalkerSmall.txt" />
     <CustomBuild Include="..\..\Flesh\Data\Messages\Enemies\Woman.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Acid.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="AirWave.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="Catman.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="Cyborg.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="CyborgBike.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="Fishman.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="GhostBusterRay.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="Huanman.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="LightStyle.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="Mamut.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="Mamutman.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="Mantaman.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="RobotDriving.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="RobotFixed.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="RobotFlying.es">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(SolutionDir)
+ecc Entities/%(Filename).es </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Entities/%(Filename).es</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

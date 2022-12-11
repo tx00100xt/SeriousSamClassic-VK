@@ -1328,7 +1328,7 @@ functions:
         _toCrosshair.SetData_t( fnCrosshair);
       } catch (const char *strError) { 
         // didn't make it! - reset crosshair
-        CPrintF( strError);
+        CPrintF("%s\n", (const char *)strError);
         iCrossHair = 0;
         return;
       }
