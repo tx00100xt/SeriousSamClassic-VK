@@ -24,10 +24,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 BOOL _bWindowChanging = FALSE;    // ignores window messages while this is set
 #ifdef SE1_VULKAN
+#ifdef PLATFORM_UNIX
 SDL_Window * _hwndMain = NULL;
 #else
 HWND _hwndMain = NULL;
 #endif
+#else //  PLATFORM_UNIX
+HWND _hwndMain = NULL;
+#endif // SE1_VULKAN
 
 static char achWindowTitle[256]; // current window title
 

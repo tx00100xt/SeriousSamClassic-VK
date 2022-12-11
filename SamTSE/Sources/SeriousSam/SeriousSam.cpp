@@ -63,10 +63,17 @@ extern FLOAT _fGlobalOptionsAdjuster;
 extern FLOAT _fGlobalModAdjuster;
 extern FLOAT _fGlobalButtonAdjuster;
 extern FLOAT _fGlobalProfileFOVAdjuster;
+#ifdef PLATFORM_UNIX
 ENGINE_API FLOAT _fWeaponFOVAdjuster;
 ENGINE_API FLOAT _fPlayerFOVAdjuster;
 ENGINE_API FLOAT _fArmorHeightAdjuster;
 ENGINE_API FLOAT _fFragScorerHeightAdjuster;
+#else
+ENGINE_API extern FLOAT _fPlayerFOVAdjuster;
+ENGINE_API extern FLOAT _fWeaponFOVAdjuster;
+ENGINE_API extern FLOAT _fArmorHeightAdjuster;
+ENGINE_API extern FLOAT _fFragScorerHeightAdjuster;
+#endif
 
 extern FLOAT _fBigStartJ;       //Position of contents below large font title
 extern FLOAT _fBigSizeJ;
@@ -244,9 +251,9 @@ static void QuitGame(void)
 // !!! FIXME: rcg01042002  method of determining the current process ID and
 // !!! FIXME: rcg01042002  determining if a given process ID is still running,
 // !!! FIXME: rcg01042002  and those are easy abstractions.
+#ifdef PLATFORM_UNIX
 static CTFileName _fnmLock;
 static FILE *_hLock = NULL;
-
 static void DirectoryLockOn(void)
 {
   // create lock filename
@@ -272,8 +279,38 @@ static void DirectoryLockOff(void)
   }
   unlink(_fnmLock);
 }
-
-
+#else
+// check if another app is already running
+static HANDLE _hLock = NULL;
+static CTFileName _fnmLock;
+static void DirectoryLockOn(void)
+{
+	// create lock filename
+	_fnmLock = _fnmApplicationPath + "SeriousSam.loc";
+	// try to open lock file
+	_hLock = CreateFileA(
+		_fnmLock,
+		GENERIC_WRITE,
+		0/*no sharing*/,
+		NULL, // pointer to security attributes
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL | FILE_FLAG_DELETE_ON_CLOSE,  // file attributes
+		NULL);
+	// if failed
+	if (_hLock == NULL || GetLastError() != 0) {
+		// report warning
+		CPrintF(TRANS("WARNING: SeriousSam didn't shut down properly last time!\n"));
+	}
+}
+static void DirectoryLockOff(void)
+{
+	// if lock is open
+	if (_hLock != NULL) {
+		// close it
+		CloseHandle(_hLock);
+	}
+}
+#endif
 void End(void);
 
 // automaticaly manage input enable/disable toggling
@@ -326,16 +363,19 @@ void LimitFrameRate(void)
   TIME tmCurrentDelta = (tvNow-tvLast).GetSeconds();
 
   // limit maximum frame rate
-  sam_iMaxFPSActive   = ClampDn( (INDEX)sam_iMaxFPSActive,   1);
-  sam_iMaxFPSInactive = ClampDn( (INDEX)sam_iMaxFPSInactive, 1);
+  sam_iMaxFPSActive   = ClampDn( (INDEX)sam_iMaxFPSActive, (INDEX)1);
+  sam_iMaxFPSInactive = ClampDn( (INDEX)sam_iMaxFPSInactive, (INDEX)1);
   INDEX iMaxFPS = sam_iMaxFPSActive;
   if( IsIconic(_hwndMain)) iMaxFPS = sam_iMaxFPSInactive;
   if(_pGame->gm_CurrentSplitScreenCfg==CGame::SSC_DEDICATED) {
-    iMaxFPS = ClampDn(iMaxFPS, 60); // never go very slow if dedicated server
+    iMaxFPS = ClampDn(iMaxFPS, (INDEX)60); // never go very slow if dedicated server
   }
   TIME tmWantedDelta = 1.0f / iMaxFPS;
+#ifdef PLATFORM_UNIX
   if( tmCurrentDelta<tmWantedDelta) _pTimer->Sleep( (tmWantedDelta-tmCurrentDelta)*1000.0f);
-  
+#else
+  if (tmCurrentDelta<tmWantedDelta) Sleep((tmWantedDelta - tmCurrentDelta)*1000.0f);
+#endif
   // remember new time
   tvLast = _pTimer->GetHighPrecisionTimer();
   #endif
@@ -462,6 +502,7 @@ static char *argv0 = NULL;
 void InitializeGame(void)
 {
   try {
+#ifdef PLATFORM_UNIX
     #ifdef STATICALLY_LINKED
       #define fnmExpanded NULL
       CPrintF(TRANSV("Loading game library '%s'...\n"), "(statically linked)");
@@ -488,16 +529,36 @@ void InitializeGame(void)
     if ((err = hGame->GetError()) != NULL) {
       ThrowF_t("%s", err);
     }
+#else // WIN32
+	#ifndef NDEBUG 
+		#define GAMEDLL (_fnmApplicationExe.FileDir()+"Game"+_strModExt+"D.dll")
+	#else
+		#define GAMEDLL (_fnmApplicationExe.FileDir()+"Game"+_strModExt+".dll")
+	#endif
+	CTFileName fnmExpanded;
+	ExpandFilePath(EFP_READ, CTString(GAMEDLL), fnmExpanded);
 
+	CPrintF(TRANS("Loading game library '%s'...\n"), (const char *)fnmExpanded);
+	HMODULE hGame = LoadLibraryA(fnmExpanded);
+	if (hGame == NULL) {
+		ThrowF_t("%s", GetWindowsError(GetLastError()));
+	}
+	CGame* (*GAME_Create)(void) = (CGame* (*)(void))GetProcAddress(hGame, "GAME_Create");
+	if (GAME_Create == NULL) {
+		ThrowF_t("%s", GetWindowsError(GetLastError()));
+	}
+#endif
     _pGame = GAME_Create();
-  } catch (const char *strError) {
+  } catch (char *strError) {
     FatalError("%s", strError);
   }
   // init game - this will load persistent symbols
   _pGame->Initialize(CTString("Data\\SeriousSam.gms"));
   // save executable path and sys var.
+#ifdef PLATFORM_UNIX
   _pFileSystem->GetExecutablePath(_strExePath, sizeof (_strExePath)-1);
   _pFileSystem->GetExecutablePath(_strExePath, sizeof (_strExePath)-1);
+#endif
 }
 
 #ifdef PLATFORM_UNIX
@@ -623,7 +684,11 @@ BOOL Init( HINSTANCE hInstance, int nCmdShow, CTString strCmdLine)
   ShowSplashScreen(hInstance);
 
   // remember desktop width
+#ifdef PLATFORM_UNIX
   _pixDesktopWidth = DetermineDesktopWidth();
+#else
+  _pixDesktopWidth = ::GetSystemMetrics(SM_CXSCREEN);
+#endif
 
   // prepare main window
   MainWindow_Init();
@@ -633,8 +698,11 @@ BOOL Init( HINSTANCE hInstance, int nCmdShow, CTString strCmdLine)
   ParseCommandLine(strCmdLine);
 
   // initialize engine
+#ifdef PLATFORM_UNIX
   SE_InitEngine(argv0, sam_strGameName);
-
+#else
+  SE_InitEngine(sam_strGameName);
+#endif
   SE_LoadDefaultFonts();
   // now print the output of command line parsing
   CPrintF("%s", (const char *) cmd_strOutput);
@@ -870,8 +938,10 @@ void PrintDisplayModeInfo(void)
   if( dm.IsWideScreen()) strRes += TRANS(" WideScreen");
        if( _pGfx->gl_eCurrentAPI==GAT_OGL) strRes += " (OpenGL)";
 #ifdef PLATFORM_WIN32
+#ifdef SE1_D3D
   else if( _pGfx->gl_eCurrentAPI==GAT_D3D) strRes += " (Direct3D)";
-#endif
+#endif // SE1_D3D
+#endif // PLATFORM_WIN32
 #ifdef SE1_VULKAN
   else if (_pGfx->gl_eCurrentAPI == GAT_VK) strRes += " (Vulkan)";
 #endif // SE1_VULKAN
@@ -1170,11 +1240,12 @@ int SubMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int 
       // toggle full-screen on alt-enter
       if( msg.message==WM_SYSKEYDOWN && msg.wParam==VK_RETURN && !IsIconic(_hwndMain)) {
         // !!! FIXME: SDL doesn't need to rebuild the GL context here to toggle fullscreen.
-        STUBBED("SDL doesn't need to rebuild the GL context here...");
+        //STUBBED("SDL doesn't need to rebuild the GL context here...");
         StartNewMode( (GfxAPIType)sam_iGfxAPI, sam_iDisplayAdapter, sam_iScreenSizeI, sam_iScreenSizeJ, sam_iAspectSizeI, sam_iAspectSizeJ, (enum DisplayDepth)sam_iDisplayDepth, !sam_bFullScreenActive);
-
+#ifdef PLATFORM_UNIX
         if (_pInput != NULL) // rcg02042003 hack for SDL vs. Win32.
           _pInput->ClearRelativeMouseMotion();
+#endif
       }
 
       // if application should stop
@@ -1214,8 +1285,10 @@ int SubMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int 
       }
 
       if (_pGame->gm_csConsoleState==CS_TALK && msg.message==WM_KEYDOWN && msg.wParam==VK_ESCAPE) {
+#ifdef PLATFORM_UNIX
         if (_pInput != NULL) // rcg02042003 hack for SDL vs. Win32.
           _pInput->ClearRelativeMouseMotion();
+#endif
         _pGame->gm_csConsoleState = CS_OFF;
         msg.message=WM_NULL;
       }
@@ -1281,8 +1354,10 @@ int SubMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int 
           // special handler for talk (not to invoke return key bind)
           if( msg.wParam==VK_RETURN && _pGame->gm_csConsoleState==CS_TALK)
           {
+#ifdef PLATFORM_UNIX
             if (_pInput != NULL) // rcg02042003 hack for SDL vs. Win32.
               _pInput->ClearRelativeMouseMotion();
+#endif
             _pGame->gm_csConsoleState = CS_OFF;
           }
         } else if (msg.message==WM_CHAR) {
@@ -1485,7 +1560,7 @@ void CheckModReload(void)
 #endif
 
 #ifdef PLATFORM_WIN32
-    CTString strCommand = "SeriousSam.exe"
+	CTString strCommand = "SeriousSam.exe";
     CTString strPatch = _fnmApplicationPath+"Bin\\"+strDebug+strCommand;
 #else
     CTString strCommand;
@@ -1572,7 +1647,7 @@ int PASCAL WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 {
   argv0 = new char[MAX_PATH];
   memset(argv0, '\0', sizeof (argv0));
-  GetModuleFileName(NULL, argv0, MAX_PATH-1);
+  GetModuleFileNameA(NULL, argv0, MAX_PATH-1);
   const int rc = CommonMainline(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
   delete[] argv0;
   argv0 = NULL;

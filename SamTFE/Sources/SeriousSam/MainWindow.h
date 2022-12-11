@@ -23,7 +23,7 @@ extern SDL_Window * _hwndMain;
 extern HWND _hwndMain;
 #endif // SE1_VULKAN
 #else  // !PLATFORM_UNIX
-DECL_DLL extern CTString strWindow1251ToUtf8(CTString from);
+extern _declspec(dllimport) CTString strWindow1251ToUtf8(CTString from);
 extern HWND _hwndMain;
 #endif 
 
