@@ -1,0 +1,90 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: amp11lib - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\SunRise\AppData\Local\Temp\RSPD967.tmp" with contents
+[
+/nologo /MD /W3 /GX /Zi /O2 /I "binfile" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "AMP11LIB_EXPORTS" /Fp"Release/amp11lib.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfarc.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfcon.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfhttp.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfile.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfilef.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfmem.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfplnt.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfplwv.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binfstd.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\binfile\binftcp.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\amp11lib.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\amp1dec.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\amp2dec.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\amp3dec.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\ampdec.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\ampsynth.cpp"
+"C:\SAM_v110\Src110_X42\amp11lib\mpgsplit.cpp"
+]
+Creating command line "cl.exe @C:\Users\SunRise\AppData\Local\Temp\RSPD967.tmp" 
+Creating temporary file "C:\Users\SunRise\AppData\Local\Temp\RSPD968.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"Release/amp11lib.pdb" /debug /machine:I386 /out:"Release/amp11lib.dll" /implib:"Release/amp11lib.lib" 
+.\Release\binfarc.obj
+.\Release\binfcon.obj
+.\Release\binfhttp.obj
+.\Release\binfile.obj
+.\Release\binfilef.obj
+.\Release\binfmem.obj
+.\Release\binfplnt.obj
+.\Release\binfplwv.obj
+.\Release\binfstd.obj
+.\Release\binftcp.obj
+.\Release\amp11lib.obj
+.\Release\amp1dec.obj
+.\Release\amp2dec.obj
+.\Release\amp3dec.obj
+.\Release\ampdec.obj
+.\Release\ampsynth.obj
+.\Release\mpgsplit.obj
+]
+Creating command line "link.exe @C:\Users\SunRise\AppData\Local\Temp\RSPD968.tmp"
+Creating temporary file "C:\Users\SunRise\AppData\Local\Temp\RSPD969.bat" with contents
+[
+@echo off
+copy Release\amp11lib.dll C:\SAM_v110\Src110_X42\Bin >nul
+copy Release\amp11lib.map C:\SAM_v110\Src110_X42\Bin >nul
+copy Release\amp11lib.lib C:\SAM_v110\Src110_X42\Bin >nul
+]
+Creating command line "C:\Users\SunRise\AppData\Local\Temp\RSPD969.bat"
+Compiling...
+binfarc.cpp
+binfcon.cpp
+binfhttp.cpp
+binfile.cpp
+binfilef.cpp
+binfmem.cpp
+binfplnt.cpp
+binfplwv.cpp
+binfstd.cpp
+binftcp.cpp
+amp11lib.cpp
+amp1dec.cpp
+amp2dec.cpp
+amp3dec.cpp
+ampdec.cpp
+ampsynth.cpp
+mpgsplit.cpp
+Linking...
+   Creating library Release/amp11lib.lib and object Release/amp11lib.exp
+<h3>Output Window</h3>
+Copying amp11lib binaries to C:\SAM_v110\Src110_X42\Bin
+
+
+
+<h3>Results</h3>
+amp11lib.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
