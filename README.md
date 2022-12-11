@@ -121,8 +121,8 @@ This version of the engine comes with a set of resources (`\SE1_10b.GRO`) that a
 ### Running the game
 
 1. Locate the game directory for "Serious Sam Classic The First Encounter" ([steam](https://store.steampowered.com/app/41050/Serious_Sam_Classic_The_First_Encounter/))
-1. Build game from source code or [Download latest release](https://github.com/tx00100xt/SeriousSamClassic-VK/releases) and copy the latest files from the game directory to SamTFE/Bin
-1. Copy all *.gro files, Help folder and Levels folder from the game directory to SamTFE directory.
+2. Build game from source code or [Download latest release](https://github.com/tx00100xt/SeriousSamClassic-VK/releases) and copy the latest files from the game directory to SamTFE/Bin
+3. Copy all *.gro files, Help folder and Levels folder from the game directory to SamTFE directory.
    At the current time the files are:
    * Help (folder)
    * Levels (folder)
@@ -132,7 +132,7 @@ This version of the engine comes with a set of resources (`\SE1_10b.GRO`) that a
    * 1_00c_Logo.gro
    * 1_00c_scripts.gro
    * 1_04_patch.gro
-1. Start the game
+4. Start the game
    * ./run_game.sh or ./run_game_hud.sh (for start game with MangoHUD)
 
 ## Serious Sam Classic The Second Encounter
@@ -177,7 +177,7 @@ or
 ~/.local/share/Serious-Engine/serioussam/ - for TFE
 ~/.local/share/Serious-Engine/serioussamse/ - for TSE
 ```
-4. Type in console:
+6. Type in console:
 ```
 serioussam       	# for run Serious Sam Classic The First Encounter
 ```
@@ -223,13 +223,6 @@ Download:
 [Xplus TSE from Google Drive] or [Xplus TSE from pCloud],, and unpack to  SeriousSamClassic/SamTSE/Mods directory.
 To start the modification, use the game menu - item Modification.
 
-### Suported OS
-linux
-
-### Other OS
-Not supported
-
-
 Building demo version of the game
 ---------------------------------
 
@@ -243,6 +236,27 @@ git clone https://github.com/tx00100xt/SeriousSamClassic-VK.git SeriousSamClassi
 cd SeriousSamClassic-VK
 ./build-linux64demo.sh        	    # use build-linux32demo.sh for 32-bits
 ```
+
+Windows
+-------
+* This project can be compiled starting from Windows 7 and higher.
+
+1. Download and Install [Vulkan SDK 1.3.204.1] or higher.
+2. Download and Install [Visual Studio 2015 Community Edition] or higher.
+3. Download and Install [Windows 10 SDK 10.0.14393.795] or other.
+4. Open the project in the Sources folder and compile it.
+
+Suported Architectures
+----------------------
+* `x86`
+* `aarch64`
+* `e2k` (elbrus)
+
+Suported OS
+-----------
+* `Linux`
+* `Windows`
+* `Raspberry PI OS`
 
 License
 -------
@@ -260,3 +274,6 @@ Some of the code included with the engine sources is not licensed under the GNU 
 [Xplus TSE from Google Drive]: https://drive.google.com/file/d/1W_UIeVl7y3ZBroM39FmKdngNZuXC7DKv/view?usp=sharing "Serious Sam Classic XPLUS Mod"
 [Xplus TFE from pCloud]: https://e1.pcloud.link/publink/show?code=XZ02gRZ4nhrRGPSfV4aEL4IF8GYySafWVJX "Serious Sam Classic XPLUS Mod"
 [Xplus TSE from pCloud]: https://e1.pcloud.link/publink/show?code=XZy2gRZ3D7n8fu83SkhIdB1xRaK7y9pKiry "Serious Sam Classic XPLUS Mod"
+[Vulkan SDK 1.3.204.1]: https://sdk.lunarg.com/sdk/download/1.3.204.1/windows/VulkanSDK-1.3.204.1-Installer.exe "Vulkan SDK 1.3.204.1"
+[Visual Studio 2015 Community Edition]: https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409 "Visual Studio 2015 Community Edition"
+[Windows 10 SDK 10.0.14393.795]: https://go.microsoft.com/fwlink/p/?LinkId=838916 "Windows 10 SDK 10.0.14393.795"
