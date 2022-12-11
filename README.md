@@ -246,13 +246,13 @@ Windows
 3. Download and Install [Windows 10 SDK 10.0.14393.795] or other.
 4. Open the project in the Sources folder, choose Release and compile it.
 
-Suported Architectures
+Supported Architectures
 ----------------------
 * `x86`
 * `aarch64`
 * `e2k` (elbrus)
 
-Suported OS
+Supported OS
 -----------
 * `Linux`
 * `Windows`
