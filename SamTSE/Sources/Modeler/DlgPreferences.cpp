@@ -1,4 +1,5 @@
 /* Copyright (c) 2002-2012 Croteam Ltd. 
+   Copyright (c) 2020 Sultim Tsyrendashiev
 This program is free software; you can redistribute it and/or modify
 it under the terms of version 2 of the GNU General Public License as published by
 the Free Software Foundation
@@ -154,6 +155,12 @@ void CDlgPreferences::DoDataExchange(CDataExchange* pDX)
         theApp.m_iApi=GAT_D3D;
         break;
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+      case GAT_VK:
+        theApp.m_iApi = GAT_VK;
+        break;
+#endif // SE1_VULKAN
+
       default:
         {
         }
@@ -186,6 +193,9 @@ BOOL CDlgPreferences::OnInitDialog()
 #ifdef SE1_D3D
   m_ctrlGfxApi.AddString(L"DirectX");
 #endif // SE1_D3D
+#ifdef SE1_VULKAN
+  m_ctrlGfxApi.AddString(L"Vulkan");
+#endif // SE1_VULKAN
 
   if( IsWindow(m_ctrlGfxApi.m_hWnd))
   {
@@ -199,6 +209,11 @@ BOOL CDlgPreferences::OnInitDialog()
       m_ctrlGfxApi.SetCurSel(1);
       break;
 #endif // SE1_D3D
+#ifdef SE1_VULKAN:
+    case GAT_VK:
+      m_ctrlGfxApi.SetCurSel(GAT_VK);
+      break;
+#endif // SE1_VULKAN
     }
   }
 

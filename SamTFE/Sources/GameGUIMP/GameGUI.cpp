@@ -51,7 +51,7 @@ void Initialize(const CTFileName &fnGameSettings)
     }
     _pGame = GAME_Create();
 
-  } catch (const char *strError) {
+  } catch (char *strError) {
     FatalError("%s", strError);
   }
   // init game - this will load persistent symbols
@@ -120,7 +120,7 @@ static int iDialogResult;
   try {                                                           \
     _pGame->Load_t();                                             \
   }                                                               \
-  catch (const char *pError) {                                          \
+  catch( char *pError) {                                          \
     (void) pError;                                                \
   }                                                               \
   HANDLE hOldResource = AfxGetResourceHandle();                   \
@@ -132,7 +132,7 @@ static int iDialogResult;
   try {                                                           \
     _pGame->Save_t();                                             \
   }                                                               \
-  catch (const char *pError) {                                          \
+  catch( char *pError) {                                          \
     AfxMessageBox( CString(pError));                              \
     iDialogResult = IDCANCEL;                                     \
   }

@@ -160,7 +160,7 @@ void CColoredButton::OnClicked()
 {
   if( m_iColorIndex != -1) return;
   // colored button can call eather custom palette window for choosing colors (where variable
-  // to recieve result color is pointed with _pcolColorToSet) either trough MFC-provided
+  // to receive result color is pointed with _pcolColorToSet) eather trough MFC-provided
   // color picker
   ASSERT( m_ptPickerType != PT_CUSTOM);
   COLORREF TmpColor = CLRF_CLR( m_colColor);
