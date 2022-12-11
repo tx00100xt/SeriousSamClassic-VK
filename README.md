@@ -244,7 +244,7 @@ Windows
 1. Download and Install [Vulkan SDK 1.3.204.1] or higher.
 2. Download and Install [Visual Studio 2015 Community Edition] or higher.
 3. Download and Install [Windows 10 SDK 10.0.14393.795] or other.
-4. Open the project in the Sources folder and compile it.
+4. Open the project in the Sources folder, choose Release and compile it.
 
 Suported Architectures
 ----------------------
