@@ -2,6 +2,7 @@
 
 /* rcg10072001 Implemented. */
 
+#include "Engine/StdH.h"
 #include <Engine/Engine.h>
 #include <Engine/Base/DynamicLoader.h>
 
@@ -28,7 +29,7 @@ CDynamicLoader *CDynamicLoader::GetInstance(const char *libname)
 
 void CWin32DynamicLoader::SetError(void)
 {
-    char *errmsg = ::GetWindowsError(::GetLastError());
+	CTString errmsg = ::GetWindowsError(::GetLastError());
     delete err;
     err = NULL;
 
@@ -66,11 +67,12 @@ CWin32DynamicLoader::CWin32DynamicLoader(const char *libname)
     : module(NULL),
       err(NULL)
 {
-    CTFileName fnm(libname);
-    if (stricmp(fnm.FileExt(), ".dll") != 0)
-        fnm += ".dll";
+	CTFileName _fnm = (CTFileName(CTString(libname)));
+	_fnm = _fnm.FileName();
+    if (stricmp(_fnm.FileExt(), ".dll") != 0)
+        _fnm += ".dll";
 
-    module = ::LoadLibrary((const char *) fnm);
+    module = ::LoadLibraryA((const char *) _fnm);
     if (module == NULL)
         SetError();
 }

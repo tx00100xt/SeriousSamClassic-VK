@@ -205,9 +205,9 @@ static void InitTris(void)
       _avtx[ivx].x =  FLOAT(iC) / _ctC*4 -2.0f;
       _avtx[ivx].y = -FLOAT(iR) / _ctR*4 +2.0f;
       _avtx[ivx].z = -1.0f;
-      _atex[ivx].st.s = (iC+iR) % 2;
-      _atex[ivx].st.t = (iR)    % 2;
-      _acol[ivx].ul.abgr = 0xFFFFFFFF;
+	  _atex[ivx].st.s = (iC + iR) % 2;
+	  _atex[ivx].st.t = (iR) % 2;
+	  _acol[ivx].ul.abgr = 0xFFFFFFFF;
     }
   }
 

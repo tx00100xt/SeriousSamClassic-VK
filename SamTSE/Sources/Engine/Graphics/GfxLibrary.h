@@ -144,6 +144,7 @@ class ENGINE_API CGfxLibrary
 public:
   CGfxAPI gl_gaAPI[2];
   CViewPort *gl_pvpActive;   // active viewport
+  //HINSTANCE  gl_hiDriver;    // DLL handle
   CDynamicLoader *gl_hiDriver;     // DLL handle
 
   GfxAPIType   gl_eCurrentAPI;  // (0=none, 1=OpenGL, 2=DirectX8, 2=Vulkan) 

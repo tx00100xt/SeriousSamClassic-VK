@@ -28,7 +28,9 @@
 #ifndef SDL_vulkan_h_
 #define SDL_vulkan_h_
 
+#ifdef PLATFORM_UNIX
 #include "SDL_video.h"
+#endif
 
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */

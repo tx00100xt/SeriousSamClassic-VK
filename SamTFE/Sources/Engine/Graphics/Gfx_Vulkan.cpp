@@ -15,6 +15,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <Engine/StdH.h>
 
+#ifdef PLATFORM_WIN32
+#ifdef SE1_VULKAN
+#define VK_USE_PLATFORM_WIN32_KHR
+#endif
+#endif
+
 #include <Engine/Base/Translation.h>
 #include <Engine/Base/ErrorReporting.h>
 #include <Engine/Base/Memory.h>
@@ -33,7 +39,11 @@ FLOAT	VkViewMatrix[16];
 
 
 #ifdef SE1_VULKAN
+#ifdef PLATFORM_UNIX
 #include <Engine/Graphics/SDL/SDL_vulkan.h>
+
+
+#endif
 #ifndef NDEBUG
   #define SVK_ENABLE_VALIDATION 1
 #else
@@ -151,8 +161,11 @@ BOOL SvkMain::InitDriver_Vulkan()
 
   ASSERT(gl_VkInstance == VK_NULL_HANDLE);
   ASSERT(gl_VkDevice == VK_NULL_HANDLE);
-
+#ifdef PLATFORM_UNIX
   extern  __attribute__ ((visibility("default"))) SDL_Window * _hwndMain;
+#else
+  extern  HWND _hwndMain;
+#endif
 
   if(_hwndMain == NULL) return FALSE;
 #ifdef PLATFORM_WIN32

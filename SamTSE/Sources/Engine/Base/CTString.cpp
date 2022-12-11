@@ -289,7 +289,9 @@ ULONG CTString::GetHash(void) const
 {
   ULONG ulKey = 0;
   INDEX len = strlen(str_String);
-
+#ifdef PLATFORM_WIN32
+#define  rotl _rotl
+#endif
   for(INDEX i=0; i<len; i++) {
     ulKey = rotl(ulKey,4)+toupper(str_String[i]);
   }

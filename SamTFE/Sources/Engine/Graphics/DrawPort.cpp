@@ -318,8 +318,8 @@ void CDrawPort::RecalculateDimensions(void)
 void CDrawPort::SetOrtho(void) const
 {
   // finish all pending render-operations (if required)
-  ogl_iFinish = Clamp( ogl_iFinish, 0, 3);
-  d3d_iFinish = Clamp( d3d_iFinish, 0, 3);
+  ogl_iFinish = Clamp( ogl_iFinish, (INDEX)0, (INDEX)3);
+  d3d_iFinish = Clamp( d3d_iFinish, (INDEX)0, (INDEX)3);
   if( (ogl_iFinish==3 && _pGfx->gl_eCurrentAPI==GAT_OGL) 
 #ifdef SE1_D3D
    || (d3d_iFinish==3 && _pGfx->gl_eCurrentAPI==GAT_D3D)
@@ -353,8 +353,8 @@ void CDrawPort::SetOrtho(void) const
 void CDrawPort::SetProjection(CAnyProjection3D &apr) const
 {
   // finish all pending render-operations (if required)
-  ogl_iFinish = Clamp( ogl_iFinish, 0, 3);
-  d3d_iFinish = Clamp( d3d_iFinish, 0, 3);
+  ogl_iFinish = Clamp( ogl_iFinish, (INDEX)0, (INDEX)3);
+  d3d_iFinish = Clamp( d3d_iFinish, (INDEX)0, (INDEX)3);
   if( (ogl_iFinish==3 && _pGfx->gl_eCurrentAPI==GAT_OGL) 
 #ifdef SE1_D3D
    || (d3d_iFinish==3 && _pGfx->gl_eCurrentAPI==GAT_D3D)
@@ -960,13 +960,15 @@ void CDrawPort::Fill( COLOR col) const
     pglClear( GL_COLOR_BUFFER_BIT);
   }
 
-#ifdef PLATFORM_WIN32 // Direct3D
+#ifdef PLATFORM_WIN32
+#ifdef SE1_D3D // Direct3D
   else if( eAPI==GAT_D3D)
   {
     const ULONG d3dColor = rgba2argb(col);
     HRESULT hr = _pGfx->gl_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, d3dColor,0,0);
     D3D_CHECKERROR(hr);
   }
+#endif
 #endif
 #ifdef SE1_VULKAN
   else if (eAPI == GAT_VK)
@@ -1413,7 +1415,7 @@ void CDrawPort::PutText( const CTString &strText, PIX pixX0, PIX pixY0, const CO
       // flash?
       case 'f':
         chrCurrent = strText[++iChar];
-        if( bParse) iFlash = 1+ 2* Clamp( (INDEX)(chrCurrent-'0'), 0, 9);
+        if( bParse) iFlash = 1+ 2* Clamp( (INDEX)(chrCurrent-'0'), (INDEX)0, (INDEX)9);
         continue;
       // reset all?
       case 'r':
@@ -1465,8 +1467,8 @@ void CDrawPort::PutText( const CTString &strText, PIX pixX0, PIX pixY0, const CO
     }
 
     // adjust alpha for flashing
-    if( iFlash>0) glcol.ub.a = (UBYTE) (ulAlpha*(sin(iFlash*tmFrame)*0.5f+0.5f));
-    else glcol.ub.a = ulAlpha; 
+	if (iFlash>0) glcol.ub.a = (UBYTE)(ulAlpha*(sin(iFlash*tmFrame)*0.5f + 0.5f));
+	else glcol.ub.a = ulAlpha;
 
     // prepare coordinates for screen and texture
     const FLOAT fX0 = pixXA;  const FLOAT fX1 = fX0 +pixScaledWidth;
@@ -1477,10 +1479,11 @@ void CDrawPort::PutText( const CTString &strText, PIX pixX0, PIX pixY0, const CO
     pvtx[1].x = fX0;  pvtx[1].y = fY1;  pvtx[1].z = 0;
     pvtx[2].x = fX1;  pvtx[2].y = fY1;  pvtx[2].z = 0;
     pvtx[3].x = fX1;  pvtx[3].y = fY0;  pvtx[3].z = 0;
-    ptex[0].st.s = fU0;  ptex[0].st.t = fV0;
-    ptex[1].st.s = fU0;  ptex[1].st.t = fV1;
-    ptex[2].st.s = fU1;  ptex[2].st.t = fV1;
-    ptex[3].st.s = fU1;  ptex[3].st.t = fV0;
+	ptex[0].st.s = fU0;  ptex[0].st.t = fV0;
+	ptex[1].st.s = fU0;  ptex[1].st.t = fV1;
+	ptex[2].st.s = fU1;  ptex[2].st.t = fV1;
+	ptex[3].st.s = fU1;  ptex[3].st.t = fV0;
+
     pcol[0] = glcol;
     pcol[1] = glcol;
     pcol[2] = glcol;
@@ -1503,10 +1506,11 @@ void CDrawPort::PutText( const CTString &strText, PIX pixX0, PIX pixY0, const CO
       pvtx[1].x = pvtx[1-4].x +fAdjustX;  pvtx[1].y = fY1;  pvtx[1].z = 0;
       pvtx[2].x = pvtx[2-4].x +fAdjustX;  pvtx[2].y = fY1;  pvtx[2].z = 0;
       pvtx[3].x = pvtx[3-4].x +fAdjustX;  pvtx[3].y = fY0;  pvtx[3].z = 0;
-      ptex[0].st.s = fU0;    ptex[0].st.t = fV0;
-      ptex[1].st.s = fU0;    ptex[1].st.t = fV1;
-      ptex[2].st.s = fU1;    ptex[2].st.t = fV1;
-      ptex[3].st.s = fU1;    ptex[3].st.t = fV0;
+	  ptex[0].st.s = fU0;    ptex[0].st.t = fV0;
+	  ptex[1].st.s = fU0;    ptex[1].st.t = fV1;
+	  ptex[2].st.s = fU1;    ptex[2].st.t = fV1;
+	  ptex[3].st.s = fU1;    ptex[3].st.t = fV0;
+
       pcol[0] = glcol;
       pcol[1] = glcol;
       pcol[2] = glcol;
@@ -1656,6 +1660,7 @@ void CDrawPort::PutTexture( class CTextureObject *pTO,
   ptex[1].st.s = fU0;  ptex[1].st.t = fV1;
   ptex[2].st.s = fU1;  ptex[2].st.t = fV1;
   ptex[3].st.s = fU1;  ptex[3].st.t = fV0;
+
   pcol[0] = glcolUL;
   pcol[1] = glcolDL;
   pcol[2] = glcolDR;
@@ -1710,6 +1715,7 @@ void CDrawPort::AddTexture( const FLOAT fI0, const FLOAT fJ0, const FLOAT fI1, c
   ptex[1].st.s = 0;    ptex[1].st.t = 1;
   ptex[2].st.s = 1;    ptex[2].st.t = 1;
   ptex[3].st.s = 1;    ptex[3].st.t = 0;
+
   pcol[0] = glCol;  pcol[1] = glCol;  pcol[2] = glCol;  pcol[3] = glCol;
   pelm[0] = iStart+0;  pelm[1] = iStart+1;  pelm[2] = iStart+2;
   pelm[3] = iStart+2;  pelm[4] = iStart+3;  pelm[5] = iStart+0;
@@ -1734,6 +1740,7 @@ void CDrawPort::AddTexture( const FLOAT fI0, const FLOAT fJ0, const FLOAT fI1, c
   ptex[1].st.s = fU0;  ptex[1].st.t = fV1;
   ptex[2].st.s = fU1;  ptex[2].st.t = fV1;
   ptex[3].st.s = fU1;  ptex[3].st.t = fV0;
+
   pcol[0] = glCol;
   pcol[1] = glCol;
   pcol[2] = glCol;
@@ -1789,6 +1796,7 @@ void CDrawPort::AddTexture( const FLOAT fI0, const FLOAT fJ0, const FLOAT fU0, c
   ptex[1].st.s = fU1;  ptex[1].st.t = fV1;
   ptex[2].st.s = fU2;  ptex[2].st.t = fV2;
   ptex[3].st.s = fU3;  ptex[3].st.t = fV3;
+
   pcol[0] = glCol0;
   pcol[1] = glCol1;
   pcol[2] = glCol2;

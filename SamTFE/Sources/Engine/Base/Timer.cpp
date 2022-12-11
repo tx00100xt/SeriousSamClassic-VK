@@ -45,7 +45,7 @@ static inline __int64 ReadTSC(void)
   struct timespec tp;
   clock_gettime(CLOCK_MONOTONIC, &tp);
   return( (((__int64) tp.tv_sec) * 1000000000LL) + ((__int64) tp.tv_nsec));
-#elif (defined __MSVC_INLINE__)
+#elif (defined __MSVC_INLINE__) || defined( PLATFORM_WIN32 )
   __int64 mmRet;
   __asm {
     rdtsc
@@ -109,6 +109,36 @@ struct cpu_mark_t {
 	uint64_t sys_clock;	/*!< In microsecond resolution */
 };
 
+#ifdef PLATFORM_WIN32
+#include <stdint.h> // portable: uint64_t   MSVC: __int64 
+// MSVC defines this in winsock2.h!?
+//typedef struct timeval {
+//	long tv_sec;
+//	long tv_usec;
+//} timeval;
+
+int gettimeofday(struct timeval * tp, struct timezone * tzp)
+{
+	// Note: some broken versions only have 8 trailing zero's, the correct epoch has 9 trailing zero's
+	// This magic number is the number of 100 nanosecond intervals since January 1, 1601 (UTC)
+	// until 00:00:00 January 1, 1970 
+	static const uint64_t EPOCH = ((uint64_t)116444736000000000ULL);
+
+	SYSTEMTIME  system_time;
+	FILETIME    file_time;
+	uint64_t    time;
+
+	GetSystemTime(&system_time);
+	SystemTimeToFileTime(&system_time, &file_time);
+	time = ((uint64_t)file_time.dwLowDateTime);
+	time += ((uint64_t)file_time.dwHighDateTime) << 32;
+
+	tp->tv_sec = (long)((time - EPOCH) / 10000000L);
+	tp->tv_usec = (long)(system_time.wMilliseconds * 1000);
+	return 0;
+}
+#endif
+
 // sys_precise_clock
 void sys_precise_clock(uint64_t *result)
 {
@@ -130,7 +160,7 @@ void cpu_rdtsc(uint64_t* result)
 		"	mov	%%edx,	%1\n"
 		:"=m"(low_part), "=m"(hi_part)::"memory", "eax", "edx"
 	);
-#elif (defined __MSVC_INLINE__)
+#elif (defined __MSVC_INLINE__) || defined( PLATFORM_WIN32 )
     low_part = 0;
     hi_part = 0;
 
@@ -249,14 +279,20 @@ int cpu_clock_measure(int millis, int quad_check)
 #endif
 
 // current game time always valid for the currently active task
+#ifdef _MSC_VER
+static _declspec(thread) TIME _CurrentTickTimer = 0.0f;
+#else
 THREADLOCAL(TIME, _CurrentTickTimer, 0.0f);
+#endif
 
 // CTimer implementation
 
 // pointer to global timer object
 CTimer *_pTimer = NULL;
 
+#ifdef PLARFORM_UNIX
 pthread_t g_timerMainThread;
+#endif
 
 const TIME CTimer::TickQuantum = TIME(1/20.0);    // 20 ticks per second
 
@@ -419,7 +455,8 @@ static __int64 GetCPUSpeedHz(void)
   __int64 llSpeedMeasured;
 
   // try to measure 10 times
-  for( INDEX iSet=0; iSet<10; iSet++)
+  INDEX iSet = 0;
+  for (; iSet<10; iSet++)
   { // one time has several tries
     for( iTry=0; iTry<MAX_MEASURE_TRIES; iTry++)
     { // wait the state change on the timer

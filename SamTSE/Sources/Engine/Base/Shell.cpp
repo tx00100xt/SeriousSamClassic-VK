@@ -111,11 +111,17 @@ CDynamicStackArray<CTString> _shell_astrExtStrings;
 CDynamicStackArray<FLOAT> _shell_afExtFloats;
 
 //static const char *strCommandLine = "";
-
+#ifdef PLATFORM_WIN32
+ENGINE_API extern FLOAT tmp_af[10] = { 0 };
+ENGINE_API extern INDEX tmp_ai[10] = { 0 };
+ENGINE_API extern INDEX tmp_fAdd   = 0.0f;
+ENGINE_API extern INDEX tmp_i      = 0;
+#else
 FLOAT tmp_af[10] = { 0 };
 INDEX tmp_ai[10] = { 0 };
 INDEX tmp_fAdd   = 0;
 INDEX tmp_i      = 0;
+#endif
 
 void CShellSymbol::Clear(void)
 {

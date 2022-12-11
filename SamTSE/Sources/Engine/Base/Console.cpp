@@ -123,7 +123,7 @@ INDEX CConsole::NumberOfLinesAfter(TIME tmLast)
 {
   ASSERT(this!=NULL);
   // clamp console variable
-  con_iLastLines = Clamp( con_iLastLines, 0, (INDEX)CONSOLE_MAXLASTLINES);
+  con_iLastLines = Clamp( con_iLastLines, (INDEX)0, (INDEX)CONSOLE_MAXLASTLINES);
   // find number of last console lines to be displayed on screen
   for(INDEX i=0; i<con_iLastLines; i++) {
     if (con_atmLines[con_ctLines-1-i]<tmLast) {

@@ -33,6 +33,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
  *  ViewPort
  */
 
+/* rcg !!! FIXME: This will need to go away. */
 #ifdef PLATFORM_WIN32
 class CTempDC {
 public:

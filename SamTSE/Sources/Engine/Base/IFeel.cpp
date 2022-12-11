@@ -124,20 +124,20 @@ BOOL IFeel_InitDevice(HINSTANCE &hInstance, HWND &hWnd)
 
 #ifdef PLATFORM_WIN32
   UINT iOldErrorMode = SetErrorMode( SEM_NOOPENFILEERRORBOX|SEM_FAILCRITICALERRORS);
-#endif
-
-  _hLib = CDynamicLoader::GetInstance(fnmExpanded);
-
-#ifdef PLATFORM_WIN32
+  _hLib = (CDynamicLoader*)LoadLibraryA(fnmExpanded);
   SetErrorMode(iOldErrorMode);
-#endif
-
+  if(_hLib==NULL)
+  {
+    CPrintF("Error loading ImmWraper.dll.\n\tIFeel disabled\n"); 
+#else
+  _hLib = CDynamicLoader::GetInstance(fnmExpanded);
   const char *err = _hLib->GetError();
   if (err != NULL)
   {
     CPrintF("Error loading ImmWraper.dll.\n\tIFeel disabled\nError: %s\n", err);
     delete _hLib;
     _hLib = NULL;
+#endif
     return FALSE;
   }
 

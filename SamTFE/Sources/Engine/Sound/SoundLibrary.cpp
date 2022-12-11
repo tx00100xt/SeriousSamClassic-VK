@@ -442,8 +442,8 @@ static void SndPostFunc(void *pArgs)
   // clamp variables
   snd_tmMixAhead = Clamp( snd_tmMixAhead, 0.1f, 0.9f);
   snd_iFormat    = Clamp( snd_iFormat, (INDEX)CSoundLibrary::SF_NONE, (INDEX)CSoundLibrary::SF_44100_16);
-  snd_iDevice    = Clamp( snd_iDevice, -1, 15);
-  snd_iInterface = Clamp( snd_iInterface, 0, 2);
+  snd_iDevice    = Clamp( snd_iDevice, (INDEX)-1, (INDEX)15);
+  snd_iInterface = Clamp( snd_iInterface, (INDEX)0, (INDEX)2);
   // if any variable has been changed
   if( _tmLastMixAhead!=snd_tmMixAhead || _iLastFormat!=snd_iFormat
    || _iLastDevice!=snd_iDevice || _iLastAPI!=snd_iInterface) {
@@ -977,9 +977,9 @@ static void SetFormat_internal( CSoundLibrary &sl, CSoundLibrary::SoundFormat Es
 
   // set wave format from library format
   SetWaveFormat( EsfNew, sl.sl_SwfeFormat);
-  snd_iDevice    = Clamp( snd_iDevice, -1, (INDEX)(sl.sl_ctWaveDevices-1));
+  snd_iDevice    = Clamp( snd_iDevice, (INDEX)-1, (INDEX)(sl.sl_ctWaveDevices-1));
   snd_tmMixAhead = Clamp( snd_tmMixAhead, 0.1f, 0.9f);
-  snd_iInterface = Clamp( snd_iInterface, 0, 2);
+  snd_iInterface = Clamp( snd_iInterface, (INDEX)0, (INDEX)2);
 
   BOOL bSoundOK = FALSE;
 #ifdef PLATFORM_WIN32
@@ -1245,7 +1245,7 @@ void CSoundLibrary::Mute(void)
 
 #ifdef PLATFORM_WIN32
   // erase direct sound buffer (waveout will shut-up by itself), but skip if there's no more sound library
-  if(!sl_bUsingDirectSound) return;
+  if( this==NULL || !sl_bUsingDirectSound) return;
 
   // synchronize access to sounds
   CTSingleLock slSounds(&sl_csSound, TRUE);

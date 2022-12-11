@@ -2,6 +2,7 @@
 
 /* rcg10072001 Moved stuff into this file. */
 
+#include "Engine/StdH.h"
 #include <Engine/Base/Timer.h>
 #include <Engine/Base/Input.h>
 #include <Engine/Base/Translation.h>
@@ -387,7 +388,7 @@ static void Poll2ndMouse(void)
   COMSTAT csComStat;
   DWORD dwErrorFlags;
   ClearCommError( _h2ndMouse, &dwErrorFlags, &csComStat);
-  DWORD dwLength = Min( MOUSECOMBUFFERSIZE, (INDEX)csComStat.cbInQue);
+  DWORD dwLength = Min((INDEX)MOUSECOMBUFFERSIZE, (INDEX)csComStat.cbInQue);
   if( dwLength<=0) return;
 
   // readout
@@ -580,7 +581,7 @@ void CInput::EnableInput(HWND hwnd)
 
   // if required, try to enable 2nd mouse
   Shutdown2ndMouse();
-  inp_i2ndMousePort = Clamp( inp_i2ndMousePort, 0L, 4L);
+  inp_i2ndMousePort = Clamp( inp_i2ndMousePort, (INDEX)0, (INDEX)4);
   Startup2ndMouse(inp_i2ndMousePort);
 
   // clear button's buffer

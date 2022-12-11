@@ -32,6 +32,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 extern INDEX ogl_bExclusive;
 
+
 // helper for D3D surface
 #ifdef SE1_D3D
 static void CreateSwapChain_D3D( CViewPort *pvp, PIX pixSizeI, PIX pixSizeJ)
@@ -69,7 +70,22 @@ static void SetAsRenderTarget_D3D( CViewPort *pvp)
   D3DRELEASE( pColorSurface, TRUE);
 }
 #endif // SE1_D3D
+#ifdef PLATFORM_WIN32
+// helper for OGL
 
+CTempDC::CTempDC(HWND hWnd)
+{
+  ASSERT(hWnd!=NULL);
+  hwnd = hWnd;
+  hdc = GetDC(hwnd);
+  ASSERT(hdc!=NULL);
+}
+
+CTempDC::~CTempDC(void)
+{
+  ReleaseDC(hwnd, hdc);
+}
+#endif
 
 /*
  *   ViewPort functions
@@ -103,21 +119,6 @@ CViewPort::~CViewPort(void)
 
 
 #ifdef PLATFORM_WIN32
-
-CTempDC::CTempDC(HWND hWnd)
-{
-  ASSERT(hWnd!=NULL);
-  hwnd = hWnd;
-  hdc = GetDC(hwnd);
-  ASSERT(hdc!=NULL);
-}
-
-CTempDC::~CTempDC(void)
-{
-  ReleaseDC(hwnd, hdc);
-}
-
-
 #define CViewPortCLASS "ViewPort Window"
 static BOOL _bClassRegistered = FALSE;
 
@@ -140,7 +141,10 @@ LRESULT CALLBACK CViewPortCLASS_WindowProc(
                            hWndParent, Msg, wParam, lParam);
   }
 
-  return DefWindowProc(hWnd, Msg, wParam, lParam);
+  LRESULT r = DefWindowProc( hWnd, Msg, wParam, lParam );
+
+  // UGLY fix! For some reason DefWindowProc returns 0
+  return TRUE;
 }
 #endif
 
@@ -209,7 +213,7 @@ void CViewPort::OpenCanvas(void)
   {
     CPrintF("Vulkan: Try Create Swapchain...\n");
     _pGfx->gl_SvkMain->CreateSwapchain(pixWinSizeI, pixWinSizeJ);
-    CPrintF("Vulkan: Create Swapchain Done.\n")
+    CPrintF("Vulkan: Create Swapchain Done.\nVulkan: === Ready to Render ===\n");
   }
 #endif // SE1_VULKAN
 
@@ -233,7 +237,7 @@ void CViewPort::OpenCanvas(void)
     extern  __attribute__ ((visibility("default"))) SDL_Window * _hwndMain;
   }
   // is it required?
-  // if (_pGfx->gl_eCurrentAPI == GAT_VK ) SetAsRenderTarget_Vulkan(this);
+  // if (_pGfx->gl_eCurrentAPI == GAT_VK && vp_VkSwapchain != VK_NULL_HANDLE) SetAsRenderTarget_Vulkan(this);
 #endif // SE1_VULKAN
 #endif
 }
@@ -249,7 +253,6 @@ void CViewPort::CloseCanvas( BOOL bRelease/*=FALSE*/)
     if( vp_pSurfDepth!=NULL) D3DRELEASE( vp_pSurfDepth, TRUE);
   }
 #endif // SE1_D3D
-
 #ifdef SE1_VULKAN
   if (_pGfx->gl_eCurrentAPI == GAT_VK && bRelease) 
   {
@@ -257,9 +260,9 @@ void CViewPort::CloseCanvas( BOOL bRelease/*=FALSE*/)
   }
 #endif // SE1_VULKAN
 
-  // destroy window
 
-#ifdef PLATFORM_WINDOWS
+  // destroy window
+#ifdef PLATFORM_WIN32
   if( vp_hWnd!=NULL && IsWindow(vp_hWnd)) {
     BOOL bRes = DestroyWindow(vp_hWnd);
     ASSERT(bRes);
@@ -309,15 +312,20 @@ void CViewPort::Resize(void)
     CreateSwapChain_D3D( this, pixNewWidth, pixNewHeight);
     SetAsRenderTarget_D3D(this);
   }
-#endif
-#endif
+#endif // SE1_D3D
+#endif // PLATFORM_WIN32
 #ifdef SE1_VULKAN
   if (_pGfx->gl_eCurrentAPI == GAT_VK)
   {
     CPrintF("Vulkan: Try ReCreate Swapchain...\n");
-    _pGfx->gl_SvkMain->RecreateSwapchain(0, 0); //  SDL_Vulkan_GetDrawableSize in SvkSwapchain.cpp 
-    CPrintF("Vulkan: ReCreate Swapchain Done.\nVulkan: === Ready to Render ===\n");
+ #ifdef PLATFORM_UNIX
     extern  __attribute__ ((visibility("default"))) SDL_Window * _hwndMain;
+    
+    _pGfx->gl_SvkMain->RecreateSwapchain(0, 0); //  SDL_Vulkan_GetDrawableSize in SvkSwapchain.cpp
+ #else
+    _pGfx->gl_SvkMain->RecreateSwapchain(pixNewWidth, pixNewHeight);
+ #endif
+    CPrintF("Vulkan: ReCreate Swapchain Done.\nVulkan: === Ready to Render ===\n");
   }
 #endif // SE1_VULKAN
 }

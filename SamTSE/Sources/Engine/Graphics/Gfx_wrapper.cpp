@@ -289,11 +289,11 @@ void gfxGetTextureFiltering( INDEX &iFilterType, INDEX &iAnisotropyDegree)
 void gfxSetTextureFiltering( INDEX &iFilterType, INDEX &iAnisotropyDegree)
 {              
   // clamp vars
-  INDEX iMagTex = iFilterType /100;     iMagTex = Clamp( iMagTex, 0, 2);  // 0=same as iMinTex, 1=nearest, 2=linear
-  INDEX iMinTex = iFilterType /10 %10;  iMinTex = Clamp( iMinTex, 1, 2);  // 1=nearest, 2=linear
-  INDEX iMinMip = iFilterType %10;      iMinMip = Clamp( iMinMip, 0, 2);  // 0=no mipmapping, 1=nearest, 2=linear
+  INDEX iMagTex = iFilterType /100;     iMagTex = Clamp( iMagTex, (INDEX)0, (INDEX)2);  // 0=same as iMinTex, 1=nearest, 2=linear
+  INDEX iMinTex = iFilterType /10 %10;  iMinTex = Clamp( iMinTex, (INDEX)1, (INDEX)2);  // 1=nearest, 2=linear
+  INDEX iMinMip = iFilterType %10;      iMinMip = Clamp( iMinMip, (INDEX)0, (INDEX)2);  // 0=no mipmapping, 1=nearest, 2=linear
   iFilterType   = iMagTex*100 + iMinTex*10 + iMinMip;
-  iAnisotropyDegree = Clamp( iAnisotropyDegree, 1, _pGfx->gl_iMaxTextureAnisotropy);
+  iAnisotropyDegree = Clamp( iAnisotropyDegree, (INDEX)1, _pGfx->gl_iMaxTextureAnisotropy);
 
   // skip if not changed
   if( _tpGlobal[0].tp_iFilter==iFilterType && _tpGlobal[0].tp_iAnisotropy==iAnisotropyDegree) return;
@@ -383,9 +383,9 @@ void gfxSetTexture( ULONG &ulTexObject, CTexParams &tpLocal)
   // clamp texture filtering if needed
   static INDEX _iLastTextureFiltering = 0;
   if( _iLastTextureFiltering != _tpGlobal[0].tp_iFilter) {
-    INDEX iMagTex = _tpGlobal[0].tp_iFilter /100;     iMagTex = Clamp( iMagTex, 0, 2);  // 0=same as iMinTex, 1=nearest, 2=linear
-    INDEX iMinTex = _tpGlobal[0].tp_iFilter /10 %10;  iMinTex = Clamp( iMinTex, 1, 2);  // 1=nearest, 2=linear
-    INDEX iMinMip = _tpGlobal[0].tp_iFilter %10;      iMinMip = Clamp( iMinMip, 0, 2);  // 0=no mipmapping, 1=nearest, 2=linear
+    INDEX iMagTex = _tpGlobal[0].tp_iFilter /100;     iMagTex = Clamp( iMagTex, (INDEX)0, (INDEX)2);  // 0=same as iMinTex, 1=nearest, 2=linear
+    INDEX iMinTex = _tpGlobal[0].tp_iFilter /10 %10;  iMinTex = Clamp( iMinTex, (INDEX)1, (INDEX)2);  // 1=nearest, 2=linear
+    INDEX iMinMip = _tpGlobal[0].tp_iFilter %10;      iMinMip = Clamp( iMinMip, (INDEX)0, (INDEX)2);  // 0=no mipmapping, 1=nearest, 2=linear
     _tpGlobal[0].tp_iFilter = iMagTex*100 + iMinTex*10 + iMinMip;
     _iLastTextureFiltering  = _tpGlobal[0].tp_iFilter;
   }
@@ -718,7 +718,7 @@ void gfxSetTruform( INDEX iLevel, BOOL bLinearNormals)
     return;
   }
   // skip if same as last time
-  iLevel = Clamp( iLevel, 0, _pGfx->gl_iMaxTessellationLevel);
+  iLevel = Clamp( iLevel, (INDEX)0, _pGfx->gl_iMaxTessellationLevel);
   if( truform_iLevel==iLevel && !truform_bLinear==!bLinearNormals) return;
 
   // determine API

@@ -748,7 +748,7 @@ static void RSSetPolygonColors( ScenePolygon *pspoGroup, UBYTE ubAlpha)
   for( ScenePolygon *pspo = pspoGroup; pspo != NULL; pspo = pspo->spo_pspoSucc) {
     col  = ByteSwap( AdjustColor( pspo->spo_cColor|ubAlpha, _slTexHueShift, _slTexSaturation));
     pcol = &_acolPass[pspo->spo_iVtx0Pass];
-    for( INDEX i=0; i<pspo->spo_ctVtx; i++) pcol[i].ul.abgr = col;
+	for (INDEX i = 0; i<pspo->spo_ctVtx; i++) pcol[i].ul.abgr = col;
   }
   gfxSetColorArray( &_acolPass[0]);
   _pfGfxProfile.StopTimer( CGfxProfile::PTI_RS_SETCOLORS);
@@ -760,7 +760,7 @@ static void RSSetConstantColors( COLOR col)
   _pfGfxProfile.StartTimer( CGfxProfile::PTI_RS_SETCOLORS);
   col = ByteSwap( AdjustColor( col, _slTexHueShift, _slTexSaturation));
   GFXColor *pcol = &_acolPass[0];
-  for( INDEX i=0; i<_acolPass.Count(); i++) pcol[i].ul.abgr = col;
+  for (INDEX i = 0; i<_acolPass.Count(); i++) pcol[i].ul.abgr = col;
   gfxSetColorArray( &_acolPass[0]);
   _pfGfxProfile.StopTimer( CGfxProfile::PTI_RS_SETCOLORS);
 }
@@ -794,7 +794,7 @@ static void RSSetTextureColors( ScenePolygon *pspoGroup, ULONG ulLayerMask)
     // store
     colTotal = ByteSwap(colTotal);
     GFXColor *pcol= &_acolPass[pspo->spo_iVtx0Pass];
-    for( INDEX i=0; i<pspo->spo_ctVtx; i++) pcol[i].ul.abgr = colTotal;
+	for (INDEX i = 0; i<pspo->spo_ctVtx; i++) pcol[i].ul.abgr = colTotal;
   }
   // set color array
   gfxSetColorArray( &_acolPass[0]);
@@ -839,8 +839,8 @@ static void RSSetTextureCoords( ScenePolygon *pspoGroup, INDEX iLayer, INDEX iUn
         const FLOAT fRVz = fVz - 2*vN(3)*fNV;
         const FLOAT fRVxT = fRVx*mViewer(1,1) + fRVy*mViewer(2,1) + fRVz*mViewer(3,1);
         const FLOAT fRVzT = fRVx*mViewer(1,3) + fRVy*mViewer(2,3) + fRVz*mViewer(3,3);
-        ptex[i].st.s = fRVxT*0.5f +0.5f;
-        ptex[i].st.t = fRVzT*0.5f +0.5f;
+		ptex[i].st.s = fRVxT*0.5f + 0.5f;
+		ptex[i].st.t = fRVzT*0.5f + 0.5f;
       }
       // advance to next polygon
       continue;
@@ -889,8 +889,10 @@ vtxLoop:
       faddp   st(1),st(0) // vU(1)*fDX+vU(2)*fDY+vU(3)*fDZ,  vV(1)*fDX+vV(2)*fDY, vV(3)*fDZ
       fxch    st(1)
       faddp   st(2),st(0) // vU(1)*fDX+vU(2)*fDY+vU(3)*fDZ,  vV(1)*fDX+vV(2)*fDY+vV(3)*fDZ
-      fstp    D [edi]GFXTexCoord.st.s
-      fstp    D [edi]GFXTexCoord.st.t
+      //fstp    D [edi]GFXTexCoord.s
+      //fstp    D [edi]GFXTexCoord.t
+	  fstp    D [edi]GFXTexCoord.st.s
+	  fstp    D [edi]GFXTexCoord.st.t
       add     esi,4*4
       add     edi,2*4
       dec     edx
@@ -974,9 +976,9 @@ static void RSSetFogCoordinates( ScenePolygon *pspoGroup)
     const GFXVertex   *pvtx = &_avtxPass[pspo->spo_iVtx0Pass];
           GFXTexCoord *ptex = &_atexPass[0][pspo->spo_iVtx0Pass];
     for( INDEX i=0; i<pspo->spo_ctVtx; i++) {
-      ptex[i].st.s = pvtx[i].z *_fFogMul;
-      ptex[i].st.t = (_fog_vHDirView(1)*pvtx[i].x + _fog_vHDirView(2)*pvtx[i].y
-                +  _fog_vHDirView(3)*pvtx[i].z + _fog_fAddH) * _fog_fMulH;
+		ptex[i].st.s = pvtx[i].z *_fFogMul;
+		ptex[i].st.t = (_fog_vHDirView(1)*pvtx[i].x + _fog_vHDirView(2)*pvtx[i].y
+			+ _fog_vHDirView(3)*pvtx[i].z + _fog_fAddH) * _fog_fMulH;
     }
   }
   gfxSetTexCoordArray( &_atexPass[0][0], FALSE);
@@ -993,8 +995,8 @@ static void RSSetHazeCoordinates( ScenePolygon *pspoGroup)
     const GFXVertex   *pvtx = &_avtxPass[pspo->spo_iVtx0Pass];
           GFXTexCoord *ptex = &_atexPass[0][pspo->spo_iVtx0Pass];
     for( INDEX i=0; i<pspo->spo_ctVtx; i++) {
-      ptex[i].st.s = (pvtx[i].z + _fHazeAdd) *_fHazeMul;
-      ptex[i].st.t = 0;
+	  ptex[i].st.s = (pvtx[i].z + _fHazeAdd) *_fHazeMul;
+	  ptex[i].st.t = 0;
     }
   }
   gfxSetTexCoordArray( &_atexPass[0][0], FALSE);
@@ -1326,7 +1328,7 @@ __forceinline void RSRenderFog( ScenePolygon *pspoFirst)
     const GFXTexCoord *ptex = &_atexPass[0][pspo->spo_iVtx0Pass];
     for( INDEX i=0; i<pspo->spo_ctVtx; i++) {
       // polygon is in fog, stop searching
-      if( InFog(ptex[i].st.t)) goto hasFog;
+	  if (InFog(ptex[i].st.t)) goto hasFog;
     }
     // hasn't got any fog, so skip it
     continue;
@@ -1350,7 +1352,7 @@ __forceinline void RSRenderHaze( ScenePolygon *pspoFirst)
     const GFXTexCoord *ptex = &_atexPass[0][pspo->spo_iVtx0Pass];
     for( INDEX i=0; i<pspo->spo_ctVtx; i++) {
       // polygon is in haze, stop searching
-      if( InHaze(ptex[i].st.s)) goto hasHaze;
+	  if (InHaze(ptex[i].st.s)) goto hasHaze;
     }
     // hasn't got any haze, so skip it
     continue;
@@ -1550,8 +1552,8 @@ void RSRenderGroup( ScenePolygon *pspoGroup, ULONG ulGroupFlags, ULONG ulTestedF
   // render one group
   extern INDEX ogl_iMaxBurstSize;
   extern INDEX d3d_iMaxBurstSize;
-  ogl_iMaxBurstSize = Clamp( ogl_iMaxBurstSize, 0, 9999);
-  d3d_iMaxBurstSize = Clamp( d3d_iMaxBurstSize, 0, 9999);
+  ogl_iMaxBurstSize = Clamp( ogl_iMaxBurstSize, (INDEX)0, (INDEX)9999);
+  d3d_iMaxBurstSize = Clamp( d3d_iMaxBurstSize, (INDEX)0, (INDEX)9999);
   const INDEX iMaxBurstSize = 
     (eAPI==GAT_OGL) ? ogl_iMaxBurstSize :
     (eAPI==GAT_VK) ? 0 : d3d_iMaxBurstSize;
@@ -1879,7 +1881,7 @@ void RenderScene( CDrawPort *pDP, ScenePolygon *pspoFirst, CAnyProjection3D &prP
   _bTranslucentPass = bTranslucent;
 
   // clamp detail textures LOD biasing
-  wld_iDetailRemovingBias = Clamp( wld_iDetailRemovingBias, -9, 9);
+  wld_iDetailRemovingBias = Clamp( wld_iDetailRemovingBias, (INDEX)-9, (INDEX)9);
 
   // set perspective projection
   _pDP->SetProjection(prProjection);
@@ -1890,7 +1892,7 @@ void RenderScene( CDrawPort *pDP, ScenePolygon *pspoFirst, CAnyProjection3D &prP
   extern INDEX ogl_bAlternateClipPlane;
   INDEX ctMaxUsableTexUnits = _pGfx->gl_ctTextureUnits;
   if( eAPI==GAT_OGL && ogl_bAlternateClipPlane && GFX_bClipPlane && ctMaxUsableTexUnits>1) ctMaxUsableTexUnits--;
-  _ctUsableTexUnits = Clamp( gap_iUseTextureUnits, 1, ctMaxUsableTexUnits);
+  _ctUsableTexUnits = Clamp( gap_iUseTextureUnits, (INDEX)1, ctMaxUsableTexUnits);
 
   // prepare
   RSPrepare();

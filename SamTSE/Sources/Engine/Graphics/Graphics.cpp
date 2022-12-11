@@ -1349,7 +1349,7 @@ void FilterBitmap( INDEX iFilter, ULONG *pulSrc, ULONG *pulDst, PIX pixWidth, PI
   }
 
   // prepare convolution matrix and row modulo
-  iFilter = Clamp( iFilter, -6, 6);
+  iFilter = Clamp( iFilter, (INDEX)-6, (INDEX)6);
   GenerateConvolutionMatrix( iFilter);
   SLONG slModulo1 = (pixCanvasWidth-pixWidth+1) *BYTES_PER_TEXEL;
   SLONG slCanvasWidth = pixCanvasWidth *BYTES_PER_TEXEL;

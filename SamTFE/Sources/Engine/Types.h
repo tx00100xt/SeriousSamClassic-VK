@@ -26,26 +26,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <Engine/Base/Base.h>
 #include <Engine/Graphics/gl_types.h>
 
-#ifdef PLATFORM_WIN32
-typedef signed long  int    SLONG;
-typedef signed short int    SWORD;
-typedef signed char	        SBYTE;
-typedef signed int          SINT;
-
-typedef unsigned long  int  ULONG;
-typedef unsigned short int  UWORD;
-typedef unsigned char       UBYTE;
-typedef unsigned int        UINT;
-
-//typedef  long long  __int64;
-typedef unsigned long long  __uint64;
-typedef unsigned long  int  DWORD;
-typedef signed long  int    LONG;
-
-//#ifndef __uint64
-//typedef uint64_t __uint64;
-//#endif
-#else
 #include <stdint.h>
 // use the defined typesizes from MSDN to create an equivalent translation on
 // non windows platforms
@@ -54,17 +34,20 @@ typedef int16_t SWORD;
 typedef int8_t  SBYTE;
 typedef int32_t SINT;
 
+#ifndef PLATFORM_WIN32
 typedef uint32_t ULONG;
+#else
+typedef uint64_t __uint64;
+#endif
 typedef uint16_t UWORD;
 typedef uint8_t  UBYTE;
 typedef uint32_t UINT;
-#endif
 
 // Flip this to 1 to turn off these messages everywhere.
 // !!! FIXME: I have it forced off for Windows because fprintf.
-//#if 0 || PLATFORM_WIN32
-//#define STUBBED(txt) do {} while (0)
-//#endif
+#if 0 || PLATFORM_WIN32
+#define STUBBED(txt) do {} while (0)
+#endif
 
 #ifndef STUBBED
     #define STUBBED(txt) do { \
@@ -352,15 +335,9 @@ MY_STATIC_ASSERT(size_tSize, sizeof(size_t) == sizeof(void*));
 #define MAX_UWORD ((UWORD)0xFFFF)
 #define MAX_UBYTE ((UBYTE)0xFF)
 
-#ifdef PLATFORM_UNIX
 typedef int32_t BOOL;		        // this is for TRUE/FALSE
 typedef int32_t RESULT;		// for error codes
 typedef int32_t INDEX;     // for indexed values and quantities
-#else
-typedef int BOOL;		        // this is for TRUE/FALSE
-typedef long int RESULT;		// for error codes
-typedef long int INDEX;     // for indexed values and quantities
-#endif
 
 #define FALSE 0
 #define TRUE  1
@@ -704,8 +681,6 @@ inline void Clear(int i) {};
 inline void Clear(float i) {};
 inline void Clear(double i) {};
 inline void Clear(void *pv) {};
-
-#define SYMBOLLOCATOR(symbol)
 
 // DG: screw macros, use inline functions instead - they're even safe for signed values
 inline UWORD BYTESWAP16_unsigned(UWORD x)

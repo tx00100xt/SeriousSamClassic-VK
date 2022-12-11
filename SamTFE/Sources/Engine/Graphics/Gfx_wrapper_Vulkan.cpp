@@ -517,7 +517,7 @@ static void svk_SetColorArray(GFXColor* pcol)
   for (INDEX i = 0; i < ctVtx; i++)
   {
     //#######
-    verts[i].SetColorRGBA(pcol[i].ub.r / 255.0f, pcol[i].ub.g / 255.0f, pcol[i].ub.b / 255.0f, pcol[i].ub.a / 255.0f);
+	verts[i].SetColorRGBA(pcol[i].ub.r / 255.0f, pcol[i].ub.g / 255.0f, pcol[i].ub.b / 255.0f, pcol[i].ub.a / 255.0f);
   }
 
   _sfStats.StopTimer(CStatForm::STI_GFXAPI);
@@ -549,7 +549,7 @@ static void svk_SetTexCoordArray(GFXTexCoord* ptex, BOOL b4/*=FALSE*/)
   {
     // set for current texture unit
     //#######
-    verts[i].SetTexCoord(GFX_iActiveTexUnit, ptex[i].uv.u, ptex[i].uv.v);
+	verts[i].SetTexCoord(GFX_iActiveTexUnit, ptex[i].uv.u, ptex[i].uv.v);
   }
 
   _sfStats.StopTimer(CStatForm::STI_GFXAPI);
@@ -569,7 +569,7 @@ static void svk_SetTextureModulation(INDEX iScale)
 
 
 // draw prepared arrays
-static void svk_DrawElements(INDEX ctElem, INDEX_T *pidx)
+static void svk_DrawElements(INDEX ctElem, INDEX *pidx)
 {
   ASSERT(_pGfx->gl_eCurrentAPI == GAT_VK);
 #ifndef NDEBUG

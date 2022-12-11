@@ -213,8 +213,8 @@ void Particle_RenderSquare( const FLOAT3D &vPos, FLOAT fSize, ANGLE aRotation, C
   // if haze is active
   if( _Particle_bHasHaze)
   { // get haze strength at particle position
-    ptexFogHaze[0].st.s = (-vProjected(3)+_haze_fAdd)*_haze_fMul;
-    const ULONG ulH = 255-GetHazeAlpha(ptexFogHaze[0].st.s);
+	ptexFogHaze[0].st.s = (-vProjected(3) + _haze_fAdd)*_haze_fMul;
+	const ULONG ulH = 255 - GetHazeAlpha(ptexFogHaze[0].st.s);
     if( ulH<4) return;
     if( _colAttMask) { // apply haze color (if not transparent)
       const COLOR colH = _colAttMask | RGBAToColor( ulH,ulH,ulH,ulH);
@@ -224,8 +224,8 @@ void Particle_RenderSquare( const FLOAT3D &vPos, FLOAT fSize, ANGLE aRotation, C
   // if fog is active
   if( _Particle_bHasFog)
   { // get fog strength at particle position
-    ptexFogHaze[0].st.s = -vProjected(3)*_fog_fMulZ;
-    ptexFogHaze[0].st.t = (vProjected%_fog_vHDirView+_fog_fAddH)*_fog_fMulH;
+	  ptexFogHaze[0].st.s = -vProjected(3)*_fog_fMulZ;
+	  ptexFogHaze[0].st.t = (vProjected%_fog_vHDirView + _fog_fAddH)*_fog_fMulH;
     const ULONG ulF = 255-GetFogAlpha(ptexFogHaze[0]);
     if( ulF<4) return;
     if( _colAttMask) { // apply fog color (if not transparent)
@@ -330,10 +330,11 @@ void Particle_RenderLine( const FLOAT3D &vPos0, const FLOAT3D &vPos1, FLOAT fWid
   // if fog is active
   if( _Particle_bHasFog)
   { // get fog strength at particle position
-    ptexFogHaze[0].st.s = -vProjected0(3)*_fog_fMulZ;
-    ptexFogHaze[0].st.t = (vProjected0%_fog_vHDirView+_fog_fAddH)*_fog_fMulH;
-    ptexFogHaze[1].st.s = -vProjected1(3)*_fog_fMulZ;
-    ptexFogHaze[1].st.t = (vProjected1%_fog_vHDirView+_fog_fAddH)*_fog_fMulH;
+	  ptexFogHaze[0].st.s = -vProjected0(3)*_fog_fMulZ;
+	  ptexFogHaze[0].st.t = (vProjected0%_fog_vHDirView + _fog_fAddH)*_fog_fMulH;
+	  ptexFogHaze[1].st.s = -vProjected1(3)*_fog_fMulZ;
+	  ptexFogHaze[1].st.t = (vProjected1%_fog_vHDirView + _fog_fAddH)*_fog_fMulH;
+
     const ULONG ulF0 = 255-GetFogAlpha(ptexFogHaze[0]);
     const ULONG ulF1 = 255-GetFogAlpha(ptexFogHaze[1]);
     if( (ulF0|ulF1)<4) return;
@@ -432,14 +433,15 @@ void Particle_RenderQuad3D( const FLOAT3D &vPos0, const FLOAT3D &vPos1, const FL
   // if haze is active
   if( _Particle_bHasHaze)
   { // get haze strength at particle position
-    ptexFogHaze[0].st.s = (-vProjected0(3)+_haze_fAdd)*_haze_fMul;
-    ptexFogHaze[1].st.s = (-vProjected1(3)+_haze_fAdd)*_haze_fMul;
-    ptexFogHaze[2].st.s = (-vProjected2(3)+_haze_fAdd)*_haze_fMul;
-    ptexFogHaze[3].st.s = (-vProjected3(3)+_haze_fAdd)*_haze_fMul;
-    const ULONG ulH0 = 255-GetHazeAlpha(ptexFogHaze[0].st.s);
-    const ULONG ulH1 = 255-GetHazeAlpha(ptexFogHaze[1].st.s);
-    const ULONG ulH2 = 255-GetHazeAlpha(ptexFogHaze[2].st.s);
-    const ULONG ulH3 = 255-GetHazeAlpha(ptexFogHaze[3].st.s);
+	  ptexFogHaze[0].st.s = (-vProjected0(3) + _haze_fAdd)*_haze_fMul;
+	  ptexFogHaze[1].st.s = (-vProjected1(3) + _haze_fAdd)*_haze_fMul;
+	  ptexFogHaze[2].st.s = (-vProjected2(3) + _haze_fAdd)*_haze_fMul;
+	  ptexFogHaze[3].st.s = (-vProjected3(3) + _haze_fAdd)*_haze_fMul;
+	  const ULONG ulH0 = 255 - GetHazeAlpha(ptexFogHaze[0].st.s);
+	  const ULONG ulH1 = 255 - GetHazeAlpha(ptexFogHaze[1].st.s);
+	  const ULONG ulH2 = 255 - GetHazeAlpha(ptexFogHaze[2].st.s);
+	  const ULONG ulH3 = 255 - GetHazeAlpha(ptexFogHaze[3].st.s);
+
     if( (ulH0|ulH1|ulH2|ulH3)<4) return;
     if( _colAttMask) { // apply haze color (if not transparent)
       COLOR colH;
@@ -452,14 +454,15 @@ void Particle_RenderQuad3D( const FLOAT3D &vPos0, const FLOAT3D &vPos1, const FL
   // if fog is active
   if( _Particle_bHasFog)
   { // get fog strength at particle position
-    ptexFogHaze[0].st.s = -vProjected0(3)*_fog_fMulZ;
-    ptexFogHaze[0].st.t = (vProjected0%_fog_vHDirView+_fog_fAddH)*_fog_fMulH;
-    ptexFogHaze[1].st.s = -vProjected1(3)*_fog_fMulZ;
-    ptexFogHaze[1].st.t = (vProjected1%_fog_vHDirView+_fog_fAddH)*_fog_fMulH;
-    ptexFogHaze[2].st.s = -vProjected2(3)*_fog_fMulZ;
-    ptexFogHaze[2].st.t = (vProjected2%_fog_vHDirView+_fog_fAddH)*_fog_fMulH;
-    ptexFogHaze[3].st.s = -vProjected3(3)*_fog_fMulZ;
-    ptexFogHaze[3].st.t = (vProjected3%_fog_vHDirView+_fog_fAddH)*_fog_fMulH;
+	  ptexFogHaze[0].st.s = -vProjected0(3)*_fog_fMulZ;
+	  ptexFogHaze[0].st.t = (vProjected0%_fog_vHDirView + _fog_fAddH)*_fog_fMulH;
+	  ptexFogHaze[1].st.s = -vProjected1(3)*_fog_fMulZ;
+	  ptexFogHaze[1].st.t = (vProjected1%_fog_vHDirView + _fog_fAddH)*_fog_fMulH;
+	  ptexFogHaze[2].st.s = -vProjected2(3)*_fog_fMulZ;
+	  ptexFogHaze[2].st.t = (vProjected2%_fog_vHDirView + _fog_fAddH)*_fog_fMulH;
+	  ptexFogHaze[3].st.s = -vProjected3(3)*_fog_fMulZ;
+	  ptexFogHaze[3].st.t = (vProjected3%_fog_vHDirView + _fog_fAddH)*_fog_fMulH;
+
     const ULONG ulF0 = 255-GetFogAlpha(ptexFogHaze[0]);
     const ULONG ulF1 = 255-GetFogAlpha(ptexFogHaze[1]);
     const ULONG ulF2 = 255-GetFogAlpha(ptexFogHaze[2]);
@@ -523,11 +526,11 @@ void Particle_Flush(void)
     GFXColor glcolFH;        
     gfxSetTextureWrapping( GFX_CLAMP, GFX_CLAMP);
     if( _Particle_bHasHaze) {
-      gfxSetTexture( _haze_ulTexture, _haze_tpLocal);
-      glcolFH.ul.abgr = ByteSwap( AdjustColor( _haze_hp.hp_colColor, _slTexHueShift, _slTexSaturation));
-    } else {
-      gfxSetTexture( _fog_ulTexture, _fog_tpLocal);
-      glcolFH.ul.abgr = ByteSwap( AdjustColor( _fog_fp.fp_colColor, _slTexHueShift, _slTexSaturation));
+	  gfxSetTexture(_haze_ulTexture, _haze_tpLocal);
+	  glcolFH.ul.abgr = ByteSwap(AdjustColor(_haze_hp.hp_colColor, _slTexHueShift, _slTexSaturation));
+	} else {
+	  gfxSetTexture(_fog_ulTexture, _fog_tpLocal);
+	  glcolFH.ul.abgr = ByteSwap(AdjustColor(_fog_fp.fp_colColor, _slTexHueShift, _slTexSaturation));
     }
     // prepare haze rendering parameters
     gfxDisableAlphaTest();
