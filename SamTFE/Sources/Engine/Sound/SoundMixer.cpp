@@ -89,7 +89,7 @@ void ResetMixer( const SLONG *pslBuffer, const SLONG slBufferSize)
     rep     stosd
   }
   #else
-  memset(pvMixerBuffer, 0, slMixerBufferSize * 8);
+  memset(pvMixerBuffer, 0, (UINT64)slMixerBufferSize * 8);
   #endif
 }
 
