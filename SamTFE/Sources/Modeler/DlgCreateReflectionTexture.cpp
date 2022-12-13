@@ -520,7 +520,7 @@ BOOL CDlgCreateReflectionTexture::OnInitDialog()
 	return TRUE;
 }
 
-void CDlgCreateReflectionTexture::OnTimer(UINT nIDEvent) 
+void CDlgCreateReflectionTexture::OnTimer(UINT_PTR nIDEvent) 
 {
 	// on our timer discard preview window
   if( nIDEvent == 1 && _bTimerEnabled)

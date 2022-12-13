@@ -392,7 +392,7 @@ BOOL CDlgCreateSpecularTexture::OnInitDialog()
 	return TRUE;
 }
 
-void CDlgCreateSpecularTexture::OnTimer(UINT nIDEvent) 
+void CDlgCreateSpecularTexture::OnTimer(UINT_PTR nIDEvent) 
 {
 	// on our timer discard preview window
   if( nIDEvent == 1)
