@@ -1695,7 +1695,7 @@ colEnd:
     // generate colors from shades
     for( INDEX iMipVx=0; iMipVx<_ctAllMipVx; iMipVx++) {
       GFXColor &col = pcolMipBase[iMipVx];
-      const SLONG slShade = Clamp( (SLONG)pswMipCol[iMipVx], 0, 255);
+      const SLONG slShade = Clamp( (SLONG)pswMipCol[iMipVx], (SLONG)0, (SLONG)255);
       col.ub.r = pubClipByte[_slAR + ((_slLR*slShade)>>8)];
       col.ub.g = pubClipByte[_slAG + ((_slLG*slShade)>>8)];
       col.ub.b = pubClipByte[_slAB + ((_slLB*slShade)>>8)];

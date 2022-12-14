@@ -71,7 +71,7 @@ struct GFXColor
  *  simple class. It works for MSVC, though,
  *  so we'll keep it.
  */
-#if (defined _MSC_VER)
+#if (defined __MSVC_INLINE__)
   GFXColor( COLOR col) {
     _asm mov   ecx,dword ptr [this]
     _asm mov   eax,dword ptr [col]

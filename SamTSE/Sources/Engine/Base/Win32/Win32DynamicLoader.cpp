@@ -29,7 +29,7 @@ CDynamicLoader *CDynamicLoader::GetInstance(const char *libname)
 
 void CWin32DynamicLoader::SetError(void)
 {
-	CTString errmsg = ::GetWindowsError(::GetLastError());
+	const char * errmsg = ::GetWindowsError(::GetLastError());
     delete err;
     err = NULL;
 

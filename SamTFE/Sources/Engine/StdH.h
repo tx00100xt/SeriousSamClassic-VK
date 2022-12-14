@@ -37,11 +37,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <float.h>    // for FPU control
 
 #ifdef PLATFORM_WIN32
+#include <io.h>
 #include <malloc.h>
 #include <conio.h>
 #include <crtdbg.h>
 #include <winsock2.h>
-//#include <windows.h>
+#include <windows.h>
 #include <mmsystem.h> // for timers
 #else
 #include "SDL.h"

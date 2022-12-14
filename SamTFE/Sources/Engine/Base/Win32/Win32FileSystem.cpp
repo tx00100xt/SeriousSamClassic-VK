@@ -105,7 +105,7 @@ CDynamicArray<CTString> *CWin32FileSystem::FindFiles(const char *dir,
         str += "\\";
 
     struct _finddata_t c_file;
-    long hFile = _findfirst( (const char *)(str+wildcard), &c_file );
+    intptr_t hFile = _findfirst( (const char *)(str+wildcard), &c_file );
 
     for (BOOL bFileExists = hFile!=-1;
          bFileExists;

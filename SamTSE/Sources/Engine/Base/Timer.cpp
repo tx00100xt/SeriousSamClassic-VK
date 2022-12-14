@@ -45,7 +45,7 @@ static inline __int64 ReadTSC(void)
   struct timespec tp;
   clock_gettime(CLOCK_MONOTONIC, &tp);
   return( (((__int64) tp.tv_sec) * 1000000000LL) + ((__int64) tp.tv_nsec));
-#elif (defined __MSVC_INLINE__) || defined( PLATFORM_WIN32 )
+#elif (defined __MSVC_INLINE__) && (defined  PLATFORM_32BIT)
   __int64 mmRet;
   __asm {
     rdtsc
@@ -54,7 +54,13 @@ static inline __int64 ReadTSC(void)
   }
   return mmRet;
 
-#elif (defined __GNU_INLINE_X86_32__ )
+#elif (defined _MSC_VER) && (defined  PLATFORM_64BIT)
+	unsigned __int64 i;
+	i = __rdtsc();
+
+	return i;
+
+#elif (defined __GNU_INLINE_X86_32__ )	
   __int64 mmRet;
   __asm__ __volatile__ (
     "rdtsc                    \n\t"
@@ -160,7 +166,7 @@ void cpu_rdtsc(uint64_t* result)
 		"	mov	%%edx,	%1\n"
 		:"=m"(low_part), "=m"(hi_part)::"memory", "eax", "edx"
 	);
-#elif (defined __MSVC_INLINE__) || defined( PLATFORM_WIN32 )
+#elif (defined __MSVC_INLINE__) || defined( PLATFORM_32BIT )
     low_part = 0;
     hi_part = 0;
 
@@ -169,6 +175,11 @@ void cpu_rdtsc(uint64_t* result)
 		mov	low_part,	eax
 		mov	hi_part,	edx
 	};
+#elif (defined _MSC_VER) && (defined  PLATFORM_64BIT)
+	unsigned __int64 i;
+	i = __rdtsc();
+	*result = i;
+	return;
 #else
 #    error "Unsupported compiler"
 #endif
@@ -599,7 +610,7 @@ CTimer::CTimer(BOOL bInterrupt /*=TRUE*/)
     tm_TimerID = timeSetEvent(
       ULONG(TickQuantum*1000.0f),	  // period value [ms]
       0,	                          // resolution (0==max. possible)
-      &CTimer_TimerFunc,	          // callback
+      (LPTIMECALLBACK)&CTimer_TimerFunc,	          // callback
       0,                            // user
       TIME_PERIODIC);               // event type
 

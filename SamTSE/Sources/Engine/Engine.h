@@ -48,6 +48,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <winsock2.h>
 #include <windows.h>
 #include <mmsystem.h> // for timers
+#include <Intrin.h>
 #endif
 
 #include <Engine/Base/Base.h>

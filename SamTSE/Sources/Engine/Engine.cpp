@@ -193,7 +193,7 @@ static void DetectCPU(void)
   ULONG ulTFMS = 0;
   ULONG ulFeatures = 0;
 
-  #if (defined __MSVC_INLINE__) || (defined  PLATFORM_WIN32)
+  #if (defined __MSVC_INLINE__) && (defined  PLATFORM_32BIT)
   // test MMX presence and update flag
   __asm {
     xor     eax,eax           ;// request for basic id
@@ -207,7 +207,30 @@ static void DetectCPU(void)
     mov     dword ptr [ulFeatures], edx
   }
 
-  #elif (defined __GNU_INLINE_X86__)
+  #elif (defined _MSC_VER) && (defined  PLATFORM_64BIT)
+    // test MMX presence and update flag
+
+    // eax, ebx, ecx, edx
+    int cpuidData[4];
+
+    // 0: Highest Function Parameter and CPU's manufacturer ID string
+    __cpuid(cpuidData, 0);
+    // to get string copy 12 bytes in the following order:
+    // ebx
+    memcpy(&strVendor[0], &cpuidData[1], 4);
+    // edx
+    memcpy(&strVendor[0], &cpuidData[3], 4);
+    // ecx
+    memcpy(&strVendor[0], &cpuidData[2], 4);
+
+    // 1: Processor Info and Feature Bits
+    __cpuid(cpuidData, 1);
+    // eax
+    memcpy(&ulTFMS, &cpuidData[0], 4);
+    // edx
+    memcpy(&ulFeatures, &cpuidData[3], 4);
+  
+  #elif (defined __GNU_INLINE_X86__)	  
     ULONG eax, ebx, ecx, edx;
     // test MMX presence and update flag
     __asm__ __volatile__ (

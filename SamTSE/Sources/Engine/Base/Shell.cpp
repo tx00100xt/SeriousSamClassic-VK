@@ -228,8 +228,13 @@ extern void ReportGlobalMemoryStatus(void)
    CPrintF(TRANSV("  Virtual memory used:  %4d/%4dMB\n"), (ms.dwTotalVirtual -ms.dwAvailVirtual )/MB, ms.dwTotalVirtual /MB);
    CPrintF(TRANSV("  Memory load: %3d%%\n"), ms.dwMemoryLoad);
 
+#if (defined _MSC_VER) && (defined  PLATFORM_64BIT)
+   SIZE_T dwMin;
+   SIZE_T dwMax;
+#else
    DWORD dwMin;
    DWORD dwMax;
+#endif  
    GetProcessWorkingSetSize(GetCurrentProcess(), &dwMin, &dwMax);
    CPrintF(TRANSV("  Process working set: %dMB-%dMB\n\n"), dwMin/(1024*1024), dwMax/(1024*1024));
 #endif

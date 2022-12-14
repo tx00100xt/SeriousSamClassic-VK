@@ -19,7 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   #pragma once
 #endif
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && defined(PLATFORM_32BIT)
 #define __MSVC_INLINE__
 #endif
 
