@@ -246,8 +246,6 @@ Windows
 3. Download and Install [Windows 10 SDK 10.0.14393.795] or other.
 4. Open the solution in the Sources folder, select Release x64 or Release Win32 and compile it.
 
-Note: Projects using MFC only work in the 32-bit build of the game.
-
 Supported Architectures
 ----------------------
 * `x86`
