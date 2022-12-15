@@ -201,6 +201,13 @@ extern ENGINE_API BOOL _bWorldEditorApp; // is this world edtior app
 extern ENGINE_API CTString _strLogFile;
 extern ENGINE_API CTFileName _fnmModLibPath;
 extern ENGINE_API INDEX sys_iSysPath;
+#ifdef PLATFORM_WIN32
+//
+extern ENGINE_API FLOAT _fPlayerFOVAdjuster;
+extern ENGINE_API FLOAT _fWeaponFOVAdjuster;
+extern ENGINE_API FLOAT _fArmorHeightAdjuster;
+extern ENGINE_API FLOAT _fFragScorerHeightAdjuster;
+#endif
 
 // temporary vars for adjustments
 ENGINE_API extern FLOAT tmp_af[10];

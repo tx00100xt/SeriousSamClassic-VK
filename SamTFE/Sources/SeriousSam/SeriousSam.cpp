@@ -69,10 +69,10 @@ ENGINE_API FLOAT _fPlayerFOVAdjuster;
 ENGINE_API FLOAT _fArmorHeightAdjuster;
 ENGINE_API FLOAT _fFragScorerHeightAdjuster;
 #else
-ENGINE_API extern FLOAT _fPlayerFOVAdjuster;
-ENGINE_API extern FLOAT _fWeaponFOVAdjuster;
-ENGINE_API extern FLOAT _fArmorHeightAdjuster;
-ENGINE_API extern FLOAT _fFragScorerHeightAdjuster;
+extern ENGINE_API FLOAT _fPlayerFOVAdjuster;
+extern ENGINE_API FLOAT _fWeaponFOVAdjuster;
+extern ENGINE_API FLOAT _fArmorHeightAdjuster;
+extern ENGINE_API FLOAT _fFragScorerHeightAdjuster;
 #endif
 
 extern FLOAT _fBigStartJ;       //Position of contents below large font title

@@ -115,6 +115,15 @@ static CTString sys_strModExt  = "";
 // Path vars
 static INDEX sys_iGameBits = 0;
 ENGINE_API INDEX sys_iSysPath = 0;
+
+#ifdef PLATFORM_WIN32
+// Entities Adjesters
+ENGINE_API FLOAT _fPlayerFOVAdjuster = 1.0f;
+ENGINE_API FLOAT _fWeaponFOVAdjuster = 1.0f;
+ENGINE_API FLOAT _fArmorHeightAdjuster = 1.5f;
+ENGINE_API FLOAT _fFragScorerHeightAdjuster = 1.5f;
+#endif
+
 //
 char _path[2048];
 static int _testfiledone;
@@ -885,7 +894,12 @@ ENGINE_API void SE_InitEngine(CTString strGameID)
   // Path vars
   _pShell->DeclareSymbol("user const INDEX sys_iGameBits    ;", (void *) &sys_iGameBits);
   _pShell->DeclareSymbol("user const INDEX sys_iSysPath    ;", (void *) &sys_iSysPath);
-
+#ifdef PLATFORM_WIN32
+  _pShell->DeclareSymbol("user const FLOAT _fPlayerFOVAdjuster    ;", (void *) &_fPlayerFOVAdjuster);
+  _pShell->DeclareSymbol("user const FLOAT _fWeaponFOVAdjuster    ;", (void *) &_fWeaponFOVAdjuster);
+  _pShell->DeclareSymbol("user const FLOAT _fArmorHeightAdjuster    ;", (void *) &_fArmorHeightAdjuster);
+  _pShell->DeclareSymbol("user const FLOAT _fFragScorerHeightAdjuster    ;", (void *) &_fFragScorerHeightAdjuster);
+#endif
   // Stock clearing
   extern void FreeUnusedStock(void);
   _pShell->DeclareSymbol("user void FreeUnusedStock(void);", (void *) &FreeUnusedStock);

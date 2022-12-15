@@ -73,7 +73,7 @@ void ShowSplashScreen(HINSTANCE hInstance)
 
   WNDCLASSA wc;
   wc.style = CS_HREDRAW | CS_VREDRAW;
-  wc.lpfnWndProc = SplashWindowProc;
+  wc.lpfnWndProc = (WNDPROC)SplashWindowProc;
   wc.cbClsExtra = 0;
   wc.cbWndExtra = 0;
   wc.hInstance = hInstance;

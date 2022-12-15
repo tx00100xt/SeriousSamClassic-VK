@@ -5,6 +5,8 @@
 #include "Engine/StdH.h"
 #include <Engine/Engine.h>
 #include <Engine/Base/DynamicLoader.h>
+#include <Engine/Base/Shell.h>
+#include <Engine/Base/Console.h>
 
 class CWin32DynamicLoader : public CDynamicLoader
 {
@@ -67,14 +69,20 @@ CWin32DynamicLoader::CWin32DynamicLoader(const char *libname)
     : module(NULL),
       err(NULL)
 {
+	module = ::LoadLibraryA((const char *)libname);
+	if (module == NULL)
+		SetError();
+/*
 	CTFileName _fnm = (CTFileName(CTString(libname)));
 	_fnm = _fnm.FileName();
     if (stricmp(_fnm.FileExt(), ".dll") != 0)
         _fnm += ".dll";
 
+	CPrintF(TRANSV("CWin32DynamicLoader _fnm: %s\n"), (const char *)_fnm);
     module = ::LoadLibraryA((const char *) _fnm);
     if (module == NULL)
         SetError();
+*/
 }
 
 

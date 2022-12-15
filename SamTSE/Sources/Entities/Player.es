@@ -38,8 +38,8 @@
 extern "C" __attribute__ ((visibility("default"))) FLOAT _fWeaponFOVAdjuster = 1.0f;
 extern "C" __attribute__ ((visibility("default"))) FLOAT _fPlayerFOVAdjuster = 1.0f;
 #else
-DECL_DLL extern FLOAT _fWeaponFOVAdjuster = 1.0f;
-DECL_DLL extern FLOAT _fPlayerFOVAdjuster = 1.0f;
+extern __declspec(dllimport) FLOAT _fWeaponFOVAdjuster;
+extern __declspec(dllimport) FLOAT _fPlayerFOVAdjuster;
 #endif
 
 extern INDEX hud_bShowPing				= TRUE;

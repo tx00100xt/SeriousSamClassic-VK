@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     #define GAMEGUI_DLL_NAME "GameGUIMPD.dll"
   #else
     #define GAMEGUI_DLL_NAME "GameGUIMP.dll"
+  #endif
 #endif
 
 extern CGame *_pGame = NULL;

@@ -22,6 +22,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <Engine/Entities/Precaching.h>
 #include <Engine/Base/Translation.h>
 #include <Engine/Base/CRCTable.h>
+#include <Engine/Base/Shell.h>
+#include <Engine/Base/Console.h>
 
 #include <Engine/Templates/Stock_CAnimData.h>
 #include <Engine/Templates/Stock_CTextureData.h>
@@ -293,6 +295,7 @@ void CEntityClass::Read_t( CTStream *istr) // throw char *
   dllName = fnmExpanded;
 
   ec_hiClassDLL = (CDynamicLoader*)LoadDLL_t(fnmExpanded);
+  //ec_hiClassDLL = CDynamicLoader::GetInstance(fnmExpanded);
 #else
     // load the DLL
   #ifdef STATICALLY_LINKED
@@ -326,6 +329,7 @@ void CEntityClass::Read_t( CTStream *istr) // throw char *
   // get the pointer to the DLL class structure
 #ifdef PLATFORM_WIN32
   ec_pdecDLLClass = (CDLLEntityClass *)GetProcAddress((HINSTANCE)ec_hiClassDLL, strClassName + "_DLLClass");
+  //ec_pdecDLLClass = (CDLLEntityClass *)ec_hiClassDLL->FindSymbol(strClassName + "_DLLClass");
 #else
   ec_pdecDLLClass = (CDLLEntityClass *)ec_hiClassDLL->FindSymbol(strClassName + "_DLLClass");
 #endif
@@ -335,6 +339,7 @@ void CEntityClass::Read_t( CTStream *istr) // throw char *
 #ifdef PLATFORM_WIN32
 	BOOL bSuccess = FreeLibrary((HINSTANCE)ec_hiClassDLL);
 	ASSERT(bSuccess);
+	//delete ec_hiClassDLL;
 #else
     delete ec_hiClassDLL;
 #endif
