@@ -18,8 +18,8 @@
 extern "C" __attribute__ ((visibility("default"))) FLOAT _fArmorHeightAdjuster = 1.0f;
 extern "C" __attribute__ ((visibility("default"))) FLOAT _fFragScorerHeightAdjuster = 1.0f;
 #else
-DECL_DLL extern FLOAT _fArmorHeightAdjuster = 1.5f;
-DECL_DLL extern FLOAT _fFragScorerHeightAdjuster = 1.5f;
+extern __declspec(dllimport) FLOAT _fArmorHeightAdjuster;
+extern __declspec(dllimport) FLOAT _fFragScorerHeightAdjuster;
 #endif
 
 //

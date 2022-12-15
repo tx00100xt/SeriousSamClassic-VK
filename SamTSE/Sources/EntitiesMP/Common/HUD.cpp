@@ -35,8 +35,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 extern "C" __attribute__ ((visibility("default"))) FLOAT _fArmorHeightAdjuster = 1.0f;
 extern "C" __attribute__ ((visibility("default"))) FLOAT _fFragScorerHeightAdjuster = 1.0f;
 #else
-extern __declspec(dllimport) FLOAT _fArmorHeightAdjuster = 1.5f;
-extern __declspec(dllimport) FLOAT _fFragScorerHeightAdjuster = 1.5f;
+extern __declspec(dllimport) FLOAT _fArmorHeightAdjuster;
+extern __declspec(dllimport) FLOAT _fFragScorerHeightAdjuster;
 #endif
 
 //
