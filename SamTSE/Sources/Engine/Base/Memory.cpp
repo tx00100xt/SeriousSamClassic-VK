@@ -89,7 +89,11 @@ CMemHandlerInit::CMemHandlerInit(void)
 
 #undef AllocMemory
 
-void *AllocMemory( SLONG memsize )
+#if (defined _MSC_VER) && (defined  PLATFORM_64BIT)
+void *AllocMemory(UINT64 memsize)
+#else
+void *AllocMemory( SLONG memsize)
+#endif
 {
   void *pmem;
   ASSERTMSG(memsize>0, "AllocMemory: Block size is less or equal zero.");
@@ -127,7 +131,7 @@ void *_debug_AllocMemory( SLONG memsize, int iType, const char *strFile, int iLi
 #endif
 
 #if (defined _MSC_VER) && (defined  PLATFORM_64BIT)
-void *AllocMemoryAligned(SLONG memsize, SLONG slAlignPow2)
+void *AllocMemoryAligned(UINT64 memsize, UINT64 slAlignPow2)
 {
   UINT64 ulMem = (UINT64) AllocMemory(memsize + slAlignPow2 * 2);
   UINT64 ulMemAligned = ((ulMem + slAlignPow2 - 1) & ~(slAlignPow2 - 1)) + slAlignPow2;
