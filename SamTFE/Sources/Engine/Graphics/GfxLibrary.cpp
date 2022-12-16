@@ -249,9 +249,9 @@ extern INDEX mdl_bRenderBump       = TRUE;
 extern FLOAT ogl_fTextureAnisotropy = 0.0f;
 extern FLOAT tex_fNormalSize = 0.0f;
 #else
-static INDEX mdl_bRenderBump       = TRUE;
-static FLOAT ogl_fTextureAnisotropy = 0.0f;
-static FLOAT tex_fNormalSize = 0.0f;
+INDEX mdl_bRenderBump       = TRUE;
+FLOAT ogl_fTextureAnisotropy = 0.0f;
+FLOAT tex_fNormalSize = 0.0f;
 #endif
 
 // rendering control

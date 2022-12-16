@@ -54,6 +54,7 @@ static GfxAPIType _eAPI;
 
 static BOOL  _bForceTranslucency;    // force translucency of opaque/transparent surfaces (for model fading)
 static ULONG _ulMipLayerFlags;
+static INDEX _icol=0;
 
 
 // mip arrays
@@ -141,6 +142,7 @@ static void ResetVertexArrays(void)
   _avtxSrfBase.PopAll();
   _anorSrfBase.PopAll();
   _atexSrfBase.PopAll();
+  _atexSrfBump.PopAll();
   _acolSrfBase.PopAll();
 
   _atexMipFogy.PopAll();
@@ -166,6 +168,7 @@ extern void Models_ClearVertexArrays(void)
   _avtxSrfBase.Clear();
   _anorSrfBase.Clear();
   _atexSrfBase.Clear();
+  _atexSrfBump.Clear();
   _acolSrfBase.Clear();
 
   _aooqMipShad.Clear();
@@ -466,6 +469,7 @@ static void PrepareModelMipForRendering( CModelData &md, INDEX iMip)
   // alloc bump mapping vectors only if needed
   mmi.mmpi_avBumpU.Clear();
   mmi.mmpi_avBumpV.Clear();
+  BOOL bBumpAllocated = FALSE;
 
   // count surfaces
   INDEX ctSurfaces = 0;
@@ -478,7 +482,7 @@ static void PrepareModelMipForRendering( CModelData &md, INDEX iMip)
 
   // for each surface
   INDEX iSrfVx = 0;
-  //INDEX iSrfEl = 0;
+  INDEX iSrfEl = 0;
   {FOREACHINSTATICARRAY( mmi.mmpi_MappingSurfaces, MappingSurface, itms)
   {
     MappingSurface &ms = *itms;
@@ -493,6 +497,8 @@ static void PrepareModelMipForRendering( CModelData &md, INDEX iMip)
     }
 
     // determine surface and mip model rendering type (write to z-buffer or not)
+   const BOOL bBump = ms.ms_ulRenderingFlags&SRF_BUMP;
+
     if( !(ms.ms_ulRenderingFlags&SRF_DIFFUSE)
        || ms.ms_sttTranslucencyType==STT_TRANSLUCENT
        || ms.ms_sttTranslucencyType==STT_ADD
@@ -505,6 +511,13 @@ static void PrepareModelMipForRendering( CModelData &md, INDEX iMip)
     }
     // accumulate flags
     mmi.mmpi_ulLayerFlags |= ms.ms_ulRenderingFlags;
+
+    // alloc memory for bump coords if needed
+    if( bBump && !bBumpAllocated) {
+      mmi.mmpi_avBumpU.New(mmi.mmpi_ctSrfVx);
+      mmi.mmpi_avBumpV.New(mmi.mmpi_ctSrfVx);
+      bBumpAllocated = TRUE;
+    }
 
     // assign surface vertex numbers
     ms.ms_iSrfVx0 = iSrfVx;
@@ -520,6 +533,14 @@ static void PrepareModelMipForRendering( CModelData &md, INDEX iMip)
       // assign data to texture array
       mmi.mmpi_avmexTexCoord[iSrfVx](1) = (FLOAT)mtv.mtv_UV(1);
       mmi.mmpi_avmexTexCoord[iSrfVx](2) = (FLOAT)mtv.mtv_UV(2);
+
+      // assign bump mapping normals (only if surface has bump mapping)
+      if( bBump) {
+        mmi.mmpi_avBumpU[iSrfVx] = mtv.mtv_vU;
+        mmi.mmpi_avBumpV[iSrfVx] = mtv.mtv_vV;
+      }
+      //
+
       iSrfVx++;
     } // set vertex indices
     PrepareSurfaceElements( mmi, ms);
@@ -574,7 +595,7 @@ extern void PrepareModelForRendering( CModelData &md)
 
 
 // strip rendering support
-INDEX _icol=0;
+// INDEX _icol=0;
 COLOR _acol[] = { C_BLACK,   C_WHITE,
                   C_dGRAY,   C_GRAY,   C_lGRAY,      C_dRED,     C_RED,     C_lRED,
                   C_dGREEN,  C_GREEN,  C_lGREEN,     C_dBLUE,    C_BLUE,    C_lBLUE,
@@ -793,7 +814,7 @@ static void FlushElements( INDEX ctElem, INDEX_T *pai)
 
 
 // returns if any type of translucent surface was required
-static void SetRenderingParameters( SurfaceTranslucencyType stt)
+static void SetRenderingParameters( SurfaceTranslucencyType stt, BOOL bHasBump)
 {
   _pfModelProfile.StartTimer( CModelProfile::PTI_VIEW_ONESIDE_GLSETUP);
   _pfModelProfile.IncrementTimerAveragingCounter( CModelProfile::PTI_VIEW_ONESIDE_GLSETUP);
@@ -805,8 +826,18 @@ static void SetRenderingParameters( SurfaceTranslucencyType stt)
     gfxDisableDepthWrite();
   } else if( stt==STT_OPAQUE) {
     gfxDisableAlphaTest();
+    /*
     gfxDisableBlend();
     gfxEnableDepthWrite();
+    */
+    if( bHasBump) {
+      gfxEnableBlend();
+      gfxBlendFunc( GFX_DST_COLOR, GFX_SRC_COLOR);
+      gfxDisableDepthWrite();
+    } else {
+      gfxDisableBlend();
+      gfxEnableDepthWrite();
+    }
   } else if( stt==STT_TRANSPARENT) {
     gfxDisableBlend();
     gfxEnableAlphaTest();
@@ -846,6 +877,7 @@ static void RenderOneSide( CRenderModel &rm, BOOL bBackSide, ULONG ulLayerFlags)
 
   // start with invalid rendering parameters
   SurfaceTranslucencyType sttLast = STT_INVALID;
+  SLONG slBumpLast = -1;
 
   // for each surface in current mip model
   INDEX iStartElem=0;
@@ -872,13 +904,17 @@ static void RenderOneSide( CRenderModel &rm, BOOL bBackSide, ULONG ulLayerFlags)
     if( ulLayerFlags&SRF_DIFFUSE) {
       // get rendering parameters
       SurfaceTranslucencyType stt = ms.ms_sttTranslucencyType;
+
+      SLONG slBump = _bHasBump && (ms.ms_ulRenderingFlags&SRF_BUMP) && mdl_bRenderBump;  // && !_bFlatFill 
+
       // if surface uses rendering parameters different than last one
-      if( sttLast!=stt) {
+      if( sttLast!=stt  || slBumpLast!=slBump) {
         // set up new API states
         if( ctElements>0) FlushElements( ctElements, &mmi.mmpi_aiElements[iStartElem]);
-        SetRenderingParameters(stt);
-        sttLast=stt;
-        iStartElem+= ctElements;
+        SetRenderingParameters(stt, slBump);
+        sttLast = stt;
+        slBumpLast = slBump;
+        iStartElem += ctElements;
         ctElements = 0;
       }
     } // batch the surface polygons for rendering
@@ -1831,7 +1867,7 @@ void CModelObject::RenderModel_View( CRenderModel &rm)
   pvtxMipBase = &_avtxMipBase[0];
   pcolMipBase = &_acolMipBase[0];
   pnorMipBase = &_anorMipBase[0];
-  const BOOL bNeedNormals = GFX_bTruform || (_ulMipLayerFlags&(SRF_REFLECTIONS|SRF_SPECULAR));
+  const BOOL bNeedNormals = GFX_bTruform || (_ulMipLayerFlags&(SRF_REFLECTIONS|SRF_SPECULAR|SRF_BUMP));
   UnpackFrame( rm, bNeedNormals);
 
   // cache some more pointers and vars
@@ -1957,7 +1993,7 @@ void CModelObject::RenderModel_View( CRenderModel &rm)
   _pfModelProfile.IncrementTimerAveragingCounter( CModelProfile::PTI_VIEW_INIT_VERTICES, _ctAllSrfVx);
 
   // for each surface in current mip model
-  //BOOL bEmpty = TRUE;
+  BOOL bEmpty = TRUE;
   {FOREACHINSTATICARRAY( mmi.mmpi_MappingSurfaces, MappingSurface, itms)
   {
     const MappingSurface &ms = *itms;
@@ -1965,7 +2001,7 @@ void CModelObject::RenderModel_View( CRenderModel &rm)
     ctSrfVx = ms.ms_ctSrfVx;
     // skip to next in case of invisible or empty surface
     if( (ms.ms_ulRenderingFlags&SRF_INVISIBLE) || ctSrfVx==0) break;
-    //bEmpty = FALSE;
+    bEmpty = FALSE;
     puwSrfToMip = &mmi.mmpi_auwSrfToMip[iSrfVx0];
     pvtxSrfBase = &_avtxSrfBase[iSrfVx0];
     INDEX iSrfVx;
@@ -2029,13 +2065,12 @@ srfVtxLoop:
   // model surface vertices prepared
   _pfModelProfile.StopTimer( CModelProfile::PTI_VIEW_INIT_VERTICES);
 
-  CTextureData *ptdBump = (CTextureData*)mo_toBump.GetData(); //####
 
   // RENDER BUMP LAYER -----------------------------------------------------------------------------
-#ifdef PLATFORM_WIN32
+
   // if this model has bump mapping
   _bHasBump = FALSE;
-  //CTextureData *ptdBump = (CTextureData*)mo_toBump.GetData();
+  CTextureData *ptdBump = (CTextureData*)mo_toBump.GetData();
   if( (_ulMipLayerFlags&SRF_BUMP) && mdl_bRenderBump && ptdBump!=NULL && bAllLayers && _eAPI == GAT_OGL)
   {
     _pfModelProfile.StartTimer( CModelProfile::PTI_VIEW_RENDER_BUMP);
@@ -2142,9 +2177,7 @@ srfVtxLoop:
     _pfModelProfile.StopTimer( CModelProfile::PTI_VIEW_RENDER_BUMP);
   }
 
-#endif
   // RENDER DIFFUSE LAYER -------------------------------------------------------------------
-
 
   _pfModelProfile.StartTimer( CModelProfile::PTI_VIEW_INIT_DIFF_SURF);
   _pfModelProfile.IncrementTimerAveragingCounter( CModelProfile::PTI_VIEW_INIT_DIFF_SURF, _ctAllSrfVx);
@@ -2304,6 +2337,8 @@ diffColLoop:
         pop     ebx
       }
 #else
+      // setup color array
+      const COLOR colS = colSrfDiff.ul.abgr;
       // setup diffuse color array
       for( INDEX iSrfVx=0; iSrfVx<ctSrfVx; iSrfVx++) {
         const INDEX iMipVx = puwSrfToMip[iSrfVx];
@@ -2392,9 +2427,8 @@ diffColLoop:
 
   // if this model has detail mapping
   extern INDEX mdl_bRenderDetail;
-  //CTextureData *ptdBump = (CTextureData*)mo_toBump.GetData();
   const ULONG ulTransAlpha = (rm.rm_colBlend&CT_AMASK)>>CT_ASHIFT;
-  if( (_ulMipLayerFlags&(SRF_DETAIL|SRF_BUMP)) && mdl_bRenderDetail && ptdBump!=NULL && ulTransAlpha>192 && bAllLayers)
+  if( (_ulMipLayerFlags&(SRF_DETAIL)) && mdl_bRenderDetail && ptdBump!=NULL && ulTransAlpha>192 && bAllLayers && !_bHasBump)
   {
     _pfModelProfile.StartTimer( CModelProfile::PTI_VIEW_INIT_BUMP_SURF);
     _pfModelProfile.IncrementTimerAveragingCounter( CModelProfile::PTI_VIEW_INIT_BUMP_SURF, _ctAllSrfVx);
@@ -2434,7 +2468,7 @@ diffColLoop:
       // for each vertex in the surface
       for( INDEX iSrfVx=0; iSrfVx<ctSrfVx; iSrfVx++) {
         // set detail texcoord and color
-        //INDEX iMipVx = mmi.mmpi_auwSrfToMip[iSrfVx];
+        INDEX iMipVx = mmi.mmpi_auwSrfToMip[iSrfVx];
 		ptexSrfBase[iSrfVx].st.s = pvTexCoord[iSrfVx](1) * fTexCorrU;
 		ptexSrfBase[iSrfVx].st.t = pvTexCoord[iSrfVx](2) * fTexCorrV;
         pcolSrfBase[iSrfVx]   = colSrfBump;
