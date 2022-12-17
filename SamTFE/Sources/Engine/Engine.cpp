@@ -129,7 +129,7 @@ char _path[2048];
 static int _testfiledone;
 
 // enables paranoia checks for allocation array
-BOOL _bAllocationArrayParanoiaCheck = FALSE;
+__extern BOOL _bAllocationArrayParanoiaCheck = FALSE;
 
 // rcg10072001
 #ifdef PLATFORM_WIN32
@@ -1143,7 +1143,7 @@ touchLoop:
 #endif // PLATFORM_WIN32
 
 // pretouch all memory commited by process
-BOOL _bNeedPretouch = FALSE;
+__extern BOOL _bNeedPretouch = FALSE;
 ENGINE_API extern void SE_PretouchIfNeeded(void)
 {
 #if (defined PLATFORM_WIN32)

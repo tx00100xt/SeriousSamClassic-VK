@@ -34,7 +34,7 @@ static void FailFunction_t(const char *strName) {
 // ------------------------------------ AMP11
 
 // amp11lib vars
-BOOL _bAMP11Enabled = FALSE;
+__extern BOOL _bAMP11Enabled = FALSE;
 
 static CDynamicLoader *_hAmp11lib = NULL;
 
@@ -103,7 +103,7 @@ public:
 #endif
 
 // vorbis vars
-BOOL _bOVEnabled = FALSE;
+__extern BOOL _bOVEnabled = FALSE;
 static CDynamicLoader *_hOV = NULL;
 
 class CDecodeData_OGG {

@@ -27,7 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <new>
 #endif
 
-FLOAT _bCheckAllAllocations = FALSE;
+__extern FLOAT _bCheckAllAllocations = FALSE;
 
 #ifdef PLATFORM_WIN32
 /*

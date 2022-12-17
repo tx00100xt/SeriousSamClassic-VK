@@ -26,11 +26,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <Engine/Math/Functions.h>
 
-CConsole *_pConsole = NULL;
+__extern CConsole *_pConsole = NULL;
 
 extern INDEX con_iLastLines;
-BOOL con_bCapture = FALSE;
-CTString con_strCapture = "";
+__extern BOOL con_bCapture = FALSE;
+__extern CTString con_strCapture = "";
 
 
 // Constructor.
@@ -255,7 +255,7 @@ void CConsole::CloseLog(void)
 }
 
 // Print formated text to the main console.
-void CPrintF(const char *strFormat, ...)
+__extern void CPrintF(const char *strFormat, ...)
 {
   if (_pConsole==NULL) {
     return;

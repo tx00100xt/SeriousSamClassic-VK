@@ -82,7 +82,7 @@ extern GfxComp  GFX_eDepthFunc;
 extern GfxFace  GFX_eCullFace;
 extern INDEX GFX_iTexModulation[GFX_MAXTEXUNITS];
 
-BOOL  glbUsingVARs = FALSE;   // vertex_array_range
+__extern BOOL  glbUsingVARs = FALSE;   // vertex_array_range
 
 // define gl function pointers
 #define DLLFUNCTION(dll, output, name, inputs, params, required) \

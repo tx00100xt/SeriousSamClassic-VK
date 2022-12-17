@@ -2591,7 +2591,7 @@ void MakeMipmapTable( PIX pixU, PIX pixV, MipmapTable &mmt)
 
 static ULONG *_pulTexture;
 static PIX    _pixTexWidth, _pixTexHeight;
-BOOL   _bSomeDarkExists = FALSE;
+__extern BOOL   _bSomeDarkExists = FALSE;
 
 
 // set texture that will be used for all subsequent triangles

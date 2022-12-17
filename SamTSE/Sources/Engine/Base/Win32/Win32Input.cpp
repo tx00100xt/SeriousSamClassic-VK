@@ -36,13 +36,13 @@ extern INDEX inp_bInvert2ndMouse;
 
 extern INDEX inp_ctJoysticksAllowed;
 
-INDEX inp_iMButton4Dn = 0x20040;
-INDEX inp_iMButton4Up = 0x20000;
-INDEX inp_iMButton5Dn = 0x10020;
-INDEX inp_iMButton5Up = 0x10000;
-INDEX inp_bMsgDebugger = FALSE;
-INDEX inp_bForceJoystickPolling = 0;
-INDEX inp_bAutoDisableJoysticks = 0;
+extern INDEX inp_iMButton4Dn = 0x20040;
+extern INDEX inp_iMButton4Up = 0x20000;
+extern INDEX inp_iMButton5Dn = 0x10020;
+extern INDEX inp_iMButton5Up = 0x10000;
+extern INDEX inp_bMsgDebugger = FALSE;
+extern INDEX inp_bForceJoystickPolling = 0;
+extern INDEX inp_bAutoDisableJoysticks = 0;
 
 /*
 

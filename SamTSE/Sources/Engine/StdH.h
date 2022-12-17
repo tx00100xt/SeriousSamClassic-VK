@@ -20,6 +20,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define __STDC_LIMIT_MACROS 1
 
 #ifdef _MSC_VER
+#define __extern extern
+#else
+#define __extern
+#endif
+
+#ifdef _MSC_VER
 #ifndef INDEX_T
 #define INDEX_T INDEX
 #endif
