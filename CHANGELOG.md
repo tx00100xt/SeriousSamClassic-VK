@@ -117,6 +117,6 @@ All notable changes to this project will be documented in this file.
 - Added hud_bShowScore console variable.
 - Fixed old scripts for AMD cards.
 
-## 2022-11-30 - 2022-12-10
+## 2022-11-30 - 2022-12-20
 - Added support Windows.
-
+- Added support FreeBSD.

@@ -7,6 +7,7 @@ project(SeriousEngine)
 # Use system SDL2 is on by default
 option(USE_SYSTEM_SDL2 "Use systems sdl2 development files" On)
 option(USE_SYSTEM_ZLIB "Use systems zlib development files" On)
+option(USE_SYSTEM_VULKAN "Use systems vulkan development files" On)
 option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACHE})
 
 
@@ -60,6 +61,15 @@ if(USE_SYSTEM_ZLIB)
     endif()
 endif()
 
+if(USE_SYSTEM_VULKAN)
+    find_package(Vulkan REQUIRED)
+    if(Vulkan_FOUND)
+        include_directories(${Vulkan_INCLUDE_DIRS})
+    else()
+        message(FATAL_ERROR "Error! USE_SYSTEM_VULKAN is set but neccessary developer files are missing")
+    endif()
+endif()
+
 # RAKE! Where to install the binaries.
 if(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" OR CMAKE_INSTALL_PREFIX STREQUAL "") # Only works for linux since I don't
                                                                                    # know what default is for windows/macos/freebsd.
@@ -98,18 +108,6 @@ endif()
 SET(DEBUG FALSE)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     SET(DEBUG TRUE)
-endif()
-
-## Find Vulkan for MACOSX
-if(MACOSX)
-     if(NOT USE_SYSTEM_Vulkan)
-          find_package(Vulkan REQUIRED)
-          if(Vulkan_FOUND)
-               include_directories(${Vulkan_INCLUDE_DIR})
-          else()
-               message(FATAL_ERROR "Error USE_SYSTEM_Vulkan is set but neccessary developer files are missing")
-          endif()
-     endif()
 endif()
 
 ## ** RAKE! start compiler specific flags section **
@@ -1012,6 +1010,7 @@ target_link_libraries(${ENGINELIB} engine_safemath)
 if(FREEBSD)
 target_link_libraries(${ENGINELIB} ${SDL2_LIBRARY})
 target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
+target_link_libraries(${ENGINELIB} ${Vulkan_LIBRARY})
 endif()
 if(MACOSX)
     if(USE_SYSTEM_SDL2) # use sdl2 framework on system
@@ -1029,8 +1028,13 @@ endif()
 if(RPI4)
     target_link_libraries(${ENGINELIB} "rt")
 endif()
+
+if(FREEBSD)
+set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-rpath,$ORIGIN")
+else()
 target_link_libraries(${ENGINELIB} vulkan)
 set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
+endif()
 
 add_executable(SeriousSam
     #${ENGINE_SRCS}
