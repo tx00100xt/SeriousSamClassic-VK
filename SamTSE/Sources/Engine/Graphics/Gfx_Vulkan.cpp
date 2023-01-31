@@ -148,7 +148,7 @@ SvkMain::SvkMain()
   Reset_Vulkan();
 #ifdef PLATFORM_WIN32
   extern void ForceModernHardwareGraphicsSettings();
-  ForceModernHardwareGraphicsSettings();             // note: this is not necessary for linux
+  //ForceModernHardwareGraphicsSettings();             // note: this is not necessary for linux (added: for windows too)
 #endif
 }
 
