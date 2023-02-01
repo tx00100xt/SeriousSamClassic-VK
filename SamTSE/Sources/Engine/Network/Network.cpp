@@ -89,6 +89,7 @@ extern CTString con_strCapture;
 static FLOAT _bStartDemoRecordingNextTime = FALSE;
 static FLOAT _bStopDemoRecordingNextTime = FALSE;
 static INDEX dem_iRecordedNumber = 0;
+static INDEX net_bReloadTexOnLevelChange = FALSE;
 
 // network control
 __extern INDEX ser_bReportSyncOK   = FALSE;
@@ -896,6 +897,7 @@ void CNetworkLibrary::Init(const CTString &strGameID)
   _pShell->DeclareSymbol("persistent user CTString ga_strServer;", (void *)&ga_strServer);
   _pShell->DeclareSymbol("persistent user CTString ga_strMSLegacy;", (void *)&ga_strMSLegacy);
   _pShell->DeclareSymbol("persistent user INDEX ga_bMSLegacy;", (void *)&ga_bMSLegacy);
+  _pShell->DeclareSymbol("persistent user INDEX net_bReloadTexOnLevelChange;", (void *)&net_bReloadTexOnLevelChange);
 
 }
 
@@ -1117,7 +1119,7 @@ void CNetworkLibrary::Save_t(const CTFileName &fnmGame) // throw char *
   strmFile.WriteID_t("GEND");   // game end
 
   // Reload textures on level change
-  if (fnmGame.Matches("*\\QuickSave*")) {
+  if (fnmGame.Matches("*\\QuickSave*") && net_bReloadTexOnLevelChange) {
     extern void ReloadTextures(void);
     ReloadTextures();
   }
