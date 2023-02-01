@@ -1115,6 +1115,12 @@ void CNetworkLibrary::Save_t(const CTFileName &fnmGame) // throw char *
   strmFile.WriteID_t("GAME");
   ga_sesSessionState.Write_t(&strmFile);
   strmFile.WriteID_t("GEND");   // game end
+
+  // Reload textures on level change
+  if (fnmGame.Matches("*\\QuickSave*")) {
+    extern void ReloadTextures(void);
+    ReloadTextures();
+  }
 }
 
 /*
