@@ -5,6 +5,9 @@ Vulkan Serious Engine port based on [open source version](https://github.com/sul
 ![Screenshot 00](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_1.png)
 ![Screenshot 01](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_2.png)
 ![Screenshot 02](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_3.png)
+![Screenshot 00](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_4.png)
+![Screenshot 01](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_5.png)
+![Screenshot 02](https://raw.githubusercontent.com/tx00100xt/SeriousSamClassic-VK/main/Images/samvulkan_6.png)
 
 Prerequisites:
 * [Vulkan Header files and API registry](https://github.com/KhronosGroup/Vulkan-Headers)
@@ -100,12 +103,12 @@ To build a game under Arch Linux you can use the package from AUR: https://aur.a
 The build for raspberry pi is similar to the build for Linux, you just need to add an additional build key.
 
 ```
-cd SeriousSamClassic/SamTFE/Sources
+cd SeriousSamClassic-VK/SamTFE/Sources
 ./build-linux64.sh -DTFE=TRUE -DRPI4=TRUE	# use build-linux32.sh for 32-bits
 ```
 for Serious Sam Classic The First Encounter, or for Serious Sam Classic The Second Encounter:
 ```
-cd SeriousSamClassic/SamTSE/Sources
+cd SeriousSamClassic-VK/SamTSE/Sources
 ./build-linux64.sh -DRPI4=TRUE           	# use build-linux32.sh for 32-bits
 ```
 
@@ -123,7 +126,7 @@ git clone https://github.com/tx00100xt/SeriousSamClassic-VK.git SeriousSamClassi
 
 If you have access to a copy of the game (either by CD or through Steam),
 you can copy the *.gro files from the game directory to the repository.
-(SeriousSamClassic/SamTFE is the directory of the game Serious Sam Classic The First Encounter, SeriousSamClassic/SamTSE is the directory of the game Serious Sam Classic The Second Encounter)
+(SeriousSamClassic-VK/SamTFE is the directory of the game Serious Sam Classic The First Encounter, SeriousSamClassic-VK/SamTSE is the directory of the game Serious Sam Classic The Second Encounter)
 
 #### Building (only for SS:TFE)
 
