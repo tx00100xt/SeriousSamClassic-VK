@@ -30,9 +30,9 @@ jobs:
     - name: Run CMake
       run: |
           cd ${{github.workspace}}/SamTSE/Sources
-          cmake -B ${{github.workspace}}/Sources/build-x64-tse -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
+          cmake -B ${{github.workspace}}/SamTSE/Sources/build-x64-tse -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
           cd ${{github.workspace}}/SamTFE/Sources
-          cmake -B ${{github.workspace}}/Sources/build-x64-tfe -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE
+          cmake -B ${{github.workspace}}/SamTFE/Sources/build-x64-tfe -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE
           
     - name: Run Build
       run: |
