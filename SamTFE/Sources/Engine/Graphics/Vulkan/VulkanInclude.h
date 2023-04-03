@@ -21,10 +21,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #ifdef SE1_VULKAN
 
-//#define VK_USE_PLATFORM_WIN32_KHR
+#ifdef _MSC_VER
+#define VK_USE_PLATFORM_WIN32_KHR
+#else
 #define VK_USE_PLATFORM_XLIB_KHR
 #define VK_USE_PLATFORM_XCB_KHR
 #define VK_USE_PLATFORM_DISPLAY_KHR
+#endif
 
 #include <vulkan/vulkan.h>
 #include <Engine/Graphics/Vulkan/SvkVertex.h>
