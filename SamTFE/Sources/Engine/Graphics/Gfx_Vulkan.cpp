@@ -993,7 +993,7 @@ void SvkMain::AcquireNextImage()
   VkResult r;
   uint32_t nextImageIndex;
  
-  if (gl_VkSwapchain == NULL) {    
+  if (gl_VkSwapchain == 0x00) { // NULL
     CPrintF("Vulkan warrning: VkSwapchain == NULL...\n");
   }
 

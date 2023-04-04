@@ -11,6 +11,101 @@ env:
 
 jobs:
 
+  build-alpine-x86:
+    name: Alpine ${{ matrix.Configuration }} ${{ matrix.Platform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        Configuration: [Release]
+        Platform: [x86]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install latest stable Alpine Linux
+      uses: jirutka/setup-alpine@master
+      with:
+        arch: ${{ matrix.Platform }}
+        branch: 'latest-stable'
+        packages: build-base cmake bison flex nasm xz sed sdl2-dev zlib-dev libogg-dev libvorbis-dev vulkan-loader vulkan-loader-dev vulkan-headers
+        
+    - name: Get current date
+      id: date
+      uses: Kaven-Universe/github-action-current-date-time@v1
+      with:
+         format: "YYYYMMDD"
+
+    - name: Show current date
+      run: |
+        echo "${{ steps.date.outputs.time }}"
+        
+    - name: Run CMake
+      shell: alpine.sh {0}
+      run: |
+        echo "*** make -mtune=generic ***"
+        cd ${{github.workspace}}
+        find . -name "CMakeLists.txt" -exec sed -i 's/-march=native/-mtune=generic/g' {} +
+        echo "*** prepare SamTFE ***"
+        cd ${{github.workspace}}/SamTFE/Sources 
+        cmake -B ${{github.workspace}}/SamTFE/Sources/build-x86 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-mmmx -DCMAKE_CXX_FLAGS=-mmmx -DUSE_I386_NASM_ASM=TRUE -DTFE=TRUE
+        cmake -B ${{github.workspace}}/SamTFE/Sources/build-x86-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-mmmx -DCMAKE_CXX_FLAGS=-mmmx -DUSE_I386_NASM_ASM=TRUE -DTFE=TRUE
+        echo "*** prepare SamTSE ***"
+        cd ${{github.workspace}}/SamTSE/Sources 
+        cmake -B ${{github.workspace}}/SamTSE/Sources/build-x86 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-mmmx -DCMAKE_CXX_FLAGS=-mmmx -DUSE_I386_NASM_ASM=TRUE
+        cmake -B ${{github.workspace}}/SamTSE/Sources/build-x86-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-mmmx -DCMAKE_CXX_FLAGS=-mmmx -DUSE_I386_NASM_ASM=TRUE
+    - name: Run Build
+      shell: alpine.sh {0}
+      run: |
+          cd ${{github.workspace}}
+          mkdir x32 && mkdir x32/SamTFE && mkdir x32/SamTFE/Mods && mkdir x32/SamTFE/Mods/XPLUS && mkdir x32/SamTFE/Mods/XPLUS/Bin && mkdir x32/SamTFE/Bin
+          mkdir x32/SamTSE && mkdir x32/SamTSE/Mods && mkdir x32/SamTSE/Mods/XPLUS && mkdir x32/SamTSE/Mods/XPLUS/Bin && mkdir x32/SamTSE/Bin
+          echo "*** build SamTFE ***"
+          cd ${{github.workspace}}/SamTFE/Sources/build-x86    
+          make ecc
+          make -j$(nproc || echo 4)
+          cp -vfr Debug/*.so ../../../x32/SamTFE/Bin
+          cp -vfr DedicatedServer ../../../x32/SamTFE/Bin
+          cp -vfr ecc ../../../x32/SamTFE/Bin
+          cp -vfr MakeFONT ../../../x32/SamTFE/Bin
+          cp -vfr SeriousSam ../../../x32/SamTFE/Bin
+          echo "*** build SamTFE XPLUS ***"
+          cp -vfr ../../Sources/Entities/PlayerWeaponsHD.es ../../Sources/Entities/PlayerWeapons.es
+          cd ${{github.workspace}}/SamTFE/Sources/build-x86-xplus    
+          make ecc
+          make -j$(nproc || echo 4)
+          cp -vfr Debug/libEntities.so ../../../x32/SamTFE/Mods/XPLUS/Bin
+          cp -vfr Debug/libGame.so ../../../x32/SamTFE/Mods/XPLUS/Bin
+          echo "*** build SamTSE ***"
+          cd ${{github.workspace}}/SamTSE/Sources/build-x86    
+          make ecc
+          make -j$(nproc || echo 4)
+          cp -vfr Debug/*.so ../../../x32/SamTSE/Bin
+          cp -vfr DedicatedServer ../../../x32/SamTSE/Bin
+          cp -vfr ecc ../../../x32/SamTSE/Bin
+          cp -vfr MakeFONT ../../../x32/SamTSE/Bin
+          cp -vfr SeriousSam ../../../x32/SamTSE/Bin
+          echo "*** build SamTSE XPLUS ***"
+          cp -vfr ../../Sources/EntitiesMP/PlayerWeaponsHD.es ../../Sources/EntitiesMP/PlayerWeapons.es
+          cd ${{github.workspace}}/SamTSE/Sources/build-x86-xplus    
+          make ecc
+          make -j$(nproc || echo 4)
+          cp -vfr Debug/libEntitiesMP.so ../../../x32/SamTSE/Mods/XPLUS/Bin
+          cp -vfr Debug/libGameMP.so ../../../x32/SamTSE/Mods/XPLUS/Bin
+          echo "*** Create archive ***"
+          cd ${{github.workspace}}
+          cp -vfr SamTFE/SE1_10b.gro x32/SamTFE
+          cp -vfr SamTFE/ModEXT.txt x32/SamTFE
+          cp -vfr SamTSE/SE1_10b.gro x32/SamTSE
+          cp -vfr SamTSE/ModEXT.txt x32/SamTSE
+          tar -cJpvf SeriousSamClassicVk-${{ steps.date.outputs.time }}-alpine-x86-bin.tar.xz x32
+          
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: SeriousSamClassicVk-${{ steps.date.outputs.time }}-alpine-x86-bin.tar.xz
+        path: SeriousSamClassicVk-${{ steps.date.outputs.time }}-alpine-x86-bin.tar.xz          
+
   build-alpine-64:
     name: Alpine ${{ matrix.Configuration }} ${{ matrix.Platform }}
     runs-on: ubuntu-latest
