@@ -721,7 +721,7 @@ jobs:
             mkdir {x32,x32/SamTFE,x32/SamTFE/Mods,x32/SamTFE/Mods/XPLUS,x32/SamTFE/Mods/XPLUS/Bin,x32/SamTFE/Bin,x32/SamTSE,x32/SamTSE/Mods,x32/SamTSE/Mods/XPLUS,x32/SamTSE/Mods/XPLUS/Bin,x32/SamTSE/Bin}
             uname -a
             gcc -c -Q -mcpu=native --help=target
-            git clone https://github.com/tx00100xt/SeriousSamClassic.git SeriousSamClassic-VK
+            git clone https://github.com/tx00100xt/SeriousSamClassic-VK.git SeriousSamClassic-VK
             echo "*** Run cmake ***"
             cmake SeriousSamClassic-VK/SamTFE/Sources -B SeriousSamClassic-VK/SamTFE/Sources/build-armv7l -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-mbe32 -DCMAKE_CXX_FLAGS=-mbe32 -DUSE_I386_NASM_ASM=FALSE  -DTFE=TRUE -DRPI4=TRUE
             cmake SeriousSamClassic-VK/SamTFE/Sources -B SeriousSamClassic-VK/SamTFE/Sources/build-armv7l-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-mbe32 -DCMAKE_CXX_FLAGS=-mbe32 -DUSE_I386_NASM_ASM=FALSE  -DTFE=TRUE -DRPI4=TRUE
@@ -810,7 +810,7 @@ jobs:
             mkdir {x64,x64/SamTFE,x64/SamTFE/Mods,x64/SamTFE/Mods/XPLUS,x64/SamTFE/Mods/XPLUS/Bin,x64/SamTFE/Bin,x64/SamTSE,x64/SamTSE/Mods,x64/SamTSE/Mods/XPLUS,x64/SamTSE/Mods/XPLUS/Bin,x64/SamTSE/Bin}            
             uname -a
             gcc -c -Q -mcpu=native --help=target
-            git clone https://github.com/tx00100xt/SeriousSamClassic.git SeriousSamClassic-VK
+            git clone https://github.com/tx00100xt/SeriousSamClassic-VK.git SeriousSamClassic-VK
             echo "*** Run cmake ***"
             cmake SeriousSamClassic-VK/SamTFE/Sources -B SeriousSamClassic-VK/SamTFE/Sources/build-aarch64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE -DRPI4=TRUE
             cmake SeriousSamClassic-VK/SamTFE/Sources -B SeriousSamClassic-VK/SamTFE/Sources/build-aarch64-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE -DRPI4=TRUE
