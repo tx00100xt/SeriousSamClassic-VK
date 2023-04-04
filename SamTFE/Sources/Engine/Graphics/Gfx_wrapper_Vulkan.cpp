@@ -569,7 +569,7 @@ static void svk_SetTextureModulation(INDEX iScale)
 
 
 // draw prepared arrays
-static void svk_DrawElements(INDEX ctElem, INDEX *pidx)
+static void svk_DrawElements(INDEX ctElem, INDEX_T *pidx)
 {
   ASSERT(_pGfx->gl_eCurrentAPI == GAT_VK);
 #ifndef NDEBUG
