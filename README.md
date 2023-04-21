@@ -56,6 +56,8 @@ Note: libsdl2-dev version >= 2.0.6, vulkan packages version >= 1.2.xxx
 
 Building
 --------
+More detailed information about building the game for different operating systems and different platforms can be found on the [SeriousSamClassic-VK wiki.](https://github.com/tx00100xt/SeriousSamClassic-VK/wiki)
+
 
 There are still many asserts in the engine. Most of them are irrelevant and should be removed, but while it's not done, the asserts will effectively kill the engine when triggered in the Debug build. Use Release or RelWithDebInfo build if you intend to play (automatically set as RelWithDebInfo in the build scripts).
 
