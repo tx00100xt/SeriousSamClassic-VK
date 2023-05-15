@@ -280,7 +280,7 @@ make -j4
 cp -v Debug/*.so ../../Mods/XPLUS/Bin
 ```
 Download:
-[Xplus TFE from Google Drive] or [Xplus TFE from pCloud], and unpack to  SeriousSamClassic-VK/SamTFE/Mods directory.  
+[Xplus TFE from Google Drive] or [Xplus TFE from pCloud], and unpack to  SeriousSamClassic-VK/SamTFE/Mods directory.
 You can also download the archive using curl or wget:
 ```
 cd SeriousSamClassic-VK
@@ -322,7 +322,7 @@ make -j4
 cp -v Debug/*.so ../../Mods/XPLUS/Bin
 ```
 Download:
-[Xplus TSE from Google Drive] or [Xplus TSE from pCloud],, and unpack to  SeriousSamClassic-VK/SamTSE/Mods directory.  
+[Xplus TSE from Google Drive] or [Xplus TSE from pCloud],, and unpack to  SeriousSamClassic-VK/SamTSE/Mods directory.
 You can also download the archive using curl or wget:
 ```
 cd SeriousSamClassic-VK
