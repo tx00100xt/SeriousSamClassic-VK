@@ -303,15 +303,15 @@ void OpenMainWindowFullScreen( PIX pixSizeI, PIX pixSizeJ)
   SDL_snprintf( achWindowTitle, sizeof (achWindowTitle), TRANSV("Serious Sam (FullScreen %dx%d)"), pixSizeI, pixSizeJ);
 #ifdef SE1_VULKAN
   if( sam_iGfxAPI == 1) {
-    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_VULKAN | SDL_WINDOW_FULLSCREEN);
+    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_VULKAN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS);
     if( _hwndMain!=NULL) {
       CPrintF("SDL: CreateWindow with flag (SDL_WINDOW_VULKAN) Done.\n");
     }
   } else {
-    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
+    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS);
   }
 #else
-    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
+    _hwndMain = SDL_CreateWindow((const char*)strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS);
 #endif // SE1_VULKAN
   if( _hwndMain==NULL) FatalError(TRANS("Cannot open main window!"));
   SE_UpdateWindowHandle( _hwndMain);
