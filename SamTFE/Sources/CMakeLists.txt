@@ -112,6 +112,12 @@ if(MSVC)
     SET(WINDOWS TRUE)
 endif()
 
+# remove clang spam.
+if(MACOSX OR FREEBSD)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-nullability-completeness")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-nullability-completeness")
+endif()
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "None Debug Release RelWithDebInfo MinSizeRel" FORCE)
 endif()
