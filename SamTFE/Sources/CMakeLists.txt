@@ -1,5 +1,9 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.1)
 project(SeriousEngine)
+
+# set minimal standart
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Set @rpath for Mac OS X shared library install names.
 #cmake_policy(SET CMP0042 NEW)
@@ -217,7 +221,7 @@ message(STATUS "Installed libraries dir: ${CMAKE_INSTALL_LIBDIR}")
 ## ** RAKE! clean up for SeriousEngine use. Also  **
 ## ** RAKE! need to make this pandora safe.	  **
 # compiler specific flags
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
 	# This section and the like are for flags/defines that can be shared between 
 	# c and c++ compile options
 	add_compile_options(-Wall)
@@ -346,6 +350,8 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 		add_definitions(-DPLATFORM_UNIX=1)
     		add_definitions(-DPLATFORM_MACOSX=1)
     		add_definitions(-DPRAGMA_ONCE=1)
+    		include_directories("/usr/local/include")
+		include_directories("/usr/X11/include/")
 	elseif(WINDOWS)
 		add_definitions(-DPLATFORM_WIN32=1)
     		add_definitions(-DPRAGMA_ONCE=1)
@@ -1179,7 +1185,8 @@ if(MACOSX)
       target_link_libraries(${ENGINELIB} "${COCOA_FRAMEWORK}")
       target_link_libraries(${ENGINELIB} "${CMAKE_CURRENT_SOURCE_DIR}/lib/macosx/libSDL2-2.0.0.dylib")
     endif()
-target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
+   target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
+   target_link_libraries(${ENGINELIB} Vulkan::Vulkan)
 endif()
 if(PANDORA)
     target_link_libraries(${ENGINELIB} "rt")
@@ -1188,7 +1195,7 @@ if(RPI4)
     target_link_libraries(${ENGINELIB} "rt")
 endif()
 
-if(FREEBSD)
+if(FREEBSD OR MACOSX)
 set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-rpath,$ORIGIN")
 else()
 target_link_libraries(${ENGINELIB} vulkan)
