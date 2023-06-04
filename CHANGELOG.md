@@ -152,3 +152,9 @@ All notable changes to this project will be documented in this file.
 - Fixed install sections. Added icons and desktop files to this sections.
 - Updated building scripts.
 - Written by Wiki for the game.
+
+## 2023-06-02 - 2022-06-04
+- Added 5:4 aspect ratio, 8k resolution.
+- Added build for macOS and build in Github Action.
+- Forced mdl_bFineQuality=1 because otherwise weapon models break.
+- Forcing shd_iDynamicSize to be set to shd_iStaticSize, otherwise entire sectors may be highlighted when fire shooting.
