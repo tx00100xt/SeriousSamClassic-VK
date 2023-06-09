@@ -62,7 +62,6 @@ jobs:
           mkdir x32/SamTSE && mkdir x32/SamTSE/Mods && mkdir x32/SamTSE/Mods/XPLUS && mkdir x32/SamTSE/Mods/XPLUS/Bin && mkdir x32/SamTSE/Bin
           echo "*** build SamTFE ***"
           cd ${{github.workspace}}/SamTFE/Sources/build-x86    
-          make ecc
           make -j$(nproc || echo 4)
           cp -vfr Debug/*.so ../../../x32/SamTFE/Bin
           cp -vfr DedicatedServer ../../../x32/SamTFE/Bin
@@ -72,13 +71,11 @@ jobs:
           echo "*** build SamTFE XPLUS ***"
           cp -vfr ../../Sources/Entities/PlayerWeaponsHD.es ../../Sources/Entities/PlayerWeapons.es
           cd ${{github.workspace}}/SamTFE/Sources/build-x86-xplus    
-          make ecc
           make -j$(nproc || echo 4)
           cp -vfr Debug/libEntities.so ../../../x32/SamTFE/Mods/XPLUS/Bin
           cp -vfr Debug/libGame.so ../../../x32/SamTFE/Mods/XPLUS/Bin
           echo "*** build SamTSE ***"
           cd ${{github.workspace}}/SamTSE/Sources/build-x86    
-          make ecc
           make -j$(nproc || echo 4)
           cp -vfr Debug/*.so ../../../x32/SamTSE/Bin
           cp -vfr DedicatedServer ../../../x32/SamTSE/Bin
@@ -88,7 +85,6 @@ jobs:
           echo "*** build SamTSE XPLUS ***"
           cp -vfr ../../Sources/EntitiesMP/PlayerWeaponsHD.es ../../Sources/EntitiesMP/PlayerWeapons.es
           cd ${{github.workspace}}/SamTSE/Sources/build-x86-xplus    
-          make ecc
           make -j$(nproc || echo 4)
           cp -vfr Debug/libEntitiesMP.so ../../../x32/SamTSE/Mods/XPLUS/Bin
           cp -vfr Debug/libGameMP.so ../../../x32/SamTSE/Mods/XPLUS/Bin
@@ -159,7 +155,6 @@ jobs:
           mkdir x64/SamTSE && mkdir x64/SamTSE/Mods && mkdir x64/SamTSE/Mods/XPLUS && mkdir x64/SamTSE/Mods/XPLUS/Bin && mkdir x64/SamTSE/Bin
           echo "*** build SamTFE ***"
           cd ${{github.workspace}}/SamTFE/Sources/build-x64    
-          make ecc
           make -j$(nproc || echo 4)
           cp -vfr Debug/*.so ../../../x64/SamTFE/Bin
           cp -vfr DedicatedServer ../../../x64/SamTFE/Bin
@@ -169,13 +164,11 @@ jobs:
           echo "*** build SamTFE XPLUS ***"
           cp -vfr ../../Sources/Entities/PlayerWeaponsHD.es ../../Sources/Entities/PlayerWeapons.es
           cd ${{github.workspace}}/SamTFE/Sources/build-x64-xplus    
-          make ecc
           make -j$(nproc || echo 4)
           cp -vfr Debug/libEntities.so ../../../x64/SamTFE/Mods/XPLUS/Bin
           cp -vfr Debug/libGame.so ../../../x64/SamTFE/Mods/XPLUS/Bin
           echo "*** build SamTSE ***"
           cd ${{github.workspace}}/SamTSE/Sources/build-x64    
-          make ecc
           make -j$(nproc || echo 4)
           cp -vfr Debug/*.so ../../../x64/SamTSE/Bin
           cp -vfr DedicatedServer ../../../x64/SamTSE/Bin
@@ -185,7 +178,6 @@ jobs:
           echo "*** build SamTSE XPLUS ***"
           cp -vfr ../../Sources/EntitiesMP/PlayerWeaponsHD.es ../../Sources/EntitiesMP/PlayerWeapons.es
           cd ${{github.workspace}}/SamTSE/Sources/build-x64-xplus    
-          make ecc
           make -j$(nproc || echo 4)
           cp -vfr Debug/libEntitiesMP.so ../../../x64/SamTSE/Mods/XPLUS/Bin
           cp -vfr Debug/libGameMP.so ../../../x64/SamTSE/Mods/XPLUS/Bin
@@ -251,21 +243,17 @@ jobs:
       run: |
           echo "*** build SamTSE ***"
           cd ${{github.workspace}}/SamTSE/Sources/build-x64-tse 
-          make ecc
           make -j$(nproc || echo 4) 
           echo "*** build SamTSE XPLUS ***"
           cp -vfr ../../Sources/EntitiesMP/PlayerWeaponsHD.es ../../Sources/EntitiesMP/PlayerWeapons.es
           cd ${{github.workspace}}/SamTSE/Sources/build-x64-tse-xplus 
-          make ecc
           make -j$(nproc || echo 4) 
           echo "*** build SamTFE ***"
           cd ${{github.workspace}}/SamTFE/Sources/build-x64-tfe 
-          make ecc
           make -j$(nproc || echo 4)
           echo "*** build SamTFE XPLUS ***"
           cp -vfr ../../Sources/Entities/PlayerWeaponsHD.es ../../Sources/Entities/PlayerWeapons.es
           cd ${{github.workspace}}/SamTFE/Sources/build-x64-tfe-xplus 
-          make ecc
           make -j$(nproc || echo 4) 
 
     - name: Prepare Libraries and Executable
@@ -545,11 +533,9 @@ jobs:
             cmake -B ${{github.workspace}}/SamTFE/Sources/build-x64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE
             cmake -B ${{github.workspace}}/SamTFE/Sources/build-x64-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE
             cd ${{github.workspace}}/SamTFE/Sources/build-x64
-            make ecc
             make -j$(sysctl -n hw.ncpu || echo 4)
             cp -vfr ../../Sources/Entities/PlayerWeaponsHD.es ../../Sources/Entities/PlayerWeapons.es
             cd ${{github.workspace}}/SamTFE/Sources/build-x64-xplus
-            make ecc
             make -j$(sysctl -n hw.ncpu || echo 4)
             echo "*** Build SamTSE ***"
             cd ${{github.workspace}}/SamTSE/Sources
@@ -558,11 +544,9 @@ jobs:
             cmake -B ${{github.workspace}}/SamTSE/Sources/build-x64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
             cmake -B ${{github.workspace}}/SamTSE/Sources/build-x64-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
             cd ${{github.workspace}}/SamTSE/Sources/build-x64
-            make ecc
             make -j$(sysctl -n hw.ncpu || echo 4)
             cp -vfr ../../Sources/EntitiesMP/PlayerWeaponsHD.es ../../Sources/EntitiesMP/PlayerWeapons.es
             cd ${{github.workspace}}/SamTSE/Sources/build-x64-xplus
-            make ecc
             make -j$(sysctl -n hw.ncpu || echo 4)
             echo "*** Prepare Archive ***"            
             cd ${{github.workspace}}
@@ -619,11 +603,9 @@ jobs:
             cmake -B ${{github.workspace}}/SamTFE/Sources/build-x64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE
             cmake -B ${{github.workspace}}/SamTFE/Sources/build-x64-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE
             cd ${{github.workspace}}/SamTFE/Sources/build-x64
-            make ecc
             make -j$(sysctl -n hw.ncpu || echo 4)
             cp -vfr ../../Sources/Entities/PlayerWeaponsHD.es ../../Sources/Entities/PlayerWeapons.es
             cd ${{github.workspace}}/SamTFE/Sources/build-x64-xplus
-            make ecc
             make -j$(sysctl -n hw.ncpu || echo 4)
             echo "*** Build SamTSE ***"
             cd ${{github.workspace}}/SamTSE/Sources
@@ -632,11 +614,9 @@ jobs:
             cmake -B ${{github.workspace}}/SamTSE/Sources/build-x64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
             cmake -B ${{github.workspace}}/SamTSE/Sources/build-x64-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
             cd ${{github.workspace}}/SamTSE/Sources/build-x64
-            make ecc
             make -j$(sysctl -n hw.ncpu || echo 4)
             cp -vfr ../../Sources/EntitiesMP/PlayerWeaponsHD.es ../../Sources/EntitiesMP/PlayerWeapons.es
             cd ${{github.workspace}}/SamTSE/Sources/build-x64-xplus
-            make ecc
             make -j$(sysctl -n hw.ncpu || echo 4)
             echo "*** Prepare Archive ***"            
             cd ${{github.workspace}}
@@ -709,24 +689,24 @@ jobs:
             cmake SeriousSamClassic-VK/SamTSE/Sources -B SeriousSamClassic-VK/SamTSE/Sources/build-armv7l -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DUSE_I386_NASM_ASM=FALSE -DRPI4=TRUE
             cmake SeriousSamClassic-VK/SamTSE/Sources -B SeriousSamClassic-VK/SamTSE/Sources/build-armv7l-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DUSE_I386_NASM_ASM=FALSE -DRPI4=TRUE
             echo "*** build SamTFE ***"
-            make -C SeriousSamClassic-VK/SamTFE/Sources/build-armv7l ecc
+            echo make -C SeriousSamClassic-VK/SamTFE/Sources/build-armv7l ecc
             make -j4 -C SeriousSamClassic-VK/SamTFE/Sources/build-armv7l
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/build-armv7l/Debug/*.so x32/SamTFE/Bin          
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/build-armv7l/{DedicatedServer,ecc,MakeFONT,SeriousSam} x32/SamTFE/Bin
             echo "*** build SamTFE XPLUS ***"
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/Entities/PlayerWeaponsHD.es SeriousSamClassic-VK/SamTFE/Sources/Entities/PlayerWeapons.es
-            make -C SeriousSamClassic-VK/SamTFE/Sources/build-armv7l-xplus ecc
+            echo make -C SeriousSamClassic-VK/SamTFE/Sources/build-armv7l-xplus ecc
             make -j4 -C SeriousSamClassic-VK/SamTFE/Sources/build-armv7l-xplus
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/build-armv7l-xplus/Debug/libEntities.so x32/SamTFE/Mods/XPLUS/Bin
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/build-armv7l-xplus/Debug/libGame.so x32/SamTFE/Mods/XPLUS/Bin            
             echo "*** build SamTSE ***"
-            make -C SeriousSamClassic-VK/SamTSE/Sources/build-armv7l ecc
+            echo make -C SeriousSamClassic-VK/SamTSE/Sources/build-armv7l ecc
             make -j4 -C SeriousSamClassic-VK/SamTSE/Sources/build-armv7l
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/build-armv7l/Debug/*.so x32/SamTSE/Bin            
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/build-armv7l/{DedicatedServer,ecc,MakeFONT,SeriousSam} x32/SamTSE/Bin
             echo "*** build SamTSE XPLUS ***"
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/EntitiesMP/PlayerWeaponsHD.es SeriousSamClassic-VK/SamTSE/Sources/EntitiesMP/PlayerWeapons.es
-            make -C SeriousSamClassic-VK/SamTSE/Sources/build-armv7l-xplus ecc
+            echo make -C SeriousSamClassic-VK/SamTSE/Sources/build-armv7l-xplus ecc
             make -j4 -C SeriousSamClassic-VK/SamTSE/Sources/build-armv7l-xplus
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/build-armv7l-xplus/Debug/libEntitiesMP.so x32/SamTSE/Mods/XPLUS/Bin
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/build-armv7l-xplus/Debug/libGameMP.so x32/SamTSE/Mods/XPLUS/Bin  
@@ -798,24 +778,24 @@ jobs:
             cmake SeriousSamClassic-VK/SamTSE/Sources -B SeriousSamClassic-VK/SamTSE/Sources/build-aarch64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DRPI4=TRUE                         
             cmake SeriousSamClassic-VK/SamTSE/Sources -B SeriousSamClassic-VK/SamTSE/Sources/build-aarch64-xplus -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DRPI4=TRUE
             echo "*** build SamTFE ***"
-            make -C SeriousSamClassic-VK/SamTFE/Sources/build-aarch64 ecc
+            echo make -C SeriousSamClassic-VK/SamTFE/Sources/build-aarch64 ecc
             make -j4 -C SeriousSamClassic-VK/SamTFE/Sources/build-aarch64
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/build-aarch64/Debug/*.so x64/SamTFE/Bin           
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/build-aarch64/{DedicatedServer,ecc,MakeFONT,SeriousSam} x64/SamTFE/Bin
             echo "*** build SamTFE XPLUS ***"
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/Entities/PlayerWeaponsHD.es SeriousSamClassic-VK/SamTFE/Sources/Entities/PlayerWeapons.es
-            make -C SeriousSamClassic-VK/SamTFE/Sources/build-aarch64-xplus ecc
+            echo make -C SeriousSamClassic-VK/SamTFE/Sources/build-aarch64-xplus ecc
             make -j4 -C SeriousSamClassic-VK/SamTFE/Sources/build-aarch64-xplus
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/build-aarch64-xplus/Debug/libEntities.so x64/SamTFE/Mods/XPLUS/Bin
             cp -vfr SeriousSamClassic-VK/SamTFE/Sources/build-aarch64-xplus/Debug/libGame.so x64/SamTFE/Mods/XPLUS/Bin
             echo "*** build SamTSE ***"
-            make -C SeriousSamClassic-VK/SamTSE/Sources/build-aarch64 ecc
+            echo make -C SeriousSamClassic-VK/SamTSE/Sources/build-aarch64 ecc
             make -j4 -C SeriousSamClassic-VK/SamTSE/Sources/build-aarch64
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/build-aarch64/Debug/*.so x64/SamTSE/Bin
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/build-aarch64/{DedicatedServer,ecc,MakeFONT,SeriousSam} x64/SamTSE/Bin
             echo "*** build SamTSE XPLUS ***"
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/EntitiesMP/PlayerWeaponsHD.es SeriousSamClassic-VK/SamTSE/Sources/EntitiesMP/PlayerWeapons.es
-            make -C SeriousSamClassic-VK/SamTSE/Sources/build-aarch64-xplus ecc
+            echo make -C SeriousSamClassic-VK/SamTSE/Sources/build-aarch64-xplus ecc
             make -j4 -C SeriousSamClassic-VK/SamTSE/Sources/build-aarch64-xplus
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/build-aarch64-xplus/Debug/libEntitiesMP.so x64/SamTSE/Mods/XPLUS/Bin
             cp -vfr SeriousSamClassic-VK/SamTSE/Sources/build-aarch64-xplus/Debug/libGameMP.so x64/SamTSE/Mods/XPLUS/Bin
@@ -907,10 +887,8 @@ jobs:
             cd ${{github.workspace}}/SamTSE/Sources
             cmake -B ${{github.workspace}}/SamTSE/Sources/build -DCMAKE_BUILD_TYPE=Release -DUSE_I386_NASM_ASM=FALSE  
             cd ${{github.workspace}}/SamTFE/Sources/build
-            make ecc
             make -j4
             cd ${{github.workspace}}/SamTSE/Sources/build
-            make ecc     
             make -j4             
 
       - name: Get current date
@@ -1023,10 +1001,8 @@ jobs:
             cd ${{github.workspace}}/SamTSE/Sources
             cmake -B ${{github.workspace}}/SamTSE/Sources/build -DCMAKE_BUILD_TYPE=Release -DUSE_I386_NASM_ASM=FALSE  
             cd ${{github.workspace}}/SamTFE/Sources/build
-            make ecc
             make -j4
-            cd ${{github.workspace}}/SamTSE/Sources/build
-            make ecc     
+            cd ${{github.workspace}}/SamTSE/Sources/build 
             make -j4             
 
       - name: Get current date
@@ -1139,10 +1115,8 @@ jobs:
             cd ${{github.workspace}}/SamTSE/Sources
             cmake -B ${{github.workspace}}/SamTSE/Sources/build -DCMAKE_BUILD_TYPE=Release -DUSE_I386_NASM_ASM=FALSE  
             cd ${{github.workspace}}/SamTFE/Sources/build
-            make ecc
             make -j4
-            cd ${{github.workspace}}/SamTSE/Sources/build
-            make ecc     
+            cd ${{github.workspace}}/SamTSE/Sources/build 
             make -j4             
 
       - name: Get current date
