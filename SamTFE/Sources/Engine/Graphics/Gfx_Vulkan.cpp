@@ -643,7 +643,9 @@ BOOL SvkMain::SetCurrentViewport_Vulkan(CViewPort* pvp)
   RECT rectWindow;
   _pGfx->GetCurrentDisplayMode(dm);
   ASSERT((dm.dm_pixSizeI == 0 && dm.dm_pixSizeJ == 0) || (dm.dm_pixSizeI != 0 && dm.dm_pixSizeJ != 0));
-  //GetClientRect(pvp->vp_hWnd, &rectWindow);
+#ifdef PLATFORM_WIN32
+  GetClientRect(pvp->vp_hWnd, &rectWindow);
+#endif
   const PIX pixWinSizeI = rectWindow.right - rectWindow.left;
   const PIX pixWinSizeJ = rectWindow.bottom - rectWindow.top;
 
@@ -727,7 +729,10 @@ void SvkMain::SwapBuffers_Vulkan()
 
   if (r == VK_ERROR_OUT_OF_DATE_KHR || r == VK_SUBOPTIMAL_KHR)
   {
-    CPrintF("Vulkan: Queue Present KHR swap chain image Done.\n");
+    // TODO:
+    // VK_ERROR_OUT_OF_DATE_KHR usually happens after a window resize.
+    // When resizing the window, the swapchain is created anew anyway,
+    // so the recreating the swap chain call is not needed here.
   }
   else if (r != VK_SUCCESS) 
   {
