@@ -732,7 +732,11 @@ void CRenderer::Render(void)
   if( !re_bRenderingShadows && re_iIndex==0) {
     // OpenGL allows us to check z-buffer from previous frame - cool deal!
     // Direct3D is, of course, totally different story. :(
+#ifdef SE1_VULKAN
     if( _pGfx->gl_eCurrentAPI==GAT_OGL || _pGfx->gl_eCurrentAPI == GAT_VK || d3d_bAlternateDepthReads) {
+#else
+    if( _pGfx->gl_eCurrentAPI==GAT_OGL || d3d_bAlternateDepthReads) {
+#endif // SE1_VULKAN
       ChangeStatsMode(CStatForm::STI_FLARESRENDERING);
       extern void CheckDelayedDepthPoints( const CDrawPort *pdp, INDEX iMirrorLevel=0);
       CheckDelayedDepthPoints(re_pdpDrawPort);

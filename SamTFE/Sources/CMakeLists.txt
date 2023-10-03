@@ -109,11 +109,15 @@ option(TFE "Compile a The First Encounter version" FALSE)
 
 if(INTERNAL_NAME STREQUAL "serioussam")
  add_definitions(-DFIRST_ENCOUNTER=1)
- add_definitions(-DSE1_VULKAN=1)
+ if(USE_SYSTEM_VULKAN)
+   add_definitions(-DSE1_VULKAN=1)
+ endif()
  set(MP "")
  message(STATUS "Building Serious Sam Classic The First Encounter")
 else()
- add_definitions(-DSE1_VULKAN=1)
+ if(USE_SYSTEM_VULKAN)
+   add_definitions(-DSE1_VULKAN=1)
+ endif()
  set(MP "MP")
  message(STATUS "Building Serious Sam Classic The Second Encounter")
 endif()
@@ -1024,6 +1028,7 @@ if(PANDORA)
 endif()
 add_dependencies(engine_safemath${MP} ParseEntities${MP})
 
+if(USE_SYSTEM_VULKAN)
 set(ENGINE_SRCS
     ${ENGINE_ENTITIES_CPP}
     Engine/Engine.cpp
@@ -1206,6 +1211,177 @@ set(ENGINE_SRCS
     ${ADDITIONAL_ENGINE_SRCS}
     ${ZLIB_SRCS}
 )
+else()
+set(ENGINE_SRCS
+    ${ENGINE_ENTITIES_CPP}
+    Engine/Engine.cpp
+    Engine/Base/Anim.cpp
+    Engine/Base/CRC.cpp
+    Engine/Base/CRCTable.cpp
+    Engine/Base/Changeable.cpp
+    Engine/Base/Console.cpp
+    Engine/Base/Directory.cpp
+    Engine/Base/ErrorReporting.cpp
+    Engine/Base/FileName.cpp
+    Engine/Base/Input.cpp
+    Engine/Base/Lists.cpp
+    Engine/Base/Memory.cpp
+    Engine/Base/Profiling.cpp
+    Engine/Base/ProgressHook.cpp
+    Engine/Base/Protection.cpp
+    Engine/Base/Relations.cpp
+    Engine/Base/ReplaceFile.cpp
+    Engine/Base/Serial.cpp
+    Engine/Base/Shell.cpp
+    Engine/Base/ShellTypes.cpp
+    Engine/Base/Statistics.cpp
+    Engine/Base/Stream.cpp
+    Engine/Base/Timer.cpp
+    Engine/Base/Translation.cpp
+    Engine/Base/Unzip.cpp
+    Engine/Base/Updateable.cpp
+    Engine/Base/CTString.cpp
+    Engine/Base/Scanner.cpp
+    Engine/Base/Parser.cpp
+    Engine/Base/Parser.h
+    Engine/Base/IFeel.cpp
+    Engine/Base/iconvlite.cpp
+    Engine/Base/Unix/UnixFileSystem.cpp
+    Engine/Base/Unix/UnixDynamicLoader.cpp
+    Engine/Base/SDL/SDLTimer.cpp
+    Engine/Base/SDL/SDLInput.cpp
+    Engine/Base/SDL/SDLEvents.cpp
+    ${SYNCHRO_SRCS}
+    Engine/Brushes/BrushIO.cpp
+    Engine/Brushes/BrushShadows.cpp
+    Engine/Brushes/BrushTriangularize.cpp
+    Engine/Brushes/BrushArchive.cpp
+    Engine/Brushes/BrushImport.cpp
+    Engine/Brushes/BrushMip.cpp
+    Engine/Brushes/BrushExport.cpp
+    Engine/Entities/NearestPolygon.cpp
+    Engine/Entities/EntityProperties.cpp
+    Engine/Entities/FieldBSPTesting.cpp
+    Engine/Entities/EntityCopying.cpp
+    Engine/Entities/LastPositions.cpp
+    Engine/Math/Projection_Isometric.cpp
+    Engine/Math/Object3D.cpp
+    Engine/Math/Projection_Parallel.cpp
+    Engine/Math/Projection_Perspective.cpp
+    Engine/Math/Float.cpp
+    Engine/Math/Object3D_CSG.cpp
+    Engine/Math/Projection_Simple.cpp
+    Engine/Math/Functions.cpp
+    Engine/Math/ObjectSector.cpp
+    Engine/Math/Placement.cpp
+    Engine/Math/TextureMapping.cpp
+    Engine/Math/Geometry.cpp
+    Engine/Math/Projection.cpp
+    #Engine/Math/Object3D_IO.cpp  # Exploration 3D support.
+    #Engine/Models/EditModel.cpp
+    Engine/Models/Model.cpp
+    Engine/Models/RenderModel_View.cpp
+    Engine/Models/Normals.cpp
+    Engine/Models/VertexGetting.cpp
+    Engine/Models/RenderModel.cpp
+    Engine/Models/MipMaker.cpp
+    Engine/Models/ModelProfile.cpp
+    Engine/Models/RenderModel_Mask.cpp
+    Engine/Light/LayerMaker.cpp
+    Engine/Light/LayerMixer.cpp
+    Engine/Light/LightSource.cpp
+    Engine/Graphics/Adapter.cpp
+    Engine/Graphics/Raster.cpp
+    Engine/Graphics/GfxLibrary.cpp
+    Engine/Graphics/Benchmark.cpp
+    Engine/Graphics/GfxProfile.cpp
+    Engine/Graphics/Color.cpp
+    Engine/Graphics/ShadowMap.cpp
+    Engine/Graphics/DepthCheck.cpp
+    Engine/Graphics/Texture.cpp
+    Engine/Graphics/DisplayMode.cpp
+    Engine/Graphics/Gfx_OpenGL.cpp
+    Engine/Graphics/Gfx_OpenGL_Textures.cpp
+    Engine/Graphics/TextureEffects.cpp
+    Engine/Graphics/DrawPort.cpp
+    Engine/Graphics/Gfx_wrapper.cpp
+    Engine/Graphics/DrawPort_Particles.cpp
+    Engine/Graphics/Graphics.cpp
+    Engine/Graphics/ViewPort.cpp
+    Engine/Graphics/DrawPort_RenderScene.cpp
+    Engine/Graphics/ImageInfo.cpp
+    Engine/Graphics/Fog.cpp
+    Engine/Graphics/MultiMonitor.cpp
+    Engine/Graphics/Font.cpp
+    Engine/Graphics/Shader.cpp
+    Engine/Graphics/Stereo.cpp
+    Engine/Graphics/SDL/SDLOpenGL.cpp
+    Engine/Graphics/SDL/SDLAdapter.cpp
+    Engine/Network/ActionBuffer.cpp
+    Engine/Network/NetworkMessage.cpp
+    Engine/Network/Server.cpp
+    Engine/Network/Buffer.cpp
+    Engine/Network/NetworkProfile.cpp
+    Engine/Network/SessionState.cpp
+    Engine/Network/PlayerBuffer.cpp
+    Engine/Network/MessageDispatcher.cpp
+    Engine/Network/PlayerSource.cpp
+    Engine/Network/Compression.cpp
+    Engine/Network/Network.cpp
+    Engine/Network/PlayerTarget.cpp
+    Engine/Network/CPacket.cpp
+    Engine/Network/ClientInterface.cpp
+    Engine/Network/CommunicationInterface.cpp
+    Engine/Network/Diff.cpp
+    Engine/GameAgent/GameAgent.cpp
+    Engine/Terrain/ArrayHolder.cpp
+    Engine/Terrain/Terrain.cpp
+    Engine/Terrain/TerrainArchive.cpp
+    Engine/Terrain/TerrainEditing.cpp
+    Engine/Terrain/TerrainLayer.cpp
+    Engine/Terrain/TerrainRender.cpp
+    Engine/Terrain/TerrainTile.cpp
+    Engine/Rendering/Render.cpp
+    Engine/Rendering/RenderProfile.cpp
+    Engine/Rendering/SelectOnRender.cpp
+    Engine/Ska/AnimSet.cpp
+    Engine/Ska/RMRender.cpp
+    Engine/Ska/Skeleton.cpp
+    Engine/Ska/ModelInstance.cpp
+    Engine/Ska/StringTable.cpp
+    Engine/Ska/Mesh.cpp
+    Engine/Ska/RMRenderMask.cpp
+    Engine/Ska/smcPars.cpp
+    Engine/Ska/smcPars.h
+    Engine/Ska/smcScan.cpp
+    Engine/Sound/SoundDecoder.cpp
+    Engine/Sound/SoundObject.cpp
+    Engine/Sound/SoundLibrary.cpp
+    Engine/Sound/SoundProfile.cpp
+    Engine/Sound/SoundData.cpp
+    Engine/Sound/Wave.cpp
+    Engine/Sound/SoundMixer.cpp
+    Engine/Templates/Stock_CAnimData.cpp
+    Engine/Templates/Stock_CAnimSet.cpp
+    Engine/Templates/Stock_CEntityClass.cpp
+    Engine/Templates/Stock_CMesh.cpp
+    Engine/Templates/Stock_CModelData.cpp
+    Engine/Templates/Stock_CSkeleton.cpp
+    Engine/Templates/Stock_CSoundData.cpp
+    Engine/Templates/Stock_CTextureData.cpp
+    Engine/Templates/Stock_CShader.cpp
+    Engine/Templates/NameTable_CTFileName.cpp
+    Engine/Templates/NameTable_CTranslationPair.cpp
+    Engine/Templates/BSP.cpp
+    Engine/World/PhysicsProfile.cpp
+    Engine/World/World.cpp
+    Engine/World/WorldEditingProfile.cpp
+    Engine/World/WorldIO.cpp
+    ${ADDITIONAL_ENGINE_SRCS}
+    ${ZLIB_SRCS}
+)
+endif()
+
 set(ENGINELIB "Engine${MP}${DEBUGSUFFIX}")
 add_library(${ENGINELIB} SHARED
      ${ENGINE_SRCS}
@@ -1216,20 +1392,25 @@ endif()
 add_dependencies(${ENGINELIB} ParseEntities${MP})
 target_link_libraries(${ENGINELIB} engine_safemath${MP})
 if(FREEBSD)
-target_link_libraries(${ENGINELIB} ${SDL2_LIBRARY})
-target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
-target_link_libraries(${ENGINELIB} ${Vulkan_LIBRARY})
+    target_link_libraries(${ENGINELIB} ${SDL2_LIBRARY})
+    target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
+    if(USE_SYSTEM_VULKAN)
+      target_link_libraries(${ENGINELIB} ${Vulkan_LIBRARY})
+    endif()
 endif()
+
 if(MACOSX)
     if(USE_SYSTEM_SDL2) # use sdl2 framework on system
       target_link_libraries(${ENGINELIB} ${SDL2_LIBRARY})
     else() # use local libsdl2
-	  find_library(COCOA_FRAMEWORK Cocoa)
+      find_library(COCOA_FRAMEWORK Cocoa)
       target_link_libraries(${ENGINELIB} "${COCOA_FRAMEWORK}")
       target_link_libraries(${ENGINELIB} "${CMAKE_CURRENT_SOURCE_DIR}/lib/macosx/libSDL2-2.0.0.dylib")
     endif()
    target_link_libraries(${ENGINELIB} ${ZLIB_LIBRARIES})
-   target_link_libraries(${ENGINELIB} Vulkan::Vulkan)
+   if(USE_SYSTEM_VULKAN)
+     target_link_libraries(${ENGINELIB} Vulkan::Vulkan)
+   endif()
 endif()
 if(PANDORA)
     target_link_libraries(${ENGINELIB} "rt")
@@ -1239,10 +1420,14 @@ if(RPI4)
 endif()
 
 if(FREEBSD OR MACOSX)
-set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-rpath,$ORIGIN")
+ set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-rpath,$ORIGIN")
 else()
-target_link_libraries(${ENGINELIB} vulkan)
-set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
+ if(USE_SYSTEM_VULKAN)
+   target_link_libraries(${ENGINELIB} vulkan)
+   set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-lvulkan,-rpath,$ORIGIN")
+ else()
+   set_target_properties(${ENGINELIB} PROPERTIES ENABLE_EXPORTS ON LINK_FLAGS "-Wl,-rpath,$ORIGIN")
+ endif()
 endif()
 
 add_executable(SeriousSam${MP}

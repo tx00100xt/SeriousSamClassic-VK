@@ -63,9 +63,12 @@ if(USE_SYSTEM_VULKAN)
     find_package(Vulkan REQUIRED)
     if(Vulkan_FOUND)
         include_directories(${Vulkan_INCLUDE_DIRS})
+        message(STATUS "Building Vulkan/OpenGL version")
     else()
         message(FATAL_ERROR "Error! USE_SYSTEM_VULKAN is set but neccessary developer files are missing")
     endif()
+else()
+    message(STATUS "Building OpenGL version only without Vulkan support")
 endif()
 
 

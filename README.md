@@ -192,6 +192,20 @@ make -j4
 make install
 ```
 
+#### Building OpenGL version only
+
+If your video card does not support Vulkan and you do not have the Vulkan libraries and header files installed, then you can build a version only with an OpenGL render.
+You just need to add one key(**-DUSE_SYSTEM_VULKAN=FALSE**) for the cmake command. Example:
+
+```
+cd SeriousSamClassic-VK
+mkdir build
+cd build
+cmake -DUSE_SYSTEM_VULKAN=FALSE ..
+make -j4
+make install
+```
+
 Running
 -------
 

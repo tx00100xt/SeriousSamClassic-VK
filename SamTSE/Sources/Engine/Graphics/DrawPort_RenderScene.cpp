@@ -1554,9 +1554,14 @@ void RSRenderGroup( ScenePolygon *pspoGroup, ULONG ulGroupFlags, ULONG ulTestedF
   extern INDEX d3d_iMaxBurstSize;
   ogl_iMaxBurstSize = Clamp( ogl_iMaxBurstSize, (INDEX)0, (INDEX)9999);
   d3d_iMaxBurstSize = Clamp( d3d_iMaxBurstSize, (INDEX)0, (INDEX)9999);
+
+#ifdef SE1_VULKAN
   const INDEX iMaxBurstSize = 
     (eAPI==GAT_OGL) ? ogl_iMaxBurstSize :
     (eAPI==GAT_VK) ? 0 : d3d_iMaxBurstSize;
+#else
+  const INDEX iMaxBurstSize = (eAPI == GAT_OGL) ? ogl_iMaxBurstSize : d3d_iMaxBurstSize;
+#endif // SE1_VULKAN
 
   // if unlimited lock count
   if( iMaxBurstSize==0)

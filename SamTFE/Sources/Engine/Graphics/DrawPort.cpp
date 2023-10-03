@@ -565,6 +565,7 @@ void CDrawPort::DrawLine( PIX pixI0, PIX pixJ0, PIX pixI1, PIX pixJ1, COLOR col,
   // check API
   const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
 
+#ifdef SE1_VULKAN
   // only lines that are aligned with axes
   if (eAPI == GAT_VK)
   {
@@ -586,6 +587,7 @@ void CDrawPort::DrawLine( PIX pixI0, PIX pixJ0, PIX pixI1, PIX pixJ1, COLOR col,
 
     return;
   }
+#endif // SE1_VULKAN
 
   ASSERT( GfxValidApi(eAPI) );
 
@@ -711,7 +713,7 @@ void CDrawPort::DrawBorder( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COL
 {
   // check API
   const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
-
+#ifdef SE1_VULKAN
   if ( eAPI == GAT_VK )
   {
     // top
@@ -736,6 +738,7 @@ void CDrawPort::DrawBorder( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COL
 
     return;
   }
+#endif // SE1_VULKAN
 
   ASSERT( GfxValidApi(eAPI) );
 
@@ -809,12 +812,14 @@ void CDrawPort::Fill( PIX pixI, PIX pixJ, PIX pixWidth, PIX pixHeight, COLOR col
 {
   const GfxAPIType eAPI = _pGfx->gl_eCurrentAPI;
 
+#ifdef SE1_VULKAN
   // draw only using polygons
   if ( eAPI == GAT_VK )
   {
     Fill(pixI, pixJ, pixWidth, pixHeight, col, col, col, col);
     return;
   }
+#endif // SE1_VULKAN
 
   // if color is tranlucent
   if( ((col&CT_AMASK)>>CT_ASHIFT) != CT_OPAQUE)
