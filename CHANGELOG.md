@@ -180,3 +180,4 @@ All notable changes to this project will be documented in this file.
 - SeriousSkaStudio: Fixed conversion of pointers to 32 bits (Win).
 - Fixed HUD, player FOV, weapon FOV for Serious Editor.
 - Restored name for Serious Editor log file.
+- Fixed some textures after Save/Load (First Encounter).
