@@ -1,7 +1,7 @@
 # Serious Sam Classic: Vulkan
 [![Build status](https://github.com/tx00100xt/SeriousSamClassic-VK/actions/workflows/cibuild.yml/badge.svg)](https://github.com/tx00100xt//SeriousSamClassic-VK/actions/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tx00100xt/SeriousSamClassic-VK)](https://github.com/tx00100xt/SeriousSamClassic-VK/releases/tag/v1.10.5)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tx00100xt/SeriousSamClassic-VK)](https://github.com/tx00100xt/SeriousSamClassic-VK/releases/tag/v1.10.6)
 [![Github downloads](https://img.shields.io/github/downloads/tx00100xt/SeriousSamClassic-VK/total.svg?logo=github&logoColor=white&style=flat-square&color=E75776)](https://github.com/tx00100xt/SeriousSamClassic-VK/releases/)
 
 Vulkan Serious Engine port based on [open source version](https://github.com/sultim-t/Serious-Engine-Vk).
@@ -280,7 +280,9 @@ serioussam       	# for run Serious Sam Classic The First Encounter
 ```
 serioussamse       	# for run Serious Sam Classic The Second Encounter
 ```
-Note: If the game does not find the data on the recommended paths, then it will independently perform a search.
+**Note:** If the game does not find the data on the recommended paths, then it will independently perform a search.
+Please note that when installing the game on a system, all content of the original game is required (including directories: Controls, Data, Demos, Help, and so on) in directories 1 or 2, depending on the directory you select.
+You can see a more detailed description in the [Wiki](https://github.com/tx00100xt/SeriousSamClassic-VK/wiki/How-to-building-a-package-for-Debian-or-Ubuntu.md#game-resources).
 
 ## Serious Sam Classic XPLUS
 
