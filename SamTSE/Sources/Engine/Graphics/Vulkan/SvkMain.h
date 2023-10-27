@@ -132,6 +132,7 @@ public:
   CStaticArray<VkPresentModeKHR>          gl_VkPhSurfPresentModes;
 
   CStaticArray<const char *>              gl_VkPhysDeviceExtensions;
+  CStaticArray<const char *>              gl_VkInstanceExtensions;
   CStaticArray<const char *>              gl_VkLayers;
   VkSampleCountFlagBits                   gl_VkMaxSampleCount;
 

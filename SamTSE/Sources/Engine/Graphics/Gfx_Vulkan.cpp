@@ -185,83 +185,58 @@ BOOL SvkMain::InitDriver_Vulkan()
   instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   instanceInfo.pApplicationInfo = &appInfo;
 
-  // hard coded Windows extensions
-  const char* extensions[] = {
-    VK_KHR_SURFACE_EXTENSION_NAME,
-#ifdef PLATFORM_WIN32
-      VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
-#else
-      VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
-#endif
-#if SVK_ENABLE_VALIDATION
-    VK_EXT_DEBUG_UTILS_EXTENSION_NAME
-#endif
-  };
+  VkResult res;
+  VkExtensionProperties *vk_props = NULL;
+  uint32_t instance_extension_count;
+  do {
+    res = vkEnumerateInstanceExtensionProperties(NULL, &instance_extension_count, NULL);
+    if (res) {
+      break;
+    }
+    if (instance_extension_count == 0) {
+      break;
+    }
+    // VkExtensionProperties
+    vk_props = (VkExtensionProperties *)realloc(vk_props, instance_extension_count * sizeof(VkExtensionProperties));
+    // vkEnumerateInstanceExtensionProperties
+    res = vkEnumerateInstanceExtensionProperties(NULL, &instance_extension_count, vk_props);
 
-#if SVK_ENABLE_VALIDATION
-    unsigned int ext_count = 3;
-#else
-    unsigned int ext_count = 2;
-#endif
-
-  // Get the required extension count
-#ifdef PLATFORM_UNIX
-  unsigned int count = 0;
-  SDL_bool result_GIE;
-  CPrintF("Vulkan: Try GetInstanceExtensions with Count: %d\n== Temp extensions ==\n",count);
-  for (uint32_t i = 0; i < ext_count; i++) {
-    CPrintF("   %s\n", extensions[i]);
+  } while (res == VK_INCOMPLETE);
+  
+  if (gl_VkLayers.Count() == 0 || gl_VkLayers.Count() < instance_extension_count) {
+    gl_VkInstanceExtensions.New(instance_extension_count);
   }
-  result_GIE = SDL_Vulkan_GetInstanceExtensions( _hwndMain, &count, nullptr);
-  if (!result_GIE) {
-    CPrintF("Vulkan error: SDL_Vulkan_GetInstanceExtensions Error.\n");
-  } else {
-    CPrintF("Vulkan: The resulting count: %d\n",count);
+  // Instance Extensions
+  CPrintF("Vulkan: Instance Extensions:\n");
+  for (uint32_t i = 0; i < instance_extension_count; i++) {
+    VkExtensionProperties *props = &vk_props[i];
+    CPrintF("      %-40s",(const char*)props->extensionName);
+    gl_VkInstanceExtensions[i] = (const char*)props->extensionName;
+    CPrintF(" : extension revision %d\n", props->specVersion);
   }
-#endif
 
 #if SVK_ENABLE_VALIDATION
   VkDebugUtilsMessengerCreateInfoEXT debugMsgInfo = {};
   GetDebugMsgCreateInfo(debugMsgInfo);
-
-  if (gl_VkLayers.Count() == 0)
-  {
-#ifdef PLATFORM_UNIX
+  if (gl_VkLayers.Count() == 0) {
     gl_VkLayers.New(2);
+#ifdef PLATFORM_UNIX
     gl_VkLayers[0] = "VK_LAYER_KHRONOS_validation";
     gl_VkLayers[1] = "VK_LAYER_MESA_overlay";
-    //gl_VkLayers[2] = "VK_LAYER_MANGOHUD_overlay";
 #else
-    gl_VkLayers.New(2);
     gl_VkLayers[0] = "VK_LAYER_KHRONOS_validation";
     gl_VkLayers[1] = "VK_LAYER_LUNARG_monitor";
-#endif
+#endif // PLATFORM_UNIX
   }
-
-  instanceInfo.enabledExtensionCount = 3;
-  instanceInfo.ppEnabledExtensionNames = extensions;
+  instanceInfo.enabledExtensionCount = instance_extension_count;
+  instanceInfo.ppEnabledExtensionNames = &gl_VkInstanceExtensions[0];
   instanceInfo.enabledLayerCount = (uint32_t)gl_VkLayers.Count();
   instanceInfo.ppEnabledLayerNames = &gl_VkLayers[0];
   instanceInfo.pNext = &debugMsgInfo;
-#else
-  instanceInfo.enabledExtensionCount = 2;
-  instanceInfo.ppEnabledExtensionNames = extensions;
+#else // !SVK_ENABLE_VALIDATION
+  instanceInfo.enabledExtensionCount = instance_extension_count;
+  instanceInfo.ppEnabledExtensionNames = &gl_VkInstanceExtensions[0];
   instanceInfo.enabledLayerCount = 0;
-#endif
-#ifdef PLATFORM_UNIX
-  if (!SDL_Vulkan_GetInstanceExtensions(_hwndMain, &count, extensions)) 
-  {   
-     CPrintF("Vulkan error: SDL_Vulkan_GetInstanceExtensions Error.\n");
-  } else {
-#if SVK_ENABLE_VALIDATION
-  count = count+1;
-#endif
-    CPrintF("Vulkan: SDL_Vulkan_GetInstanceExtensions Done. count: %d\n== The resulting extensions ==\n",count);
-    for (uint32_t i = 0; i < count; i++) {
-      CPrintF("   %s\n", extensions[i]);
-    }
-  }
-  // Now we can make the Vulkan instance
 #endif
 
   VkResult r = vkCreateInstance(&instanceInfo, nullptr, &gl_VkInstance);
@@ -292,7 +267,7 @@ BOOL SvkMain::InitDriver_Vulkan()
    // return FALSE;
   }
 #endif
-//#####################################################################
+//############################################################################################
 
 #ifdef PLATFORM_WIN32
   if (!InitSurface_Win32(hInstance, _hwndMain))

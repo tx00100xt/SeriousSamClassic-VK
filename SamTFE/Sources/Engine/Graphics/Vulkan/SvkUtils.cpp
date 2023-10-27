@@ -204,12 +204,12 @@ BOOL SvkMain::CheckDeviceExtensions(VkPhysicalDevice physDevice, const CStaticAr
   vkEnumerateDeviceExtensionProperties(physDevice, nullptr, &deviceExtCount, &deviceExts[0]);
 
   //
-  CPrintF("Vulkan: --- required rxtensions ---\n");
+  CPrintF("Vulkan: Required extensions:\n");
   for (uint32_t i = 0; i < requiredExtensions.Count(); i++)
   {
     CPrintF("      %s\n", (const char*)CTString(requiredExtensions[i]));
   }
-  CPrintF("Vulkan: --- found %d device extensions ---\n",deviceExtCount);
+  CPrintF("Vulkan: Found %d device extensions:\n",deviceExtCount);
   for (uint32_t i = 0; i < deviceExtCount; i++)
   {
     CPrintF("      %s\n", (const char*)deviceExts[i].extensionName);
