@@ -1532,6 +1532,18 @@ BOOL CGfxLibrary::StartDisplayMode( enum GfxAPIType eAPI, INDEX iAdapter, PIX pi
 #ifdef SE1_VULKAN
   else if (eAPI == GAT_VK)
   {
+    // disable multimonitor support if it can interfere with Vulkan
+    MonitorsOff();
+    if( bFullScreen) {
+      // set windows mode to fit same size
+      bSuccess = CDS_SetMode( pixSizeI, pixSizeJ, eColorDepth);
+      if( !bSuccess) return FALSE;
+    } else {
+      // reset windows mode
+      CDS_ResetMode();
+    }
+    // startup Vulkan
+
     bSuccess = InitDriver_Vulkan();
     if (!bSuccess) {
       CPrintF("Vulkan error: Init Driver Vulkan Error!\n");
