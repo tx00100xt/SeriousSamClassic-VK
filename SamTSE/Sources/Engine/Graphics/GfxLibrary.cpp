@@ -1532,15 +1532,21 @@ BOOL CGfxLibrary::StartDisplayMode( enum GfxAPIType eAPI, INDEX iAdapter, PIX pi
 #ifdef SE1_VULKAN
   else if (eAPI == GAT_VK)
   {
-    // disable multimonitor support if it can interfere with Vulkan
-    MonitorsOff();
-    if( bFullScreen) {
-      // set windows mode to fit same size
-      bSuccess = CDS_SetMode( pixSizeI, pixSizeJ, eColorDepth);
-      if( !bSuccess) return FALSE;
+    PIX pixCurrentSizeI = ::GetSystemMetrics(SM_CXSCREEN);
+    PIX pixCurrentSizeJ = ::GetSystemMetrics(SM_CYSCREEN);
+    if ( (pixCurrentSizeI == pixSizeI) && (pixCurrentSizeJ == pixSizeJ) ) {
+      // Nothing, because the resolution does not need to be changed
     } else {
-      // reset windows mode
-      CDS_ResetMode();
+      // disable multimonitor support if it can interfere with Vulkan
+      MonitorsOff();
+      if( bFullScreen) {
+        // set windows mode to fit same size
+        bSuccess = CDS_SetMode( pixSizeI, pixSizeJ, eColorDepth);
+        if( !bSuccess) return FALSE;
+      } else {
+        // reset windows mode
+        CDS_ResetMode();
+      }
     }
     // startup Vulkan
 
