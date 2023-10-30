@@ -1532,6 +1532,7 @@ BOOL CGfxLibrary::StartDisplayMode( enum GfxAPIType eAPI, INDEX iAdapter, PIX pi
 #ifdef SE1_VULKAN
   else if (eAPI == GAT_VK)
   {
+#ifdef PLATFORM_WIN32
     PIX pixCurrentSizeI = ::GetSystemMetrics(SM_CXSCREEN);
     PIX pixCurrentSizeJ = ::GetSystemMetrics(SM_CYSCREEN);
     if ( (pixCurrentSizeI == pixSizeI) && (pixCurrentSizeJ == pixSizeJ) ) {
@@ -1548,6 +1549,7 @@ BOOL CGfxLibrary::StartDisplayMode( enum GfxAPIType eAPI, INDEX iAdapter, PIX pi
         CDS_ResetMode();
       }
     }
+#endif
     // startup Vulkan
 
     bSuccess = InitDriver_Vulkan();
