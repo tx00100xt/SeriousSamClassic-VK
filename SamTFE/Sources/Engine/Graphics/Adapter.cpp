@@ -431,7 +431,7 @@ void CGfxLibrary::InitAPIs(void)
   // * present modes
   // * required extensions (VK_KHR_SWAPCHAIN_EXTENSION_NAME)
 
-  for (INDEX iAdapter = 0; iAdapter < ctMaxPhysDevices; iAdapter++)
+  for (uint32_t iAdapter = 0; iAdapter < ctMaxPhysDevices; iAdapter++)
   {
     pda = &gl_gaAPI[GAT_VK].ga_adaAdapter[iAdapter];
     pda->da_ulFlags = NONE;
@@ -442,7 +442,7 @@ void CGfxLibrary::InitAPIs(void)
     const int total = SDL_GetNumDisplayModes(dpy);
     for (int i = 0; i < total; i++)
     {
-      if (pda->da_ctDisplayModes >= ARRAYCOUNT(pda->da_admDisplayModes))
+      if ((uint32_t)(pda->da_ctDisplayModes) >= ARRAYCOUNT(pda->da_admDisplayModes))
         break;
 
       SDL_DisplayMode mode;

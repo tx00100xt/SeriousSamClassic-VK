@@ -194,7 +194,7 @@ BOOL SvkMain::InitDriver_Vulkan()
 
   } while (res == VK_INCOMPLETE);
   
-  if (gl_VkLayers.Count() == 0 || gl_VkLayers.Count() < instance_extension_count) {
+  if (gl_VkLayers.Count() == 0 || gl_VkLayers.Count() < (int32_t)instance_extension_count) {
     gl_VkInstanceExtensions.New(instance_extension_count);
   }
   // Instance Extensions
@@ -603,14 +603,20 @@ BOOL SvkMain::SetCurrentViewport_Vulkan(CViewPort* pvp)
 {
   // determine full screen mode
   CDisplayMode dm;
-  RECT rectWindow;
   _pGfx->GetCurrentDisplayMode(dm);
   ASSERT((dm.dm_pixSizeI == 0 && dm.dm_pixSizeJ == 0) || (dm.dm_pixSizeI != 0 && dm.dm_pixSizeJ != 0));
+
 #ifdef PLATFORM_WIN32
+  RECT rectWindow;
   GetClientRect(pvp->vp_hWnd, &rectWindow);
-#endif
   const PIX pixWinSizeI = rectWindow.right - rectWindow.left;
   const PIX pixWinSizeJ = rectWindow.bottom - rectWindow.top;
+#else
+  int width, height;
+  SDL_Vulkan_GetDrawableSize((SDL_Window *)pvp->vp_hWnd, &width, &height);
+  const PIX pixWinSizeI = (PIX) width;
+  const PIX pixWinSizeJ = (PIX) height;
+#endif
 
   // full screen allows only one window (main one, which has already been initialized)
   if (dm.dm_pixSizeI == pixWinSizeI && dm.dm_pixSizeJ == pixWinSizeJ) 

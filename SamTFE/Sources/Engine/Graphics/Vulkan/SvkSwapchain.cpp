@@ -35,8 +35,8 @@ void SvkMain::CreateSwapchain(int32_t width, int32_t height)
 
   SDL_Vulkan_GetDrawableSize(_hwndMain, &width, &height);
 
-  width = CLAMP(width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-  height = CLAMP(height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+  width = CLAMP(width, (int32_t)capabilities.minImageExtent.width, (int32_t)capabilities.maxImageExtent.width);
+  height = CLAMP(height, (int32_t)capabilities.minImageExtent.height, (int32_t)capabilities.maxImageExtent.height);
 #endif
   // check consistency
   ASSERT(gl_VkSwapchainImages.Count() == gl_VkSwapchainImageViews.Count());
@@ -203,16 +203,16 @@ void SvkMain::RecreateSwapchain(int32_t newWidth, int32_t newHeight)
 #ifdef PLATFORM_UNIX  
   VkSurfaceCapabilitiesKHR capabilities;
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(gl_VkPhysDevice, gl_VkSurface, &capabilities);
-  int width;
-  int height;
+  int32_t width;
+  int32_t height;
   SDL_Vulkan_GetDrawableSize(_hwndMain, &width, &height);
 
-  width = CLAMP(width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-  height = CLAMP(height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+  width = CLAMP(width, (int32_t)capabilities.minImageExtent.width, (int32_t)capabilities.maxImageExtent.width);
+  height = CLAMP(height, (int32_t)capabilities.minImageExtent.height, (int32_t)capabilities.maxImageExtent.height);
   newWidth = width; newHeight = height;
 #endif
 
-  if (gl_VkSwapChainExtent.width == newWidth && gl_VkSwapChainExtent.height == newHeight)
+  if (gl_VkSwapChainExtent.width == (uint32_t)newWidth && gl_VkSwapChainExtent.height == (uint32_t)newHeight)
   {
     return;
   }
@@ -234,26 +234,26 @@ void SvkMain::DestroySwapchain()
 
   gl_VkSwapChainExtent = {};
 
-  for (uint32_t i = 0; i < gl_VkSwapchainDepthImages.Count(); i++) {
+  for (INDEX i = 0; i < gl_VkSwapchainDepthImages.Count(); i++) {
     vkDestroyImage(gl_VkDevice, gl_VkSwapchainDepthImages[i], nullptr);
     vkDestroyImage(gl_VkDevice, gl_VkSwapchainColorImages[i], nullptr);
   }
 
-  for (uint32_t i = 0; i < gl_VkSwapchainDepthImageViews.Count(); i++) {
+  for (INDEX i = 0; i < gl_VkSwapchainDepthImageViews.Count(); i++) {
     vkDestroyImageView(gl_VkDevice, gl_VkSwapchainDepthImageViews[i], nullptr);
     vkDestroyImageView(gl_VkDevice, gl_VkSwapchainColorImageViews[i], nullptr);
   }
 
-  for (uint32_t i = 0; i < gl_VkSwapchainDepthMemory.Count(); i++) {
+  for (INDEX i = 0; i < gl_VkSwapchainDepthMemory.Count(); i++) {
     vkFreeMemory(gl_VkDevice, gl_VkSwapchainDepthMemory[i], nullptr);
     vkFreeMemory(gl_VkDevice, gl_VkSwapchainColorMemory[i], nullptr);
   }
 
-  for (uint32_t i = 0; i < gl_VkFramebuffers.Count(); i++) {
+  for (INDEX i = 0; i < gl_VkFramebuffers.Count(); i++) {
     vkDestroyFramebuffer(gl_VkDevice, gl_VkFramebuffers[i], nullptr);
   }
 
-  for (uint32_t i = 0; i < gl_VkSwapchainImageViews.Count(); i++) {
+  for (INDEX i = 0; i < gl_VkSwapchainImageViews.Count(); i++) {
     vkDestroyImageView(gl_VkDevice, gl_VkSwapchainImageViews[i], nullptr);
   }
 

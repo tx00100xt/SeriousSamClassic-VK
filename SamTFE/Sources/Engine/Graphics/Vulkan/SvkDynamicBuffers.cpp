@@ -324,7 +324,7 @@ void SvkMain::FreeUnusedDynamicBuffers(uint32_t cmdBufferIndex)
   VkResult r;
   auto &toDelete = *(gl_VkDynamicToDelete[cmdBufferIndex]);
 
-  for (uint32_t i = 0; i < toDelete.Count(); i++)
+  for (INDEX i = 0; i < toDelete.Count(); i++)
   {
     for (uint32_t j = 0; j < gl_VkMaxCmdBufferCount; j++)
     {

@@ -189,8 +189,8 @@ __extern INDEX d3d_iMaxBurstSize = 0;             // 0=unlimited
 __extern INDEX d3d_iFinish = 0;
 
 // Vulkan control
-extern INDEX gfx_vk_iPresentMode = 0;           // what present mode to use: 0=FIFO, 1=Mailbox, 2=Immediate
-extern INDEX gfx_vk_iMSAA = 0;                  // MSAA: 0=1x, 1=2x, 2=4x, 3=8x
+__extern INDEX gfx_vk_iPresentMode = 0;           // what present mode to use: 0=FIFO, 1=Mailbox, 2=Immediate
+__extern INDEX gfx_vk_iMSAA = 0;                  // MSAA: 0=1x, 1=2x, 2=4x, 3=8x
 
 // API common controls
 __extern INDEX gap_iUseTextureUnits = 4;
@@ -331,8 +331,8 @@ static INDEX sys_bHasHardwareTnL = 1;
 static INDEX sys_bHasTruform = 0;
 static INDEX sys_bHasCVAs = 0;
 static INDEX sys_bUsingOpenGL = 0;
-extern INDEX sys_bUsingDirect3D = 0;
-extern INDEX sys_bUsingVulkan = 0;
+static INDEX sys_bUsingDirect3D = 0;
+static INDEX sys_bUsingVulkan = 0;
 
 /*
  * Low level hook flags
@@ -1781,8 +1781,8 @@ void CGfxLibrary::CreateWindowCanvas(void *hWnd, CViewPort **ppvpNew, CDrawPort 
 
   SDL_Vulkan_GetDrawableSize((SDL_Window *)hWnd, &width, &height);
 
-  width = CLAMP(width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-  height = CLAMP(height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+  width = CLAMP(width, (int32_t)capabilities.minImageExtent.width, (int32_t)capabilities.maxImageExtent.width);
+  height = CLAMP(height, (int32_t)capabilities.minImageExtent.height, (int32_t)capabilities.maxImageExtent.height);
   } else { // opengl
  #endif // SE1_VULKAN
     SDL_GL_GetDrawableSize((SDL_Window *) hWnd, &width, &height);

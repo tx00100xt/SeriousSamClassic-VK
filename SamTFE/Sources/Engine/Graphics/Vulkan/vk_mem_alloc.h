@@ -6370,9 +6370,9 @@ uint32_t VmaBlockBufferImageGranularity::PageToIndex(VkDeviceSize offset) const
 void VmaBlockBufferImageGranularity::AllocPage(RegionInfo& page, uint8_t allocType)
 {
     // When current alloc type is free then it can be overriden by new type
-    if (page.allocCount == 0 || page.allocCount > 0 && page.allocType == VMA_SUBALLOCATION_TYPE_FREE)
+    if (page.allocCount == 0 || (page.allocCount > 0 && page.allocType == VMA_SUBALLOCATION_TYPE_FREE)) {
         page.allocType = allocType;
-
+    }
     ++page.allocCount;
 }
 #endif // _VMA_BLOCK_BUFFER_IMAGE_GRANULARITY_FUNCTIONS

@@ -1005,7 +1005,7 @@ expression
         // This is possibly more portable, but no less scary than the alloca hack.
         #define MAXSCRIPTFUNCARGS 5
         void *ARG[MAXSCRIPTFUNCARGS];
-        if (($3.ctBytes > sizeof (ARG)))
+        if (($3.ctBytes > (int32_t)sizeof (ARG)))
         {
             _pShell->ErrorF("Function '%s' has too many arguments!", (const char *) $1->ss_strName);
             callfunc = false;

@@ -205,7 +205,7 @@ BOOL SvkMain::CheckDeviceExtensions(VkPhysicalDevice physDevice, const CStaticAr
 
   //
   CPrintF("Vulkan: Required extensions:\n");
-  for (uint32_t i = 0; i < requiredExtensions.Count(); i++)
+  for (INDEX i = 0; i < requiredExtensions.Count(); i++)
   {
     CPrintF("      %s\n", (const char*)CTString(requiredExtensions[i]));
   }
@@ -216,7 +216,7 @@ BOOL SvkMain::CheckDeviceExtensions(VkPhysicalDevice physDevice, const CStaticAr
   }
   //
 
-  for (uint32_t i = 0; i < requiredExtensions.Count(); i++)
+  for (INDEX i = 0; i < requiredExtensions.Count(); i++)
   {
     BOOL found = FALSE;
     for (uint32_t j = 0; j < deviceExtCount; j++)
