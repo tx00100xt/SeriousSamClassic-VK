@@ -154,8 +154,6 @@ SvkMain::SvkMain()
 #endif
 }
 
-
-//############################################################################################
 // initialize Vulkan driver
 BOOL SvkMain::InitDriver_Vulkan()
 {
@@ -177,9 +175,9 @@ BOOL SvkMain::InitDriver_Vulkan()
   VkApplicationInfo appInfo = {};
   appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
   appInfo.pApplicationName = "Serious Sam Classic App";
-  appInfo.applicationVersion = VK_MAKE_VERSION(1, 2, 170);
+  appInfo.applicationVersion = VK_MAKE_VERSION(1, 10, 6);
   appInfo.pEngineName = "Serious Engine 1";
-  appInfo.engineVersion = VK_MAKE_VERSION(1, 2, 170);
+  appInfo.engineVersion = VK_MAKE_VERSION(1, 10, 6);
   appInfo.apiVersion = VK_API_VERSION_1_2;
 
 
@@ -269,7 +267,6 @@ BOOL SvkMain::InitDriver_Vulkan()
    // return FALSE;
   }
 #endif
-//############################################################################################
 
 #ifdef PLATFORM_WIN32
   if (!InitSurface_Win32(hInstance, _hwndMain))
@@ -335,8 +332,6 @@ BOOL SvkMain::InitDriver_Vulkan()
 
   return TRUE;
 }
-//############################################################################################
-
 
 void SvkMain::EndDriver_Vulkan(void)
 {
@@ -737,7 +732,6 @@ void SvkMain::SetViewport_Vulkan(float leftUpperX, float leftUpperY, float width
   vkCmdSetScissor(GetCurrentCmdBuffer(), 0, 1, &gl_VkCurrentScissor);
 }
 
-//#############################################################################################
 #ifdef PLATFORM_WIN32
 BOOL SvkMain::InitSurface_Win32(HINSTANCE hinstance, HWND hwnd)
 {
@@ -759,7 +753,6 @@ SDL_bool SvkMain::InitSurface_SDL(VkInstanceCreateInfo InstanceIn, SDL_Window * 
     return r;
 }
 #endif
-//#############################################################################################
 
 BOOL SvkMain::CreateDevice()
 {
