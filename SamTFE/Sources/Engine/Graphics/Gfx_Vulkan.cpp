@@ -80,6 +80,7 @@ extern INDEX GFX_ctVertices;
 extern BOOL  GFX_bViewMatrix;
 
 #pragma region Debug messenger
+#if SVK_ENABLE_VALIDATION
 static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) 
 {
   // print debug message to console
@@ -94,6 +95,7 @@ void GetDebugMsgCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &outInfo)
   outInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
   outInfo.pfnUserCallback = DebugCallback;
 }
+#endif
 #pragma endregion
 
 BOOL CGfxLibrary::InitDriver_Vulkan()
@@ -439,9 +441,9 @@ void SvkMain::Reset_Vulkan()
   gl_VkQueuePresent = VK_NULL_HANDLE;
 
   gl_VkPipelineOcclusion = VK_NULL_HANDLE;
-
+#if SVK_ENABLE_VALIDATION
   gl_VkDebugMessenger = VK_NULL_HANDLE;
-
+#endif
   for (uint32_t i = 0; i < gl_VkMaxCmdBufferCount; i++)
   {
     gl_VkTextureDescPools[i] = VK_NULL_HANDLE;

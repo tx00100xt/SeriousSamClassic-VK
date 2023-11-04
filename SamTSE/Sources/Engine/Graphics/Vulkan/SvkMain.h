@@ -145,9 +145,9 @@ public:
 
   VkQueryPool                     gl_VkOcclusionQueryPools[gl_VkMaxCmdBufferCount];
   uint32_t                        gl_VkOcclusionQueryLast[gl_VkMaxCmdBufferCount];
-
+#if SVK_ENABLE_VALIDATION
   VkDebugUtilsMessengerEXT        gl_VkDebugMessenger;
-
+#endif
   uint32_t                        gl_VkReloadTexturesTimer;
 
   // current mesh
