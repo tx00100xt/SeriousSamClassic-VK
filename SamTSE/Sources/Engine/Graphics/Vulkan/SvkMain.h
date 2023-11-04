@@ -25,8 +25,10 @@
 #ifndef NDEBUG
 extern void Vk_CheckError(VkResult r);
 #define VK_CHECKERROR(r)   Vk_CheckError(r);
+  #define SVK_ENABLE_VALIDATION 1
 #else
 #define VK_CHECKERROR(r)   (void)(0);
+  #define SVK_ENABLE_VALIDATION 0
 #endif
 
 class SvkMain

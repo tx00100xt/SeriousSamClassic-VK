@@ -37,19 +37,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 FLOAT	VkProjectionMatrix[16];
 FLOAT	VkViewMatrix[16];
 
-
 #ifdef SE1_VULKAN
 #ifdef PLATFORM_UNIX
 #include <Engine/Graphics/SDL/SDL_vulkan.h>
-
-
 #endif
-#ifndef NDEBUG
-  #define SVK_ENABLE_VALIDATION 1
-#else
-  #define SVK_ENABLE_VALIDATION 0
-#endif // !NDEBUG
-
 
 // fog/haze textures
 extern ULONG _fog_ulTexture;
