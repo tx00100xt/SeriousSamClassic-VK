@@ -13,6 +13,7 @@ option(USE_SYSTEM_SDL2 "Use systems sdl2 development files" On)
 option(USE_SYSTEM_ZLIB "Use systems zlib development files" On)
 option(USE_SYSTEM_VULKAN "Use systems vulkan development files" On)
 option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACHE})
+option(USE_SYSTEM_INSTALL "Install to systems directories" Off)
 
 # fallback for cmake versions without add_compile_options # RAKE! Borrowed from dhewm3 project
 if(NOT COMMAND add_compile_options)
@@ -126,37 +127,6 @@ endif()
 ###############################################################
 ###############################################################
 
-
-# RAKE! Where to install the binaries.
-if(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" OR CMAKE_INSTALL_PREFIX STREQUAL "") # Only works for linux since I don't
-                                                                                   # know what default is for windows/macos/freebsd.
-    if("${Found_Sam}" EQUAL "0")
-        if(INTERNAL_NAME STREQUAL "serioussam")
-            set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/SamTFE/Sources/../")     # set install path to project root directory since
-        else()                                                                     # since one wasn't set during config
-            set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/SamTSE/Sources/../")     # set install path to project root directory since
-        endif()                                                                    # since one wasn't set during config
-    else()
-        set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/../")                        # set install path to project root directory since
-    endif()                                                                        # since one wasn't set during config
-    set(LOCAL_INSTALL TRUE)
-    message(STATUS "Using LOCAL Install")
-endif()
-if(CMAKE_INSTALL_PREFIX STREQUAL "/usr" ) # Only works for linux since I don't know what default is for windows/macos/freebsd.
-    set(LOCAL_INSTALL FALSE)
-    message(STATUS "Using SYSTEM Install")
-endif()
-
-# ImageMagic needed for SYSTEM INSTALL
-if(NOT LOCAL_INSTALL)
-	find_package(ImageMagick COMPONENTS convert)
-    if(ImageMagick_convert_FOUND)
-        #message(STATUS "ImageMagick convert found: ${ImageMagick_convert_EXECUTABLE}")
-    else()
-        message(FATAL_ERROR "Error! LOCAL_INSTAL is set but neccessary ImageMagick convert are missing")
-    endif()
-endif()
-
 # Set up some sanity stuff...
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME MATCHES "GNU|kFreeBSD")
     SET(LINUX TRUE)
@@ -171,6 +141,41 @@ if(APPLE)
 endif()
 if(MSVC)
     SET(WINDOWS TRUE)
+endif()
+
+# RAKE! Where to install the binaries.
+if(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" OR CMAKE_INSTALL_PREFIX STREQUAL "") # Only works for linux since I don't
+                                                                                   # know what default is for windows/macos/freebsd.
+    if("${Found_Sam}" EQUAL "0")
+        if(INTERNAL_NAME STREQUAL "serioussam")
+            set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/SamTFE/Sources/../")     # set install path to project root directory since
+        else()                                                                     # since one wasn't set during config
+            set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/SamTSE/Sources/../")     # set install path to project root directory since
+        endif()                                                                    # since one wasn't set during config
+    else()
+        set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/../")                        # set install path to project root directory since
+    endif()                                                                        # since one wasn't set during config
+    if(NOT USE_SYSTEM_INSTALL)
+        set(LOCAL_INSTALL TRUE)
+        message(STATUS "Using LOCAL Install")
+    endif() 
+endif()
+if(CMAKE_INSTALL_PREFIX STREQUAL "/usr" OR USE_SYSTEM_INSTALL)
+    set(LOCAL_INSTALL FALSE)
+    message(STATUS "Using SYSTEM Install")
+    if(FREEBSD)
+        set(CMAKE_INSTALL_PREFIX "/usr/local")
+    endif()
+endif()
+
+# ImageMagic needed for SYSTEM INSTALL
+if(NOT LOCAL_INSTALL)
+	find_package(ImageMagick COMPONENTS convert)
+    if(ImageMagick_convert_FOUND)
+        #message(STATUS "ImageMagick convert found: ${ImageMagick_convert_EXECUTABLE}")
+    else()
+        message(FATAL_ERROR "Error! LOCAL_INSTAL is set but neccessary ImageMagick convert are missing")
+    endif()
 endif()
 
 # remove clang spam.
@@ -241,6 +246,10 @@ set(CMAKE_INSTALL_LIBDIR "/usr/lib")
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(CMAKE_ARCH_BITS 64)
     set(CMAKE_INSTALL_LIBDIR "/usr/lib64")
+endif()
+
+if(FREEBSD)
+    set(CMAKE_INSTALL_LIBDIR "/usr/local/lib")
 endif()
 
 message(STATUS "Arch bits: ${CMAKE_ARCH_BITS}")

@@ -408,6 +408,7 @@ Supported OS
 -----------
 * `Linux`
 * `FreeBSD`
+* `OpenBSD`
 * `Windows`
 * `Raspberry PI OS`
 * `macOS`
