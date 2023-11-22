@@ -128,7 +128,6 @@ endif()
 ###############################################################
 
 # Set up some sanity stuff...
-# Set up some sanity stuff...
 # Note:
 # "-rpath,$ORIGIN" allows you not to use LD_LIBRARY_PATH and is well suited for local installation
 # "-rpath,$ORIGIN" don't like new versions of clang + ninja and crashes during linking of the Engine library
@@ -140,7 +139,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME MATCHES "GNU")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wno-reorder -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-unused-function -Wno-format")
     set(RPATH_SETTINGS "-rpath,$ORIGIN")
 endif()
-if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
+if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "OpenBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wno-unused-but-set-variable -Wno-uninitialized -Wno-unused-function -Wno-format")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wno-enum-constexpr-conversion -Wno-unused-but-set-variable -Wno-uninitialized -Wno-unused-function -Wno-format")
     set(FREEBSD TRUE)
