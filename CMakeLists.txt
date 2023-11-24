@@ -87,12 +87,6 @@ if(MSVC)
     set(WINDOWS TRUE)
 endif()
 
-# remove clang spam.
-if(MACOSX OR FREEBSD)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-nullability-completeness")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-nullability-completeness")
-endif()
-
 if(CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
     include_directories("/usr/X11R6/include")
 endif()
