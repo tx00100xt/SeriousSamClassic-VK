@@ -195,10 +195,22 @@ Type this in your terminal:
 cd SeriousSamClassic-VK
 mkdir build
 cd build
-cmake .. -DCMAKE_C_FLAGS=-mmmx -DCMAKE_CXX_FLAGS=-mmmx -DCMAKE_SHARED_LINKER_FLAGS='-Wl,-znotext' -DUSE_I386_NASM_ASM=TRUE
+cmake .. -DCMAKE_C_FLAGS=-mmmx -DCMAKE_CXX_FLAGS=-mmmx -DUSE_ASM=TRUE -DUSE_I386_NASM_ASM=TRUE
 make -j4
 make install
 ```
+
+### NetBSD
+
+Install required dependencies:
+```
+sudo pkgin install cmake nasm bison SDL2 libogg libvorbis
+```
+NetBSD does not have Vulkan support, so you need to disable its dependencies when building. To do this, 
+use the argument **-DUSE_SYSTEM_VULKAN=FALSE** for the **cmake**.
+The **i386** version will only work with **sysctl -w security.pax.mprotect.global=0**
+Also don’t forget to add the path **/usr/pkg/lib** to **LD_LIBRARY_PATH**.
+The rest is the same as described for the OpenBSD.
 
 ### macOS
 
