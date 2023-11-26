@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.7)
 project(SeriousEngine)
 
 # Set @rpath for Mac OS X shared library install names.
@@ -58,6 +58,12 @@ if(USE_SYSTEM_ZLIB)
     else()
         message(FATAL_ERROR "Error! USE_SYSTEM_ZLIB is set but neccessary developer files are missing")
     endif()
+endif()
+
+# NetBSD not support Vulkan. Build only OpenGL render.
+if(CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
+     set(USE_SYSTEM_VULKAN FALSE)
+     message(STATUS "NetBSD: Building OpenGL version only")
 endif()
 
 if(USE_SYSTEM_VULKAN)

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.7)
 project(SeriousEngine)
 
 # set minimal standart
@@ -63,6 +63,11 @@ if(USE_SYSTEM_ZLIB)
     else()
         message(FATAL_ERROR "Error! USE_SYSTEM_ZLIB is set but neccessary developer files are missing")
     endif()
+endif()
+
+# NetBSD not support Vulkan. Build only OpenGL render.
+if(CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
+     set(USE_SYSTEM_VULKAN FALSE)
 endif()
 
 if(USE_SYSTEM_VULKAN)
@@ -200,8 +205,12 @@ endif()
 if(CMAKE_INSTALL_PREFIX STREQUAL "/usr" OR USE_SYSTEM_INSTALL)
     set(LOCAL_INSTALL FALSE)
     message(STATUS "Using SYSTEM Install")
-    if(FREEBSD)
+    if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
         set(CMAKE_INSTALL_PREFIX "/usr/local")
+    elseif(CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
+        set(CMAKE_INSTALL_PREFIX "/usr/pkg")
+    else()
+        set(CMAKE_INSTALL_PREFIX "/usr")  
     endif()
 endif()
 
@@ -289,6 +298,7 @@ if(FREEBSD)
 endif()
 if(CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
   include_directories("/usr/pkg/include")
+  set(CMAKE_INSTALL_LIBDIR "/usr/pkg/lib")
 endif()
 
 message(STATUS "Arch bits: ${CMAKE_ARCH_BITS}")
