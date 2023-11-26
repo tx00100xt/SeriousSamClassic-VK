@@ -156,6 +156,8 @@ cmake ..
 make -j4
 make install
 ```
+To build a binary package for installation on the system, you can use the template:  
+https://github.com/tx00100xt/SeriousSamClassic-VK/tree/main/templates
 
 ### OpenBSD
 
@@ -199,6 +201,8 @@ cmake .. -DCMAKE_C_FLAGS=-mmmx -DCMAKE_CXX_FLAGS=-mmmx -DUSE_ASM=TRUE -DUSE_I386
 make -j4
 make install
 ```
+To build a binary package for installation on the system, you can use the template:  
+https://github.com/tx00100xt/SeriousSamClassic-VK/tree/main/templates
 
 ### NetBSD
 
