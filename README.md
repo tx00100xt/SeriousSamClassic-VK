@@ -159,7 +159,7 @@ make install
 ```
 If you prefer **ninja**, then add key **-GNinja** to the cmake. And replace the **make** command with **ninja**.
 For **i386** architecture, add key **-DUSE_I386_NASM_ASM=ON** to **cmake**.
-To build a binary package for installation on the system, you can use the template:  
+To build a binary package for installation on the system, you can use the template:
 https://github.com/tx00100xt/SeriousSamClassic-VK/tree/main/templates
 
 ### OpenBSD
@@ -194,7 +194,7 @@ make install
 ```
 If you prefer **ninja**, then add key **-GNinja** to the cmake. And replace the **make** command with **ninja**.
 For **i386** architecture, add key **-DUSE_I386_NASM_ASM=ON** to **cmake**.
-To build a binary package for installation on the system, you can use the template:  
+To build a binary package for installation on the system, you can use the template:
 https://github.com/tx00100xt/SeriousSamClassic-VK/tree/main/templates
 
 ### NetBSD
