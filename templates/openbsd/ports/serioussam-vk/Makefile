@@ -56,13 +56,12 @@ NO_TEST =		Yes
 #.endif
 
 .if ${MACHINE_ARCH} == amd64
-CONFIGURE_ARGS +=	-DUSE_ASM=ON
 CXXFLAGS += -Wno-nullability-completeness
 .endif
 
 .if ${MACHINE_ARCH}== i386
 CXXFLAGS += -Wno-nullability-completeness
-CONFIGURE_ARGS +=	-DUSE_ASM=ON -DUSE_I386_NASM_ASM=ON
+CONFIGURE_ARGS +=	-DUSE_I386_NASM_ASM=ON
 .endif
 
 post-install:

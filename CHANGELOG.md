@@ -199,3 +199,18 @@ All notable changes to this project will be documented in this file.
 - Added new Scripts and updated other.
 - Additional light sources for XPLUS also.
 - Restored the original menu design as in TFE (grid, clouds and so on).
+
+## 2023-10-27 - 2023-11-28
+- Added vkEnumerateInstanceExtensionProperties.
+  Replaced SDL_Vulkan_GetInstanceExtensions with vkEnumerateInstanceExtensionProperties.
+- Removed hard preset Instance Extensions for Windows.
+- Fixed SetCurrentViewport_Vulkan function and some warnings.
+- Fix Debug install sections.
+- Fixed delay in LimitFrameRate function.
+  Look here: https://forum.ubuntu.ru/index.php?topic=320015.msg2489163#msg2489163
+- Added OpenBSD support.
+- Added searching library libvorbisfile for BSD platforms.
+- Added install to system for FreeBSD and OpenBSD.
+- Added templates for FreeBSD and OpenBSD for build package.
+- Made many corrections in the code regarding compiler warnings.
+- Added man pages for.for FreeBSD and OpenBSD.

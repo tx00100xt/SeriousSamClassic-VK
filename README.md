@@ -90,6 +90,7 @@ cmake ..
 make -j4
 make install
 ```
+If you prefer **ninja**, then add key **-GNinja** to the cmake. And replace the **make** command with **ninja**.
 
 ### Ubuntu 
 Instead of building you can install packages from ppa by adding ppa:tx00100xt/serioussam to your system's Software Sources.
@@ -156,6 +157,8 @@ cmake ..
 make -j4
 make install
 ```
+If you prefer **ninja**, then add key **-GNinja** to the cmake. And replace the **make** command with **ninja**.
+For **i386** architecture, add key **-DUSE_I386_NASM_ASM=ON** to **cmake**.
 To build a binary package for installation on the system, you can use the template:  
 https://github.com/tx00100xt/SeriousSamClassic-VK/tree/main/templates
 
@@ -189,18 +192,8 @@ cmake ..
 make -j4
 make install
 ```
-#### Building for i386 (for SS:TFE and SS:TSE)
-
-Type this in your terminal:
-
-```
-cd SeriousSamClassic-VK
-mkdir build
-cd build
-cmake .. -DCMAKE_C_FLAGS=-mmmx -DCMAKE_CXX_FLAGS=-mmmx -DUSE_ASM=TRUE -DUSE_I386_NASM_ASM=TRUE
-make -j4
-make install
-```
+If you prefer **ninja**, then add key **-GNinja** to the cmake. And replace the **make** command with **ninja**.
+For **i386** architecture, add key **-DUSE_I386_NASM_ASM=ON** to **cmake**.
 To build a binary package for installation on the system, you can use the template:  
 https://github.com/tx00100xt/SeriousSamClassic-VK/tree/main/templates
 
@@ -212,8 +205,8 @@ sudo pkgin install cmake nasm bison SDL2 libogg libvorbis
 ```
 NetBSD does not have Vulkan support, so you need to disable its dependencies when building. To do this, 
 use the argument **-DUSE_SYSTEM_VULKAN=FALSE** for the **cmake**.
+For **i386** architecture, add key **-DUSE_I386_NASM_ASM=ON** to **cmake**.
 The **i386** version will only work with **sysctl -w security.pax.mprotect.global=0**
-Also don’t forget to add the path **/usr/pkg/lib** to **LD_LIBRARY_PATH**.
 The rest is the same as described for the OpenBSD.
 
 ### macOS
