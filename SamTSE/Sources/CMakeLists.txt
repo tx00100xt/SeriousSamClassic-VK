@@ -158,7 +158,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME MATCHES "GNU")
     endif()
 endif()
 if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "OpenBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-but-set-variable -Wno-uninitialized -Wno-unused-function")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-nullability-completeness -Wno-unused-but-set-variable -Wno-uninitialized -Wno-unused-function")
     set(FREEBSD TRUE)
     if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")                                  # for local instal
       if(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i686|x86|amd64|AMD64" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
