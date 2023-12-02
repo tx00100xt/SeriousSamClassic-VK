@@ -41,7 +41,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 // Read the Pentium TimeStampCounter (or something like that).
 static inline __int64 ReadTSC(void)
 {
-#if PLATFORM_NOT_X86
+#if PLATFORM_NOT_X86 || NOT_USE_ASM
   struct timespec tp;
   clock_gettime(CLOCK_MONOTONIC, &tp);
   return( (((__int64) tp.tv_sec) * 1000000000LL) + ((__int64) tp.tv_nsec));
@@ -154,7 +154,7 @@ void sys_precise_clock(uint64_t *result)
 	          (uint64_t) tv.tv_usec;
 }
 
-#if !PLATFORM_NOT_X86
+#if !PLATFORM_NOT_X86 && !NOT_USE_ASM
 // cpu_rdtsc
 void cpu_rdtsc(uint64_t* result)
 {
@@ -553,7 +553,7 @@ CTimer::CTimer(BOOL bInterrupt /*=TRUE*/)
   _pTimer = this;
   tm_bInterrupt = bInterrupt;
 
-#if PLATFORM_NOT_X86
+#if PLATFORM_NOT_X86 || NOT_USE_ASM
   // just use clock_gettime.
   tm_llCPUSpeedHZ = tm_llPerformanceCounterFrequency = 1000000000LL;
 #elif defined(PLATFORM_WIN32)
@@ -621,11 +621,11 @@ CTimer::CTimer(BOOL bInterrupt /*=TRUE*/)
 
     if (SDL_Init(SDL_INIT_TIMER) == -1) FatalError(TRANS("Cannot initialize multimedia timer!"));
     tm_TimerID = SDL_AddTimer(ULONG(TickQuantum*1000.0f), CTimer_TimerFunc_SDL, NULL);
-    #ifdef PLATFORM_FREEBSD
-      if( tm_TimerID==0x00) FatalError(TRANS("Cannot initialize multimedia timer!"));
-    #else
-      if( tm_TimerID==0x00) FatalError(TRANS("Cannot initialize multimedia timer!"));
-    #endif
+   #ifdef PLATFORM_FREEBSD
+    if( tm_TimerID==0x00) FatalError(TRANS("Cannot initialize multimedia timer!"));
+   #else
+    if( tm_TimerID==0x00) FatalError(TRANS("Cannot initialize multimedia timer!"));
+   #endif
    #endif
 
     // make sure that timer interrupt is ticking
