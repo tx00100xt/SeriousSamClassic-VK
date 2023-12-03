@@ -8,11 +8,11 @@ ONLY_FOR_ARCHS =	amd64 i386
 
 GH_ACCOUNT =		tx00100xt
 GH_PROJECT =		SeriousSamClassic-VK
-GH_TAGNAME =		1.10.6b
+GH_TAGNAME =		1.10.6c
 
 COMMENT =		Open source version Serious Sam Classic with vulkan support
 N=			serioussam-vk
-V=			1.10.6b
+V=			1.10.6c
 PKGNAME =		${N}-${V}
 DISTNAME =		SeriousSamClassic-VK-${V}
 CATEGORIES =		games
@@ -55,13 +55,9 @@ NO_TEST =		Yes
 #CONFIGURE_ARGS +=	-DRPI4=ON
 #.endif
 
-.if ${MACHINE_ARCH} == amd64
+.if ${MACHINE_ARCH}== i386 || ${MACHINE_ARCH}== amd64
+CONFIGURE_ARGS +=	-DUSE_ASM=OFF
 CXXFLAGS += -Wno-nullability-completeness
-.endif
-
-.if ${MACHINE_ARCH}== i386
-CXXFLAGS += -Wno-nullability-completeness
-CONFIGURE_ARGS +=	-DUSE_I386_NASM_ASM=ON
 .endif
 
 post-install:
