@@ -188,12 +188,11 @@ Type this in your terminal:
 cd SeriousSamClassic-VK
 mkdir build
 cd build
-cmake ..
+cmake .. -DUSE_ASM=OFF
 make -j4
 make install
 ```
 If you prefer **ninja**, then add key **-GNinja** to the cmake. And replace the **make** command with **ninja**.
-For **i386** architecture, add key **-DUSE_ASM=OFF** to **cmake**.
 To build a binary package for installation on the system, you can use the template:
 https://github.com/tx00100xt/SeriousSamClassic-VK/tree/main/templates
 
@@ -205,7 +204,6 @@ sudo pkgin install cmake nasm bison SDL2 libogg libvorbis
 ```
 NetBSD does not have Vulkan support, so you need to disable its dependencies when building. To do this, 
 use the argument **-DUSE_SYSTEM_VULKAN=FALSE** for the **cmake**.
-The **i386** version will only work with **sysctl -w security.pax.mprotect.global=0**
 The rest is the same as described for the OpenBSD.
 
 ### macOS
