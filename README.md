@@ -257,7 +257,7 @@ you need to change the **sam_iGfxAPI** value to **zero**
 or write the line: **persistent extern INDEX sam_iGfxAPI=(INDEX)0;** in this file.   
 
 If your video card does not support Vulkan and you do not have the Vulkan libraries  
-and header files installed, then you can build a version only with an OpenGL render.
+and header files installed, then you can build a version only with an OpenGL render.  
 You just need to add one key(**-DUSE_SYSTEM_VULKAN=FALSE**) for the cmake command. Example:
 
 ```
