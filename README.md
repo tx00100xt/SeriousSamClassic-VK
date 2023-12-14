@@ -241,7 +241,18 @@ make -j4
 make install
 ```
 
-#### Building OpenGL version only
+Build only the OpenGL version
+-----------------------------
+### Note:  
+By default, the game uses the Vulkan renderer.If the Vulkan is not detected when the game starts, the game switches to OpenGL rendering.  
+The default rendering value is set by the **sam_iGfxAPI** variable ( **0 - OpenGL / 1 - Vulkan** ).  
+This variable can be set to zero in the configuration file, then OpenGL rendering to be used by default.  
+The configuration file is located on the path:
+```
+~/.local/share/Serious-Engine/serioussam(se)/Scripts/PersistentSymbols.ini
+```
+This file is created after first launch.To change the default rendering to OpenGL, you need to change the **sam_iGfxAPI** value to **zero**  
+or write the line: **persistent extern INDEX sam_iGfxAPI=(INDEX)0;** in this file.   
 
 If your video card does not support Vulkan and you do not have the Vulkan libraries and header files installed, then you can build a version only with an OpenGL render.
 You just need to add one key(**-DUSE_SYSTEM_VULKAN=FALSE**) for the cmake command. Example:
