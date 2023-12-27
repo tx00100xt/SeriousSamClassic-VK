@@ -110,8 +110,27 @@ sudo apt install serioussamckassic-vk serioussamclassic-xplus
 ```
 
 ### Gentoo
+To build the game, use the ebuild included in the official Gentoo repository.  
+https://packages.gentoo.org/packages/games-fps/serioussam  
+You will also need CD images of the games Serious Sam Classic The First Encounter and  
+Serious Sam Classic The First Encounter.
 
-To build a game for gentoo, use a https://github.com/tx00100xt/serioussam-overlay containing ready-made ebuilds for building the game and add-ons.
+Type this in your terminal:
+
+```
+emerge -av serioussam --autounmask=y
+```
+
+For game add-ons, use a [serioussam-overlay](https://github.com/tx00100xt/serioussam-overlay) containing ready-made ebuilds for building the add-ons.  
+
+Type this in your terminal:
+
+```
+emerge eselect-repository
+eselect repository enable serioussam
+emaint sync --repo serioussam
+```
+The list of add-ons can be found in [README](https://github.com/tx00100xt/serioussam-overlay/tree/main?tab=readme-ov-file#ebuilds)
 
 ### Arch Linux
 
