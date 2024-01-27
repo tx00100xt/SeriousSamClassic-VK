@@ -42,12 +42,13 @@
  		    endif()
  		endif()
  	endif()
-@@ -1814,24 +1804,14 @@
+@@ -1814,24 +1804,19 @@
      install(FILES ${CMAKE_ADD_TARGET_DIR}/../SE1_10b.gro
              DESTINATION "${CMAKE_INSTALL_PREFIX}/share/${INTERNAL_NAME}"
              PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 -    install(FILES "${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.desktop"
-+    install(FILES "${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.desktop" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.${INTERNAL_NAME}.desktop"
++  if(INTERNAL_NAME STREQUAL "serioussam")
++    install(FILES "${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.desktop" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.desktop"
              DESTINATION "${CMAKE_INSTALL_PREFIX}//share/applications"
              PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 -    set(A 16)
@@ -65,7 +66,11 @@
 -               DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/${X}x${X}/apps" RENAME "${INTERNAL_NAME}.png"
 -               PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 -	endforeach()
-+
++  else()
++    install(FILES "${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.desktop" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.SE.desktop"
++            DESTINATION "${CMAKE_INSTALL_PREFIX}//share/applications"
++            PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
++  endif()
 +    install(FILES ${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.png
 +            DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/256x256/apps" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.${INTERNAL_NAME}.png"
 +            PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
@@ -117,12 +122,13 @@
  		    endif()
  		endif()
  	endif()
-@@ -1814,24 +1804,14 @@
+@@ -1814,24 +1804,19 @@
      install(FILES ${CMAKE_ADD_TARGET_DIR}/../SE1_10b.gro
              DESTINATION "${CMAKE_INSTALL_PREFIX}/share/${INTERNAL_NAME}"
              PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 -    install(FILES "${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.desktop"
-+    install(FILES "${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.desktop" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.${INTERNAL_NAME}.desktop"
++  if(INTERNAL_NAME STREQUAL "serioussam")
++    install(FILES "${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.desktop" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.desktop"
              DESTINATION "${CMAKE_INSTALL_PREFIX}//share/applications"
              PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 -    set(A 16)
@@ -140,9 +146,13 @@
 -               DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/${X}x${X}/apps" RENAME "${INTERNAL_NAME}.png"
 -               PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 -	endforeach()
-+
++  else()
++    install(FILES "${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.desktop" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.SE.desktop"
++            DESTINATION "${CMAKE_INSTALL_PREFIX}//share/applications"
++            PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
++  endif()
 +    install(FILES ${CMAKE_ADD_TARGET_DIR}/../${INTERNAL_NAME}.png
-+            DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/256x256/apps" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.${INTERNAL_NAME}.png"
++            DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/256x256/apps" RENAME "io.itch.tx00100xt.SeriousSamClassic-VK.png"
 +            PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 +
  endif()

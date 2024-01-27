@@ -115,7 +115,7 @@
 +        InfoMessage(TRANS("No game files were found in /app/pkg/share/%s/\n or %s\nThe home directory will be searched."),(const char *) strGameID,(const char *) _fnmUserDir);
  #else
 -        InfoMessage(TRANS("No game files were found in /usr/share/%s/\n or %s\nThe home directory will be searched."),(const char *) strGameID,(const char *) _fnmUserDir);
-+        InfoMessage(TRANS("No game files were found in /app/share/%s/\n or %s\nThe home directory will be searched."),(const char *) strGameID,(const char *) _fnmUserDir);
++        InfoMessage(TRANS("No game files were found in %s\nThe home directory will be searched."),(const char *) _fnmUserDir);
  #endif
          struct passwd *pw = getpwuid(getuid());
          const char *_homedir = pw->pw_dir;
@@ -130,7 +130,7 @@
 +          FatalError(TRANSV("Failed to search game data!\nPlease put the game data in the paths:\n/app/pkg/share/%s/\n or %s\n or somewhere in your home directory\nSee the log for more details.\nGame log is here: %s/SeriousSam.log"),(const char *) strGameID,(const char *) _fnmUserDir,(const char *) _fnmUserDir);
  #else
 -          FatalError(TRANSV("Failed to search game data!\nPlease put the game data in the paths:\n/usr/share/%s/\n or %s\n or somewhere in your home directory\nSee the log for more details.\nGame log is here: ~/.local/share/Serious-Engine/%s/SeriousSam.log"),(const char *) strGameID,(const char *) _fnmUserDir,(const char *) strGameID);
-+          FatalError(TRANSV("Failed to search game data!\nPlease put the game data in the paths:\n/app/share/%s/\n or %s\n or somewhere in your home directory\nSee the log for more details.\nGame log is here: %s/SeriousSam.log"),(const char *) strGameID,(const char *) _fnmUserDir,(const char *) _fnmUserDir);
++          FatalError(TRANSV("Failed to search game data!\nPlease put the game data in the path:\n%s\n \nSee the log for more details.\nGame log is here: %s/SeriousSam.log"),(const char *) _fnmUserDir,(const char *) _fnmUserDir);
  #endif
          }
        } 
@@ -260,7 +260,7 @@
 +        InfoMessage(TRANS("No game files were found in /app/pkg/share/%s/\n or %s\nThe home directory will be searched."),(const char *) strGameID,(const char *) _fnmUserDir);
  #else
 -        InfoMessage(TRANS("No game files were found in /usr/share/%s/\n or %s\nThe home directory will be searched."),(const char *) strGameID,(const char *) _fnmUserDir);
-+        InfoMessage(TRANS("No game files were found in /app/share/%s/\n or %s\nThe home directory will be searched."),(const char *) strGameID,(const char *) _fnmUserDir);
++        InfoMessage(TRANS("No game files were found in %s\nThe home directory will be searched."),(const char *) _fnmUserDir);
  #endif
          struct passwd *pw = getpwuid(getuid());
          const char *_homedir = pw->pw_dir;
@@ -275,7 +275,7 @@
 +          FatalError(TRANSV("Failed to search game data!\nPlease put the game data in the paths:\n/app/pkg/share/%s/\n or %s\n or somewhere in your home directory\nSee the log for more details.\nGame log is here: %s/SeriousSam.log"),(const char *) strGameID,(const char *) _fnmUserDir,(const char *) _fnmUserDir);
  #else
 -          FatalError(TRANSV("Failed to search game data!\nPlease put the game data in the paths:\n/usr/share/%s/\n or %s\n or somewhere in your home directory\nSee the log for more details.\nGame log is here: ~/.local/share/Serious-Engine/%s/SeriousSam.log"),(const char *) strGameID,(const char *) _fnmUserDir,(const char *) strGameID);
-+          FatalError(TRANSV("Failed to search game data!\nPlease put the game data in the paths:\n/app/share/%s/\n or %s\n or somewhere in your home directory\nSee the log for more details.\nGame log is here: %s/SeriousSam.log"),(const char *) strGameID,(const char *) _fnmUserDir,(const char *) _fnmUserDir);
++          FatalError(TRANSV("Failed to search game data!\nPlease put the game data in the path:\n%s\n \nSee the log for more details.\nGame log is here: %s/SeriousSam.log"),(const char *) _fnmUserDir,(const char *) _fnmUserDir);
  #endif
          }
        } 
