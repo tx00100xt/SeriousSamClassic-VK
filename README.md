@@ -253,13 +253,23 @@ you can copy the *.gro files from the game directory to the repository.
 Type this in your terminal:
 
 ```
-cd SeriousSamClassic-VK
-mkdir build
-cd build
-cmake ..
-make -j4
-make install
+
+FlatPak
+-------
+You can also install the game using [io.itch.tx00100xt.SeriousSamClassic-VK] flatpack from the flatpack repository.   
+When you first start the game, you will be asked to place your game data along the following paths:
 ```
+~/.var/app/io.itch.tx00100xt.SeriousSamClassic-VK/data/Serious-Engine/serioussam
+```
+```
+~/.var/app/io.itch.tx00100xt.SeriousSamClassic-VK/data/Serious-Engine/serioussamse
+```
+You can place game data in these paths before starting the game. Then the game will start immediately.  
+To start the game, use the application menu. To start Serious Sam Classic The First Encounter, you can also use the command:  
+```
+flatpak run io.itch.tx00100xt.SeriousSamClassic-VK
+```
+
 
 Build only the OpenGL version
 -----------------------------
@@ -478,6 +488,7 @@ Some of the code included with the engine sources is not licensed under the GNU 
 * LightWave SDK (located in `Sources/LWSkaExporter/SDK`) by NewTek Inc.
 * libogg/libvorbis (located in `Sources/libogg` and `Sources/libvorbis`) by Xiph.Org Foundation
 
+[io.itch.tx00100xt.SeriousSamClassic-VK]: https://flathub.org/en-GB/apps/io.itch.tx00100xt.SeriousSamClassic-VK "Serious Sam Classic with Vulkan support on flathub"
 [Xplus TFE from Google Drive]: https://drive.google.com/file/d/1MPmibfMCGTWFBSGeFWG3uae0zZzJpiKy/view?usp=sharing "Serious Sam Classic XPLUS Mod"
 [Xplus TSE from Google Drive]: https://drive.google.com/file/d/1W_UIeVl7y3ZBroM39FmKdngNZuXC7DKv/view?usp=sharing "Serious Sam Classic XPLUS Mod"
 [Xplus TFE from pCloud]: https://e1.pcloud.link/publink/show?code=XZ02gRZ4nhrRGPSfV4aEL4IF8GYySafWVJX "Serious Sam Classic XPLUS Mod"
