@@ -253,6 +253,13 @@ you can copy the *.gro files from the game directory to the repository.
 Type this in your terminal:
 
 ```
+cd SeriousSamClassic-VK
+mkdir build
+cd build
+cmake ..
+make -j4
+make install
+```
 
 FlatPak
 -------
