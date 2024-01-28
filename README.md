@@ -261,10 +261,11 @@ make -j4
 make install
 ```
 
-FlatPak
+Flatpak
 -------
-You can also install the game using [io.itch.tx00100xt.SeriousSamClassic-VK] flatpack from the flatpack repository.   
-When you first start the game, you will be asked to place your game data along the following paths:
+You can also install the game using [io.itch.tx00100xt.SeriousSamClassic-VK]   
+flatpack from the flatpack repository. When you first start the game,   
+you will be asked to place your game data along the following paths:
 ```
 ~/.var/app/io.itch.tx00100xt.SeriousSamClassic-VK/data/Serious-Engine/serioussam
 ```
