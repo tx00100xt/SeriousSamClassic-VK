@@ -4,7 +4,7 @@
 <component type="desktop">
   <id>io.itch.tx00100xt.SeriousSamClassic-VK</id>
   <name>SeriousSamClassic-VK</name>
-  <summary>SeriousSamClassic-VK is a Serious-Engine GPL source port</summary>
+  <summary>Open source first person shooter based on Serious-Engine</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0</project_license>
 
@@ -19,9 +19,9 @@
   <launchable type="desktop-id">io.itch.tx00100xt.SeriousSamClassic-VK.SE.desktop</launchable>
 
   <description>
-    <p>SeriousSamClassic-VK  is open source game engine version developed by Croteam for Serious Sam Classic  with  Vulkan support(Windows, Linux, FreeBSD, Raspberry Pi OS, macOS). Based on https://github.com/sultim-t/Serious-Engine-Vk and linux port https://github.com/icculus/Serious-Engine, but it should work on (or be easily portable to) any system that supports Vulkan and SDL2.
+    <p>SeriousSamClassic-VK is open source game engine version developed by Croteam for Serious Sam Classic with Vulkan support, but it should work on (or be easily portable to) any system that supports Vulkan and SDL2.
     </p>
-    <p>Note that while the Serious-Engine source code has been released under GPL, you still need to legally own the game and provide Serious Sam Classic The First Encounter and Serious Sam Classic The Second Encounter the game data to play. See the How to Install section for more information.
+    <p>Note that while the Serious-Engine source code has been released under GPL, you still need to legally own the game and provide Serious Sam Classic The First Encounter and Serious Sam Classic The Second Encounter the game data to play. See the how to install section for more information.
     </p>
   </description>
 
