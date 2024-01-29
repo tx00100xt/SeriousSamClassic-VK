@@ -273,10 +273,8 @@ you will be asked to place your game data along the following paths:
 ~/.var/app/io.itch.tx00100xt.SeriousSamClassic-VK/data/Serious-Engine/serioussamse
 ```
 You can place game data in these paths before starting the game. Then the game will start immediately.  
-To start the game, use the application menu. To start Serious Sam Classic The First Encounter, you can also use the command:  
-```
-flatpak run io.itch.tx00100xt.SeriousSamClassic-VK
-```
+To start the game, use the application menu. More detailed information about flatpak on the [SeriousSamClassic-VK Flatpak wiki.](https://github.com/tx00100xt/SeriousSamClassic-VK/wiki/Flatpak.md)
+
 
 
 Build only the OpenGL version
