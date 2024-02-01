@@ -263,8 +263,8 @@ make install
 
 Flatpak
 -------
-You can also install the game using [io.itch.tx00100xt.SeriousSamClassic-VK] flatpak   
-from the flathub repository. When you first start the game,   
+[![Serious Sam Classic Vulkan on flathub](https://flathub.org/api/badge?locale=en)](https://flathub.org/apps/io.itch.tx00100xt.SeriousSamClassic-VK)   
+You can also install the game using flatpak from the flathub repository. When you first start the game,  
 you will be asked to place your game data along the following paths:
 ```
 ~/.var/app/io.itch.tx00100xt.SeriousSamClassic-VK/data/Serious-Engine/serioussam
