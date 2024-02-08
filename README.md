@@ -275,7 +275,19 @@ you will be asked to place your game data along the following paths:
 You can place game data in these paths before starting the game. Then the game will start immediately.  
 To start the game, use the application menu. More detailed information about flatpak on the [SeriousSamClassic-VK Flatpak wiki.](https://github.com/tx00100xt/SeriousSamClassic-VK/wiki/Flatpak.md)
 
-
+Snap
+----
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/serioussam-vk)   
+You can also install the game using snap from the snapcraft. When you first start the game,  
+you will be asked to place your game data along the following paths:
+```
+~/snap/serioussam-vk/current/.local/share/Serious-Engine/serioussam
+```
+```
+~/snap/serioussam-vk/current/.local/share/Serious-Engine/serioussamse
+```
+You can place game data in these paths before starting the game. Then the game will start immediately.  
+To start the game, use the application menu. More detailed information about snap on the [SeriousSamClassic-VK Snap wiki.](https://github.com/tx00100xt/SeriousSamClassic-VK/wiki/Snap.md)
 
 Build only the OpenGL version
 -----------------------------
