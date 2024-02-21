@@ -13,7 +13,7 @@
 
   <url type="homepage">https://github.com/tx00100xt/SeriousSamClassic-VK</url>
   <url type="help">https://github.com/tx00100xt/SeriousSamClassic-VK/wiki</url>
-  <url type="bugtracker">https://github.com/tx00100xt/SeriousSamClassic-VK</url>
+  <url type="bugtracker">https://github.com/tx00100xt/SeriousSamClassic-VK/issues</url>
 
   <launchable type="desktop-id">io.itch.tx00100xt.SeriousSamClassic-VK.desktop</launchable>
   <launchable type="desktop-id">io.itch.tx00100xt.SeriousSamClassic-VK.SE.desktop</launchable>
