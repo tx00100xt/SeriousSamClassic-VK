@@ -20,9 +20,9 @@ patch -p1 < appimage/patches/0002-AppImage-Engine.cpp.patch
 patch -p1 < appimage/patches/0003-AppImage-Engine.h.patch
 patch -p1 < appimage/patches/0004-AppImage-Stream.patch
 patch -p1 < appimage/patches/0005-AppImage-Menu.cpp.patch
-patch -p1 < appimage/0006-SeriousSam.cpp.patch
-patch -p1 < appimage/0007-Gfx_Vulkan.cpp.patch
-patch -p1 < appimage/0008-AppImage-Adapter.cpp.patch
+patch -p1 < appimage/patches/0006-SeriousSam.cpp.patch
+patch -p1 < appimage/patches/0007-Gfx_Vulkan.cpp.patch
+patch -p1 < appimage/patches/0008-AppImage-Adapter.cpp.patch
 
 # build game
 mkdir build && cd build
