@@ -3,7 +3,7 @@ version: 1
 AppDir:
   path: ./SeriousSamTSE-Vk.AppDir
   app_info:
-    id: serioussamse-vk
+    id: io.itch.tx00100xt.serioussamse-vk
     name: SeriousSamTSE-Vk
     icon: serioussam
     version: 1.10.6d
