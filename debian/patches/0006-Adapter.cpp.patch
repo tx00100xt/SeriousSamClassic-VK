@@ -1,0 +1,26 @@
+Description: Return if cannot create Vulkan instance
+Forwarded: not-needed
+--- a/SamTFE/Sources/Engine/Graphics/Adapter.cpp	2024-02-17 16:25:45.236555000 +0300
++++ b/SamTFE/Sources/Engine/Graphics/Adapter.cpp	2024-02-17 18:49:49.526304125 +0300
+@@ -414,7 +414,8 @@
+   VkResult r = vkCreateInstance(&instanceInfo, nullptr, &tempVkInstance);
+   if (r != VK_SUCCESS)
+   {
+-    ASSERT(FALSE);
++     CPrintF("Cannot create Vulkan instance.\n");
++     return;;
+   }
+   
+   // get all physical devices
+--- a/SamTSE/Sources/Engine/Graphics/Adapter.cpp	2024-02-17 16:25:45.236555000 +0300
++++ b/SamTSE/Sources/Engine/Graphics/Adapter.cpp	2024-02-17 18:49:49.526304125 +0300
+@@ -414,7 +414,8 @@
+   VkResult r = vkCreateInstance(&instanceInfo, nullptr, &tempVkInstance);
+   if (r != VK_SUCCESS)
+   {
+-    ASSERT(FALSE);
++     CPrintF("Cannot create Vulkan instance.\n");
++     return;;
+   }
+   
+   // get all physical devices

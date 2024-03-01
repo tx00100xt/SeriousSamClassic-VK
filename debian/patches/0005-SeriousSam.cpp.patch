@@ -1,0 +1,24 @@
+Description: Set OpenGL render to default
+Forwarded: not-needed
+--- a/SamTFE/Sources/SeriousSam/SeriousSam.cpp	2024-02-14 22:53:00.349090113 +0300
++++ b/SamTFE/Sources/SeriousSam/SeriousSam.cpp	2024-02-14 23:08:49.377669933 +0300
+@@ -110,7 +110,7 @@
+ __extern INDEX sam_iDisplayDepth  = 0;  // 0==default, 1==16bit, 2==32bit
+ __extern INDEX sam_iDisplayAdapter = 0;
+ #ifdef SE1_VULKAN
+-__extern INDEX sam_iGfxAPI = 1; // default opengl //1;         // 1==Vulkan
++__extern INDEX sam_iGfxAPI = 0; // default opengl //1;         // 1==Vulkan
+ #else
+ __extern INDEX sam_iGfxAPI = 0;                                // 0==OpenGL
+ #endif // SE1_VULKAN
+--- a/SamTSE/Sources/SeriousSam/SeriousSam.cpp	2024-02-14 22:53:00.349090113 +0300
++++ b/SamTSE/Sources/SeriousSam/SeriousSam.cpp	2024-02-14 23:08:49.377669933 +0300
+@@ -110,7 +110,7 @@
+ __extern INDEX sam_iDisplayDepth  = 0;  // 0==default, 1==16bit, 2==32bit
+ __extern INDEX sam_iDisplayAdapter = 0;
+ #ifdef SE1_VULKAN
+-__extern INDEX sam_iGfxAPI = 1; // default opengl //1;         // 1==Vulkan
++__extern INDEX sam_iGfxAPI = 0; // default opengl //1;         // 1==Vulkan
+ #else
+ __extern INDEX sam_iGfxAPI = 0;                                // 0==OpenGL
+ #endif // SE1_VULKAN

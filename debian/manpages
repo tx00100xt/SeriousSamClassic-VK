@@ -1,1 +1,8 @@
-debian/serioussamclassic-vk.1
+debian/serioussam-vk.6
+debian/serioussamse-vk.6
+debian/serioussam-vk-ded.6
+debian/serioussamse-vk-ded.6
+debian/serioussam-vk-mkfont.6
+debian/serioussamse-vk-mkfont.6
+debian/serioussam-vk-texconv.6
+debian/serioussamse-vk-texconv.6

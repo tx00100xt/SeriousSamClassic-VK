@@ -1,5 +1,5 @@
-serioussamclassic-vk (1.10.6-1) jammy; urgency=medium
+serioussam-vk (1.10.6d+dfsg-1) unstable; urgency=low
 
-  * Initial release
+  * Initial debianization. Closes: #1065196
 
- -- YOUR_NAME <YOUR_EMAIL>  Tue, 16 Oct 2023 23:37:15 +0300
+ -- Alexander Pavlov <t.x00100x.t@yandex.ru>  Fri, 01 Mar 2024 20:33:46 +0300
