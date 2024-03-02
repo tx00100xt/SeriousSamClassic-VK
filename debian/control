@@ -13,7 +13,7 @@ Package: serioussam-vk
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libsdl2-2.0-0 (>= 2.0.6), libstdc++6 (>= 5), zlib1g (>= 1:1.1.4), libvorbisfile3, libvulkan1
 Description: Linux port of Serious Sam Classic with Vulkan support
- Open source game engine version developed by Croteam for Serious Sam Classic 
+ Open source game engine version developed by Croteam for Serious Sam Classic
  with Vulkan support (Windows, Linux, FreeBSD, Raspberry Pi OS, macOS)
  .
  This package alone isn't of any use; it only contains the game engine,

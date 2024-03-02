@@ -11,6 +11,15 @@ Forwarded: not-needed
  #else
  __extern INDEX sam_iGfxAPI = 0;                                // 0==OpenGL
  #endif // SE1_VULKAN
+@@ -1586,7 +1586,7 @@
+ #else
+     CTString strCommand;
+     if (sys_iSysPath == 1) {
+-      strCommand = sam_strGameName;
++      strCommand = sam_strGameName + "-vk";
+     } else {
+       strCommand = "SeriousSam";
+     }
 --- a/SamTSE/Sources/SeriousSam/SeriousSam.cpp	2024-02-14 22:53:00.349090113 +0300
 +++ b/SamTSE/Sources/SeriousSam/SeriousSam.cpp	2024-02-14 23:08:49.377669933 +0300
 @@ -110,7 +110,7 @@
@@ -22,3 +31,12 @@ Forwarded: not-needed
  #else
  __extern INDEX sam_iGfxAPI = 0;                                // 0==OpenGL
  #endif // SE1_VULKAN
+@@ -1586,7 +1586,7 @@
+ #else
+     CTString strCommand;
+     if (sys_iSysPath == 1) {
+-      strCommand = sam_strGameName;
++      strCommand = sam_strGameName + "-vk";
+     } else {
+       strCommand = "SeriousSam";
+     }

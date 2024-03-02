@@ -39,11 +39,12 @@ The dedicated server and the font creation utility for the game are also located
 /usr/games/"internal game name"-vk-texconv
 
 The game libraries will be searched in the following directories:
-/usr/lib/games/"internal game name"-vk/
-
+/usr/lib/games/serioussam-vk/
+/usr/lib/games/serioussam-vk-se/
 
 The location of the libraries of modifications is also on the same principle.
-/usr/lib/games/"internal game name"-vk/Mods/"Mod name"/
+/usr/lib/games/serioussam-vk/Mods/"Mod name"/
+/usr/lib/games/serioussam-vk-se/Mods/"Mod name"/
 
 Game libraries are assigned a suffix defined in file ModEXT.txt
 The suffix is assigned to both game libraries and mod libraries.
@@ -67,17 +68,17 @@ In accordance with the naming convention, we get the following location of the e
 /usr/games/serioussamse-vk-ded
 /usr/games/serioussamse-vk-mkfont
 /usr/games/serioussamse-vk-texconv
-/usr/lib/games/serioussamse-vk/libEngineMP.so
-/usr/lib/games/serioussamse-vk/libShaders.so
-/usr/lib/games/serioussamse-vk/libGameMP.so
-/usr/lib/games/serioussamse-vk/libEntitiesMP.so
-/usr/lib/games/serioussamse-vk/libamp11lib.so
+/usr/lib/games/serioussam-vk-se/libEngineMP.so
+/usr/lib/games/serioussam-vk-se/libShaders.so
+/usr/lib/games/serioussam-vk-se/libGameMP.so
+/usr/lib/games/serioussam-vk-se/libEntitiesMP.so
+/usr/lib/games/serioussam-vk-se/libamp11lib.so
 
 For mod XPLUS:
 /usr/lib/games/serioussam-vk/Mods/XPLUS/libGame.so
 /usr/lib/games/serioussam-vk/Mods/XPLUS/libEntities.so
-/usr/lib/games/serioussamse-vk/Mods/XPLUS/libGameMP.so
-/usr/lib/games/serioussamse-vk/Mods/XPLUS/libEntitiesMP.so
+/usr/lib/games/serioussam-vk-se/Mods/XPLUS/libGameMP.so
+/usr/lib/games/serioussam-vk-se/Mods/XPLUS/libEntitiesMP.so
 
 For mod Serious Sam Alpha Remake (SSA):
 /usr/lib/games/serioussam-vk/Mods/SSA/libGame.so
