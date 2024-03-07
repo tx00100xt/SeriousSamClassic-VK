@@ -211,7 +211,6 @@ and Serious Sam The Second Encounter for Debian/Ubuntu:
 \fB /usr/games/serioussam-vk-ded\fR
 \fB /usr/games/serioussam-vk-mkfont\fR
 \fB /usr/games/serioussam-vk-texconv\fR
-\fB /usr/lib/games/serioussam-vk/libEngine.so\fR
 \fB /usr/lib/games/serioussam-vk/libShaders.so\fR
 \fB /usr/lib/games/serioussam-vk/libGame.so\fR
 \fB /usr/lib/games/serioussam-vk/libEntities.so\fR
@@ -220,7 +219,6 @@ and Serious Sam The Second Encounter for Debian/Ubuntu:
 \fB /usr/games/serioussamse-vk-ded\fR
 \fB /usr/games/serioussamse-vk-mkfont\fR
 \fB /usr/games/serioussamse-vk-texconv\fR
-\fB /usr/lib/games/serioussam-vk-se/libEngineMP.so\fR
 \fB /usr/lib/games/serioussam-vk-se/libShaders.so\fR
 \fB /usr/lib/games/serioussam-vk-se/libGameMP.so\fR
 \fB /usr/lib/games/serioussam-vk-se/libEntitiesMP.so\fR
@@ -302,6 +300,32 @@ from there, as well as the Levels directory to directories
 \fB ~/.serioussam-vk\fR and
 \fB ~/.serioussamse-vk\fR, respectively, for games 
 Serious Sam: The First Encounter and Serious Sam: The Second Encounter.
+.PP
+.SS Demo version
+.PP
+This implementation of the engine supports the use of content from the demo version of the game. When the game starts, 
+the engine determines the installed game content, and if it finds content from the demo version, it turns on the mode for using the demo version of the content.
+A demo version of the game can be obtained from many places. For example:
+.PP
+\fB  https://www.moddb.com/downloads/serious-sam-the-second-encounter\fR
+.PP
+\fB  https://www.gamefront.com/games/serious-sam-the-second-encounter/file/serious-sam-the-second-encounter-demo\fR
+.PP
+The most convenient way is to download using the wget from the WebArchive. 
+To install content from the demo version of the game, open a terminal and run the following commands:
+.PP
+\fB  sudo apt install p7zip\fR
+\fB  wget https://archive.org/download/serioussamsedemo/SeriousSamSEDemo.exe\fR
+\fB  wget https://archive.org/download/SeriousSamPatches/secondencounterpatch107_usa.exe\fR
+\fB  7z x SeriousSamSEDemo.exe\fR
+\fB  7z x -y secondencounterpatch107_usa.exe\fR
+\fB  mkdir ~/.serioussamse-vk\fR
+\fB  cp -ax Disk1/* ~/.serioussamse-vk\fR
+\fB  rm -fr Disk1\fR
+.PP
+When you first launch the game, goto Menu -> Options -> Execute Addons and select the default option. 
+The demo version uses old settings scripts. New ones you can take here: https://github.com/tx00100xt/SeriousSamClassic-VK
+Just rewrite the Scripts directory replacing the files
 .PP
 .SS Launching the game
 To start the game type in console: \fB serioussam-vk\fR or \fB serioussamse-vk\fR. You can also use the launch of the game through the menu.
