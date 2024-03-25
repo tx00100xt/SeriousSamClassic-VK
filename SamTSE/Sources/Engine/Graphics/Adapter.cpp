@@ -414,7 +414,8 @@ void CGfxLibrary::InitAPIs(void)
   VkResult r = vkCreateInstance(&instanceInfo, nullptr, &tempVkInstance);
   if (r != VK_SUCCESS)
   {
-    ASSERT(FALSE);
+     CPrintF("Cannot create Vulkan instance.\n");
+     return;;
   }
   
   // get all physical devices
