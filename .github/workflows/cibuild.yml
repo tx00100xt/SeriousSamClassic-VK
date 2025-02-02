@@ -156,7 +156,7 @@ jobs:
 
   build-ubuntu-x64:
     name: Ubuntu ${{ matrix.Configuration }} ${{ matrix.Platform }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -234,10 +234,10 @@ jobs:
 
     - name: Setup Vulkan
       run: |
-          $ver = (Invoke-WebRequest -Uri "https://vulkan.lunarg.com/sdk/latest.json" | ConvertFrom-Json).windows
+          $ver = 1.3.290.0
           echo Version $ver
           $ProgressPreference = 'SilentlyContinue'
-          Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/$ver/windows/VulkanSDK-$ver-Installer.exe" -OutFile VulkanSDK.exe
+          Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/1.3.290.0/windows/VulkanSDK-1.3.290.0-Installer.exe" -OutFile VulkanSDK.exe
           echo Downloaded
           .\VulkanSDK.exe --root C:\VulkanSDK  --accept-licenses --default-answer --confirm-command install com.lunarg.vulkan.32bit
 
@@ -425,7 +425,7 @@ jobs:
 
   build-freebsd-x64:
     name: FreeBSD ${{ matrix.Configuration }} ${{ matrix.Platform }}
-    runs-on: macos-12
+    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
@@ -492,7 +492,7 @@ jobs:
 
   build-macos-x64:
     name: macOS ${{ matrix.Configuration }} ${{ matrix.Platform }}
-    runs-on: macos-12
+    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
@@ -562,7 +562,7 @@ jobs:
 
   build-raspios-armv7l:
     name: RPi OS Lite ${{ matrix.Configuration }} ${{ matrix.arch }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch: [armv7l]
@@ -635,7 +635,7 @@ jobs:
 
   build-raspios-aarch64:
     name: RPi OS Lite ${{ matrix.Configuration }} ${{ matrix.arch }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch: [aarch64]
@@ -1081,7 +1081,7 @@ jobs:
 
   build-linux-mipsel:
     name: Linux ${{ matrix.Configuration }} mipsel
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -1222,7 +1222,7 @@ jobs:
 
   build-linux-loongarch64:
     name: Linux ${{ matrix.Configuration }} loongarch64
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
