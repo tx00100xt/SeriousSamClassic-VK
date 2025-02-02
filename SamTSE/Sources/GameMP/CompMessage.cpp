@@ -269,7 +269,7 @@ void CCompMessage::PrepareMessage(void)
     // if failed
     } catch (const char *strError) {
       // report warning
-      CPrintF("Cannot load message'%s': %s\n", (const CTString &)cm_fnmFileName, strError);
+      CPrintF("Cannot load message'%s': %s\n", (const char *)(CTString &)cm_fnmFileName, (const char *)strError);
       // do nothing else
       return;
     }

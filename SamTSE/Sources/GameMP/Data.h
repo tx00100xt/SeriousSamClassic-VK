@@ -183,7 +183,7 @@ inline void GetLineFromStream_t(CTStream &strm, char *strBuffer, SLONG slBufferS
   INDEX iLetters = 0;
 
   // Check if already at the end
-  if (strm.AtEOF()) ThrowF_t((char *)TRANSV("EOF reached, file %s"), strm.strm_strStreamDescription);
+  if (strm.AtEOF()) ThrowF_t((char *)TRANSV("EOF reached, file %s"), (const char*)strm.strm_strStreamDescription);
 
   FOREVER {
     char c;
@@ -264,14 +264,14 @@ inline void PrintDetailedTime(CTString &strOut, CTimerValue tvTime) {
   const ULONG ulMin = (iSeconds / 60) % 60;
 
   if (ulMin > 0) {
-    strOut.PrintF("%umin %s", ulMin, strOut);
+    strOut.PrintF("%umin %s", ulMin, (const char *)strOut);
   }
 
   // Display hours
   const ULONG ulHours = (iSeconds / 3600) % 24;
 
   if (ulHours > 0) {
-    strOut.PrintF("%uh %s", ulHours, strOut);
+    strOut.PrintF("%uh %s", ulHours, (const char *)strOut);
   }
 
   // Display days
@@ -279,13 +279,13 @@ inline void PrintDetailedTime(CTString &strOut, CTimerValue tvTime) {
   const ULONG ulDays = ulDaysTotal % 365;
 
   if (ulDays > 0) {
-    strOut.PrintF("%ud %s", ulDays, strOut);
+    strOut.PrintF("%ud %s", ulDays, (const char *)strOut);
   }
 
   const ULONG ulYearsTotal = (ulDaysTotal / 365);
 
   if (ulYearsTotal > 0) {
-    strOut.PrintF("%uyrs %s", ulYearsTotal, strOut);
+    strOut.PrintF("%uyrs %s", ulYearsTotal, (const char *)strOut);
   }
 };
 
