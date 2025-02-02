@@ -30,14 +30,25 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
 #endif
 
-extern INDEX ogl_bExclusive;
+#include <Engine/Base/Translation.h>
+#include <Engine/Base/Console.h>
 
+extern INDEX ogl_bExclusive;
+extern INDEX gfx_bRenderOnParentWindow;
 
 // helper for D3D surface
 #ifdef SE1_D3D
-static void CreateSwapChain_D3D( CViewPort *pvp, PIX pixSizeI, PIX pixSizeJ)
+static HRESULT CreateSwapChain_D3D( CViewPort *pvp, PIX pixSizeI, PIX pixSizeJ)
 {
   HRESULT hr;
+  
+  // release old if still allocated
+  if( pvp->vp_pSwapChain!=NULL) {
+    ASSERT( pvp->vp_pSurfDepth!=NULL);
+    D3DRELEASE( pvp->vp_pSwapChain, TRUE);
+    D3DRELEASE( pvp->vp_pSurfDepth, TRUE);
+  } else ASSERT(pvp->vp_pSurfDepth==NULL);
+
   D3DPRESENT_PARAMETERS d3dPresentParams;
   memset( &d3dPresentParams, 0, sizeof(d3dPresentParams));
   d3dPresentParams.Windowed = TRUE;
@@ -63,11 +74,14 @@ static void SetAsRenderTarget_D3D( CViewPort *pvp)
 {
   HRESULT hr;
   LPDIRECT3DSURFACE8 pColorSurface;
-  hr = pvp->vp_pSwapChain->GetBackBuffer( 0, D3DBACKBUFFER_TYPE_MONO, &pColorSurface); 
-  D3D_CHECKERROR(hr);
-  hr = _pGfx->gl_pd3dDevice->SetRenderTarget( pColorSurface, pvp->vp_pSurfDepth);
-  D3D_CHECKERROR(hr);
-  D3DRELEASE( pColorSurface, TRUE);
+  if (pvp->vp_pSwapChain != NULL)
+  {
+    hr = pvp->vp_pSwapChain->GetBackBuffer( 0, D3DBACKBUFFER_TYPE_MONO, &pColorSurface); 
+    D3D_CHECKERROR(hr);
+    hr = _pGfx->gl_pd3dDevice->SetRenderTarget( pColorSurface, pvp->vp_pSurfDepth);
+    D3D_CHECKERROR(hr);
+    D3DRELEASE( pColorSurface, TRUE);
+  }
 }
 #endif // SE1_D3D
 #ifdef PLATFORM_WIN32
@@ -152,79 +166,134 @@ LRESULT CALLBACK CViewPortCLASS_WindowProc(
 void CViewPort::OpenCanvas(void)
 {
 #ifdef PLATFORM_WIN32
-  // do nothing if not feasable
-  if( vp_hWnd!=NULL || vp_hWndParent==NULL) return;
+  // rendering on parent window
+#if defined(SE1_D3D) && defined(SE1_VULKAN) 
+  if(gfx_bRenderOnParentWindow && (_pGfx->gl_eCurrentAPI == GAT_D3D || _pGfx->gl_eCurrentAPI == GAT_VK))
+#elif !defined(SE1_D3D) && defined(SE1_VULKAN) 
+  if(gfx_bRenderOnParentWindow && _pGfx->gl_eCurrentAPI == GAT_VK)
+#elif !defined(SE1_D3D) && !defined(SE1_VULKAN) 
+  if(FALSE)
+#endif
+  {
+    vp_hWnd = vp_hWndParent;
+    // determine window and desktopsize
+    RECT rectWindow;
+    GetClientRect( vp_hWndParent, &rectWindow);
+    const PIX pixWinSizeI = rectWindow.right  - rectWindow.left;
+    const PIX pixWinSizeJ = rectWindow.bottom - rectWindow.top;
+    CDisplayMode dm;
+    _pGfx->GetCurrentDisplayMode(dm);
+    ASSERT( (dm.dm_pixSizeI==0 && dm.dm_pixSizeJ==0) || (dm.dm_pixSizeI!=0 && dm.dm_pixSizeJ!=0));
+    const BOOL bFullScreen = (dm.dm_pixSizeI==pixWinSizeI && dm.dm_pixSizeJ==pixWinSizeJ);
 
-  // register class
-  if( !_bClassRegistered) {
-    WNDCLASSA wc;
-    wc.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
-    wc.lpfnWndProc = CViewPortCLASS_WindowProc;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = 0;
-    wc.hInstance = NULL;
-    wc.hIcon = NULL;
-    wc.hCursor = LoadCursor( NULL, IDC_ARROW);
-    wc.hbrBackground = NULL;
-    wc.lpszMenuName = NULL;
-    wc.lpszClassName = CViewPortCLASS;
-    RegisterClassA(&wc);
-    _bClassRegistered = TRUE;
-  }
-  
-  // determine window and desktopsize
-	RECT rectWindow;
-	GetClientRect( vp_hWndParent, &rectWindow);
-	const PIX pixWinSizeI = rectWindow.right  - rectWindow.left;
-	const PIX pixWinSizeJ = rectWindow.bottom - rectWindow.top;
-  CDisplayMode dm;
-  _pGfx->GetCurrentDisplayMode(dm);
-  ASSERT( (dm.dm_pixSizeI==0 && dm.dm_pixSizeJ==0) || (dm.dm_pixSizeI!=0 && dm.dm_pixSizeJ!=0));
-  const BOOL bFullScreen = (dm.dm_pixSizeI==pixWinSizeI && dm.dm_pixSizeJ==pixWinSizeJ);
-
-  // set fullscreen attribs if window size is equal to screen size
-  DWORD dwExStyle = NONE;
-  DWORD dwStyle   = WS_CHILD|WS_CLIPCHILDREN|WS_CLIPSIBLINGS;
-  if( bFullScreen && ogl_bExclusive) {
-    dwExStyle = WS_EX_TOPMOST;
-    dwStyle   = WS_POPUP;     
-  } 
-
-  // set child window
-  vp_hWnd = ::CreateWindowExA(
-	  dwExStyle,
-	  CViewPortCLASS,
-	  "",   // title
-    dwStyle,
-	  0,0,
-	  0,0,  // window size
-	  vp_hWndParent,
-	  NULL,
-	  (HINSTANCE)GetWindowLongPtr(vp_hWndParent, GWLP_HINSTANCE),
-	  NULL);
-  ASSERT( vp_hWnd!=NULL);
 #ifdef SE1_D3D
-  // prepare new swap chain for D3D
-  if( _pGfx->gl_eCurrentAPI==GAT_D3D && !bFullScreen) CreateSwapChain_D3D( this, pixWinSizeI, pixWinSizeJ);
+    // prepare new swap chain for D3D
+    if( _pGfx->gl_eCurrentAPI==GAT_D3D && !bFullScreen)
+    {
+      HRESULT hr;
+      if( (hr=CreateSwapChain_D3D( this, pixWinSizeI, pixWinSizeJ)))
+      {
+        CPrintF("CreateSwapChain_D3D Failed!! - OpenCanvas Parent %x",hr);
+      }
+    }
+#endif
+
+#ifdef SE1_VULKAN
+    // prepare new swap chain for Vulkan
+    if( _pGfx->gl_eCurrentAPI==GAT_VK)
+    {
+      CPrintF("Vulkan: Try Create Swapchain...\n");
+      _pGfx->gl_SvkMain->CreateSwapchain(pixWinSizeI, pixWinSizeJ);
+      //_pGfx->gl_SvkMain->Initialize();
+      CPrintF("Vulkan: Create Swapchain Done.\nVulkan: === Ready to Render ===\n");
+    }
+#endif
+
+    // resize raster
+    Resize();
+    ShowWindow( vp_hWnd, SW_SHOW);
+
+#ifdef SE1_D3D
+    // set as rendering target
+    if( _pGfx->gl_eCurrentAPI==GAT_D3D && vp_pSwapChain!=NULL) 
+      SetAsRenderTarget_D3D(this);
+#endif
+   } 
+   else { // rendering on child window
+
+    // do nothing if not feasable
+    if( vp_hWnd!=NULL || vp_hWndParent==NULL) return;
+
+    // register class
+    if( !_bClassRegistered) {
+      WNDCLASSA wc;
+      wc.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
+      wc.lpfnWndProc = CViewPortCLASS_WindowProc;
+      wc.cbClsExtra = 0;
+      wc.cbWndExtra = 0;
+      wc.hInstance = NULL;
+      wc.hIcon = NULL;
+      wc.hCursor = LoadCursor( NULL, IDC_ARROW);
+      wc.hbrBackground = NULL;
+      wc.lpszMenuName = NULL;
+      wc.lpszClassName = CViewPortCLASS;
+      RegisterClassA(&wc);
+      _bClassRegistered = TRUE;
+    }
+  
+    // determine window and desktopsize
+    RECT rectWindow;
+    GetClientRect( vp_hWndParent, &rectWindow);
+    const PIX pixWinSizeI = rectWindow.right  - rectWindow.left;
+    const PIX pixWinSizeJ = rectWindow.bottom - rectWindow.top;
+    CDisplayMode dm;
+    _pGfx->GetCurrentDisplayMode(dm);
+    ASSERT( (dm.dm_pixSizeI==0 && dm.dm_pixSizeJ==0) || (dm.dm_pixSizeI!=0 && dm.dm_pixSizeJ!=0));
+    const BOOL bFullScreen = (dm.dm_pixSizeI==pixWinSizeI && dm.dm_pixSizeJ==pixWinSizeJ);
+
+    // set fullscreen attribs if window size is equal to screen size
+    DWORD dwExStyle = NONE;
+    DWORD dwStyle   = WS_CHILD|WS_CLIPCHILDREN|WS_CLIPSIBLINGS;
+    if( bFullScreen && ogl_bExclusive) {
+      dwExStyle = WS_EX_TOPMOST;
+      dwStyle   = WS_POPUP;     
+    } 
+
+    // set child window
+    vp_hWnd = ::CreateWindowExA(
+      dwExStyle,
+      CViewPortCLASS,
+      "",   // title
+      dwStyle,
+      0,0,
+      0,0,  // window size
+      vp_hWndParent,
+      NULL,
+      (HINSTANCE)GetWindowLongPtr(vp_hWndParent, GWLP_HINSTANCE),
+      NULL);
+    ASSERT( vp_hWnd!=NULL);
+#ifdef SE1_D3D
+    // prepare new swap chain for D3D
+    if( _pGfx->gl_eCurrentAPI==GAT_D3D && !bFullScreen) CreateSwapChain_D3D( this, pixWinSizeI, pixWinSizeJ);
 #endif // SE1_D3D
 
 #ifdef SE1_VULKAN
-  if (_pGfx->gl_eCurrentAPI == GAT_VK)
-  {
-    CPrintF("Vulkan: Try Create Swapchain...\n");
-    _pGfx->gl_SvkMain->CreateSwapchain(pixWinSizeI, pixWinSizeJ);
-    CPrintF("Vulkan: Create Swapchain Done.\nVulkan: === Ready to Render ===\n");
-  }
+    if (_pGfx->gl_eCurrentAPI == GAT_VK)
+    {
+      CPrintF("Vulkan: Try Create Swapchain...\n");
+      _pGfx->gl_SvkMain->CreateSwapchain(pixWinSizeI, pixWinSizeJ);
+      CPrintF("Vulkan: Create Swapchain Done.\nVulkan: === Ready to Render ===\n");
+    }
 #endif // SE1_VULKAN
 
-
-  // resize raster
-  Resize();
-  ShowWindow( vp_hWnd, SW_SHOW);
+    // resize raster
+    Resize();
+    ShowWindow( vp_hWnd, SW_SHOW);
 #ifdef SE1_D3D
-  // set as rendering target
-  if( _pGfx->gl_eCurrentAPI==GAT_D3D && vp_pSwapChain!=NULL) SetAsRenderTarget_D3D(this);
+    // set as rendering target
+    if( _pGfx->gl_eCurrentAPI==GAT_D3D && vp_pSwapChain!=NULL) SetAsRenderTarget_D3D(this);
 #endif // SE1_D3D
+  }
 
 #else  // !PLATFORM_WIN32
   vp_hWnd = vp_hWndParent;
@@ -263,9 +332,13 @@ void CViewPort::CloseCanvas( BOOL bRelease/*=FALSE*/)
 
   // destroy window
 #ifdef PLATFORM_WIN32
-  if( vp_hWnd!=NULL && IsWindow(vp_hWnd)) {
-    BOOL bRes = DestroyWindow(vp_hWnd);
-    ASSERT(bRes);
+  if (gfx_bRenderOnParentWindow == FALSE || _pGfx->gl_eCurrentAPI == GAT_OGL) // only for child window
+  {
+    if( vp_hWnd!=NULL && IsWindow(vp_hWnd)) 
+    { 
+      BOOL bRes = DestroyWindow(vp_hWnd);
+      ASSERT(bRes);
+    }
   }
 #endif
 
@@ -295,8 +368,11 @@ void CViewPort::Resize(void)
 	pixNewHeight = rectWindow.bottom - rectWindow.top;
 
   // resize child window
-  ASSERT( vp_hWnd!=NULL);
-  SetWindowPos( vp_hWnd, NULL, 0,0, pixNewWidth, pixNewHeight, SWP_NOZORDER|SWP_NOMOVE);
+  if(gfx_bRenderOnParentWindow == FALSE || _pGfx->gl_eCurrentAPI == GAT_OGL)
+  {
+    ASSERT( vp_hWnd!=NULL);
+    SetWindowPos( vp_hWnd, NULL, 0,0, pixNewWidth, pixNewHeight, SWP_NOZORDER|SWP_NOMOVE);
+  }
 
   // resize the raster
   vp_Raster.Resize( pixNewWidth, pixNewHeight);
@@ -309,7 +385,11 @@ void CViewPort::Resize(void)
     D3DRELEASE( vp_pSwapChain, TRUE);
     D3DRELEASE( vp_pSurfDepth, TRUE);
     // create a new one and set it as current
-    CreateSwapChain_D3D( this, pixNewWidth, pixNewHeight);
+    HRESULT hr;
+    if( (hr=CreateSwapChain_D3D( this, pixNewWidth, pixNewHeight)) )
+    {
+      CPrintF("CViewPort::Resize CreateSwapChain_D3D Failed!! - Resize %x",hr);
+    }
     SetAsRenderTarget_D3D(this);
   }
 #endif // SE1_D3D

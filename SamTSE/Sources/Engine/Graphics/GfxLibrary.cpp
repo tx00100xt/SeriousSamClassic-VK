@@ -283,6 +283,7 @@ __extern INDEX gfx_iProbeSize   = 256;     // in KBs
 __extern INDEX gfx_ctMonitors = 0;
 __extern INDEX gfx_bMultiMonDisabled = FALSE;
 __extern INDEX gfx_bDisableMultiMonSupport = TRUE;
+__extern INDEX gfx_bRenderOnParentWindow = FALSE;
 
 __extern INDEX gfx_bDisableWindowsKeys = TRUE;
 
@@ -1373,6 +1374,7 @@ void CGfxLibrary::Init(void)
   _pShell->DeclareSymbol("persistent user INDEX gfx_bStereoInvert;", (void *) &gfx_bStereoInvert);
   _pShell->DeclareSymbol("persistent user INDEX gfx_iStereoOffset;", (void *) &gfx_iStereoOffset);
   _pShell->DeclareSymbol("persistent user FLOAT gfx_fStereoSeparation;", (void *) &gfx_fStereoSeparation);
+  _pShell->DeclareSymbol("persistent user INDEX gfx_bRenderOnParentWindow;", (void *) &gfx_bRenderOnParentWindow);
 
   _pShell->DeclareSymbol( "INDEX sys_bHasTextureCompression;", (void *) &sys_bHasTextureCompression);
   _pShell->DeclareSymbol( "INDEX sys_bHasTextureAnisotropy;", (void *) &sys_bHasTextureAnisotropy);

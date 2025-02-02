@@ -60,6 +60,9 @@ CListHead _lhServers;
 
 static INDEX sam_old_bFullScreenActive;
 static INDEX sam_old_bBorderLessActive;
+#ifdef PLATFORM_WIN32
+static INDEX sam_old_bRenderOnParentWindow;
+#endif
 static INDEX sam_old_iAspectSizeI;
 static INDEX sam_old_iAspectSizeJ;
 static INDEX sam_old_iScreenSizeI;
@@ -512,6 +515,9 @@ CMGTrigger mgDisplayAdaptersTrigger;
 CMGTrigger mgFullScreenTrigger;
 CMGTrigger mgAspectRatiosTrigger;
 CMGTrigger mgBorderLessTrigger;
+#ifdef PLATFORM_WIN32
+CMGTrigger mgRenderOnParentWindow;
+#endif
 CMGTrigger mgResolutionsTrigger;
 CMGTrigger mgDisplayPrefsTrigger;
 CTString astrDisplayPrefsRadioTexts[] = {
@@ -1026,6 +1032,18 @@ void VideoConfirm(void)
   gmConfirmMenu.gm_pgmParentMenu = pgmCurrentMenu;
   gmConfirmMenu.BeLarge();
   ChangeToMenu( &gmConfirmMenu);
+}
+
+void FullScreenD3DConfirm(void (*pOk)(void))
+{
+  _pConfimedYes = pOk;
+  _pConfimedNo = NULL;
+  mgConfirmLabel.mg_strText = TRANS("FIRST, SWITCH TO WINDOWED MODE");
+  if (pgmCurrentMenu!=&gmConfirmMenu) {
+    gmConfirmMenu.gm_pgmParentMenu = pgmCurrentMenu;
+    gmConfirmMenu.BeLarge();
+    ChangeToMenu( &gmConfirmMenu);
+  }
 }
 
 void CDConfirm(void (*pOk)(void))
@@ -2103,6 +2121,9 @@ void RevertVideoSettings(void)
   sam_iDisplayAdapter   = sam_old_iDisplayAdapter;
   sam_iGfxAPI           = sam_old_iGfxAPI;
   sam_iVideoSetup       = sam_old_iVideoSetup;
+#ifdef PLATFORM_WIN32
+  _pShell->SetINDEX("gfx_bRenderOnParentWindow", (INDEX)sam_old_bRenderOnParentWindow);
+#endif
 
   // update the video mode
   extern void ApplyVideoMode(void);
@@ -2125,12 +2146,23 @@ void ApplyVideoOptions(void)
   sam_old_iDisplayAdapter   = sam_iDisplayAdapter;
   sam_old_iGfxAPI           = sam_iGfxAPI;
   sam_old_iVideoSetup       = sam_iVideoSetup;
+#ifdef PLATFORM_WIN32
+  sam_old_bRenderOnParentWindow = _pShell->GetINDEX("gfx_bRenderOnParentWindow");
+#endif 
 
   BOOL bBorderLessMode = mgBorderLessTrigger.mg_iSelected; // == 1;
   BOOL bFullScreenMode = mgFullScreenTrigger.mg_iSelected; // == 1;
   PIX pixWindowSizeI, pixWindowSizeJ;
   PIX aspWindowSizeI, aspWindowSizeJ;
 
+#ifdef SE1_D3D
+  if (bFullScreenMode && sam_bFullScreenActive && sam_iGfxAPI == GAT_D3D) {
+    sam_iVideoSetup = sam_old_iVideoSetup;
+    FullScreenD3DConfirm(InitVideoOptionsButtons);
+    return;
+  }
+
+#endif
   ResolutionToSize(mgResolutionsTrigger.mg_iSelected, pixWindowSizeI, pixWindowSizeJ);
   AspectRatioToSize(mgAspectRatiosTrigger.mg_iSelected, aspWindowSizeI, aspWindowSizeJ);
   enum GfxAPIType gat  = SwitchToAPI(mgDisplayAPITrigger.mg_iSelected);
@@ -2149,7 +2181,12 @@ void ApplyVideoOptions(void)
   extern INDEX _iLastPreferences;
   if( sam_iVideoSetup==3) _iLastPreferences = 3;
   sam_iVideoSetup = mgDisplayPrefsTrigger.mg_iSelected;
-
+  
+ #ifdef PLATFORM_WIN32
+   // set window for rendering, parent or child 
+  _pShell->SetINDEX("gfx_bRenderOnParentWindow", (INDEX)mgRenderOnParentWindow.mg_iSelected);
+#endif 
+  
   // force fullscreen mode if needed
   CDisplayAdapter &da = _pGfx->gl_gaAPI[gat].ga_adaAdapter[iAdapter];
   if( da.da_ulFlags & DAF_FULLSCREENONLY) { bFullScreenMode = TRUE; bBorderLessMode = FALSE;}
@@ -2157,8 +2194,6 @@ void ApplyVideoOptions(void)
   if( bBorderLessMode ) { bFullScreenMode = FALSE;}
   // force window to always be in default colors
   if( !bFullScreenMode) dd = DD_DEFAULT;
-
-  //CPrintF(TRANS(" bFullScreenMode,  bFullScreenMode mode could not be set!\n"), bFullScreenMode,);
 
   // (try to) set mode
   sam_bBorderLessActive = bBorderLessMode;
@@ -5202,6 +5237,10 @@ static void UpdateVideoOptionsButtons(INDEX iSelected)
   // determine which should be visible
   mgBorderLessTrigger.mg_bEnabled = TRUE;
   mgFullScreenTrigger.mg_bEnabled = TRUE;
+#ifdef PLATFORM_WIN32
+  mgRenderOnParentWindow.mg_bEnabled = TRUE;
+  mgRenderOnParentWindow.ApplyCurrentSelection();
+#endif  
   if( da.da_ulFlags&DAF_FULLSCREENONLY) {
     mgFullScreenTrigger.mg_bEnabled  = FALSE;
     mgBorderLessTrigger.mg_bEnabled  = FALSE;
@@ -5270,6 +5309,10 @@ static void InitVideoOptionsButtons(void)
     mgFullScreenTrigger.mg_iSelected = 0;
     mgBorderLessTrigger.mg_iSelected = 0;
   }
+  
+#ifdef PLATFORM_WIN32
+  mgRenderOnParentWindow.mg_iSelected = _pShell->GetINDEX("gfx_bRenderOnParentWindow");
+#endif
 
   mgDisplayAPITrigger.mg_iSelected = APIToSwitch((GfxAPIType)(INDEX)sam_iGfxAPI);
   mgDisplayAdaptersTrigger.mg_iSelected = sam_iDisplayAdapter;
@@ -5288,6 +5331,9 @@ static void InitVideoOptionsButtons(void)
   mgAspectRatiosTrigger.ApplyCurrentSelection();
   mgResolutionsTrigger.ApplyCurrentSelection();
   mgBitsPerPixelTrigger.ApplyCurrentSelection();
+#ifdef PLATFORM_WIN32
+  mgRenderOnParentWindow.ApplyCurrentSelection();
+#endif
 }
 
 
@@ -5316,11 +5362,22 @@ void CVideoOptionsMenu::Initialize_t(void)
   TRIGGER_MG(mgFullScreenTrigger, 		5, mgResolutionsTrigger, mgBorderLessTrigger, TRANS("FULL SCREEN"), astrNoYes);
   mgFullScreenTrigger.mg_strTip 		= TRANS("make game run in a window or in full screen");
 
+#ifdef PLATFORM_UNIX
   TRIGGER_MG(mgBorderLessTrigger, 		6, mgFullScreenTrigger, mgBitsPerPixelTrigger, TRANS("BORDERLESS MODE"), astrNoYes);
   mgBorderLessTrigger.mg_strTip 		= TRANS("make game run in a borderless window");
 
   TRIGGER_MG(mgBitsPerPixelTrigger, 	7, mgBorderLessTrigger, mgVideoRendering, TRANS("BITS PER PIXEL"), astrBitsPerPixelRadioTexts);
   mgBitsPerPixelTrigger.mg_strTip 		= TRANS("select number of colors used for display");
+#else  
+  TRIGGER_MG(mgBorderLessTrigger, 		6, mgFullScreenTrigger, mgRenderOnParentWindow, TRANS("BORDERLESS MODE"), astrNoYes);
+  mgBorderLessTrigger.mg_strTip 		= TRANS("make game run in a borderless window");
+  
+  TRIGGER_MG(mgRenderOnParentWindow, 	7, mgBorderLessTrigger, mgBitsPerPixelTrigger, TRANS("RENDER ON PARENT WINDOW"), astrNoYes);
+  mgRenderOnParentWindow.mg_strTip 		= TRANS("Uses rendering in the parent window instead of the child. Needed for (eFSE/FSO) mode in D3D and Vulkan");
+
+  TRIGGER_MG(mgBitsPerPixelTrigger, 	8, mgRenderOnParentWindow, mgVideoRendering, TRANS("BITS PER PIXEL"), astrBitsPerPixelRadioTexts);
+  mgBitsPerPixelTrigger.mg_strTip 		= TRANS("select number of colors used for display");
+#endif
 
   mgDisplayPrefsTrigger.mg_pOnTriggerChange = &UpdateVideoOptionsButtons;
   mgDisplayAPITrigger.mg_pOnTriggerChange = &UpdateVideoOptionsButtons;
@@ -5330,10 +5387,21 @@ void CVideoOptionsMenu::Initialize_t(void)
   mgAspectRatiosTrigger.mg_pOnTriggerChange = &UpdateVideoOptionsButtons;
   mgResolutionsTrigger.mg_pOnTriggerChange = &UpdateVideoOptionsButtons;
   mgBitsPerPixelTrigger.mg_pOnTriggerChange = &UpdateVideoOptionsButtons;
-  
+#ifdef PLATFORM_WIN32
+  mgRenderOnParentWindow.mg_pOnTriggerChange = &UpdateVideoOptionsButtons;
+  static FLOAT _fPos1 = 10.0f, _fPos2;
+  if (_fBigSizeJ == 0.076f){ // 21:9 aspect ratio
+    _fPos2 = 7.0f;	  
+  } else {
+    _fPos2 = 8.0f;
+  }
+#else
+  static FLOAT _fPos1 = 8.5f;
+  static FLOAT _fPos2 = 7.0f;
+#endif
 
   mgVideoRendering.mg_bfsFontSize = BFS_MEDIUM;
-  mgVideoRendering.mg_boxOnScreen = BoxMediumRow(8.5f, _fGlobalModAdjuster);
+  mgVideoRendering.mg_boxOnScreen = BoxMediumRow(_fPos1, _fGlobalModAdjuster);
   mgVideoRendering.mg_pmgUp = &mgBitsPerPixelTrigger;
   mgVideoRendering.mg_pmgDown = &mgVideoOptionsApply;
   mgVideoRendering.mg_strText = TRANS("RENDERING OPTIONS");
@@ -5342,7 +5410,7 @@ void CVideoOptionsMenu::Initialize_t(void)
   mgVideoRendering.mg_pActivatedFunction = &StartRenderingOptionsMenu;
 
   mgVideoOptionsApply.mg_bfsFontSize = BFS_LARGE;
-  mgVideoOptionsApply.mg_boxOnScreen = BoxBigRow(7.0f, _fGlobalButtonAdjuster);
+  mgVideoOptionsApply.mg_boxOnScreen = BoxBigRow(_fPos2, _fGlobalButtonAdjuster);
   mgVideoOptionsApply.mg_pmgUp = &mgVideoRendering;
   mgVideoOptionsApply.mg_pmgDown = &mgDisplayAPITrigger;
   mgVideoOptionsApply.mg_strText = TRANS("APPLY");
