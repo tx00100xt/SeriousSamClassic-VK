@@ -1,7 +1,7 @@
 # Serious Sam Classic: Vulkan
 [![Build status](https://github.com/tx00100xt/SeriousSamClassic-VK/actions/workflows/cibuild.yml/badge.svg)](https://github.com/tx00100xt//SeriousSamClassic-VK/actions/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tx00100xt/SeriousSamClassic-VK)](https://github.com/tx00100xt/SeriousSamClassic-VK/releases/tag/1.10.6d)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tx00100xt/SeriousSamClassic-VK)](https://github.com/tx00100xt/SeriousSamClassic-VK/releases/tag/1.10.7)
 [![Github downloads](https://img.shields.io/github/downloads/tx00100xt/SeriousSamClassic-VK/total.svg?logo=github&logoColor=white&style=flat-square&color=E75776)](https://github.com/tx00100xt/SeriousSamClassic-VK/releases/)
 
 Vulkan Serious Engine port based on [open source version](https://github.com/sultim-t/Serious-Engine-Vk).
