@@ -288,7 +288,7 @@ void OpenMainWindowNormal( PIX pixSizeI, PIX pixSizeJ)
   if( sam_iGfxAPI == 1) {
     _uFlags = SDL_WINDOW_VULKAN;
     if (sam_bBorderLessActive) _uFlags |= SDL_WINDOW_BORDERLESS; 
-    _hwndMain = SDL_CreateWindow((const char*) strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, SDL_WINDOW_VULKAN);
+    _hwndMain = SDL_CreateWindow((const char*) strWindow1251ToUtf8(achWindowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, pixSizeI, pixSizeJ, _uFlags);
     if( _hwndMain!=NULL) {
       CPrintF("SDL: CreateWindow with flag (SDL_WINDOW_VULKAN) Done.\n");
     }
