@@ -1258,8 +1258,8 @@ void CGame::ComputerRender(CDrawPort *pdp)
   _pGfx->GetCurrentDisplayMode(dmCurrent);
   if (dmCurrent.IsFullScreen() && dmCurrent.IsDualHead()) {
     // clamp mouse pointer
-    _vpixMouse(1) = Clamp(_vpixMouse(1), 0, dpComp.GetWidth());
-    _vpixMouse(2) = Clamp(_vpixMouse(2), 0, dpComp.GetHeight());
+    _vpixMouse(1) = Clamp(_vpixMouse(1), (PIX)0, dpComp.GetWidth());
+    _vpixMouse(2) = Clamp(_vpixMouse(2), (PIX)0, dpComp.GetHeight());
   // if in window
   } else {
     // use same mouse pointer as windows
