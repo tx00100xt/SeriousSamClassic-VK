@@ -106,7 +106,7 @@ deb-src https://ppa.launchpadcontent.net/tx00100xt/serioussamclassic/ubuntu YOUR
 ```
 After adding ppa, run the commands:
 ```bash
-sudo apt install serioussamckassic-vk serioussamclassic-xplus
+sudo apt install serioussamclassic-vk serioussamclassic-xplus
 ```
 
 ### Gentoo
