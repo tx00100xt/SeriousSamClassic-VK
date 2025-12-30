@@ -259,9 +259,10 @@ void CGfxLibrary::InitAPIs(void)
     default: pda->da_strVendor = TRANS("unknown"); break;
     }
     pda->da_strRenderer = properties.deviceName;
-    pda->da_strVersion.PrintF("%d.%d",
+    pda->da_strVersion.PrintF("%d.%d.%d",
       VK_VERSION_MAJOR(properties.apiVersion),
-      VK_VERSION_MINOR(properties.apiVersion));
+      VK_VERSION_MINOR(properties.apiVersion),
+      VK_VERSION_PATCH(properties.apiVersion));
   }
 
   gl_gaAPI[GAT_VK].ga_ctAdapters = ctMaxPhysDevices;
@@ -482,9 +483,10 @@ void CGfxLibrary::InitAPIs(void)
     }
     CPrintF("Vendor: %s\n", (const char*)pda->da_strVendor);
     pda->da_strRenderer = properties.deviceName;
-    pda->da_strVersion.PrintF("%d.%d",
+    pda->da_strVersion.PrintF("%d.%d.%d",
       VK_VERSION_MAJOR(properties.apiVersion),
-      VK_VERSION_MINOR(properties.apiVersion));
+      VK_VERSION_MINOR(properties.apiVersion),
+      VK_VERSION_PATCH(properties.apiVersion));
   }
 
   gl_gaAPI[GAT_VK].ga_ctAdapters = ctMaxPhysDevices;
